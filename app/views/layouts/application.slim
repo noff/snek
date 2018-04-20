@@ -7,6 +7,20 @@ html
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
   body
+    .navbar.navbar-expand-lg.navbar-light.bg-light
+      = link_to 'Snek Fite', root_path, class: 'navbar-brand'
+      .collapse.navbar-collapse#navbarSupportedContent
+        ul.navbar-nav.mr-auto
+          li.nav-item = link_to 'Home', root_path, class: 'nav-link'
+      .my-2.my-lg-0
+        ul.navbar-nav
+          - if user_signed_in?
+            li.nav-item = link_to 'Exit', destroy_user_session_path, method: :delete, class: 'btn btn-primary btn-sm mr-3'
+          - else
+            li.nav-item = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary btn-sm mr-3'
+            li.nav-item = link_to 'Sign in', new_user_session_path, class: 'btn btn-outline-secondary btn-sm'
+
     = notice
     = alert
+    .mb-3
     = yield
