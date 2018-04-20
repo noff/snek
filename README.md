@@ -11,3 +11,7 @@ bundle
 ```
 rails s
 ```
+
+## Development plan
+
+Here: https://github.com/noff/snek/projects/1 
