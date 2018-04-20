@@ -1,0 +1,8 @@
+development:
+  url: postgresql://user:password@localhost/snek_development?pool=5&timeout=5000
+
+test:
+  url: postgresql://user:password@localhost/snek_test?pool=5&timeout=5000
+
+production:
+  url: postgresql://user:password@localhost/snek_production?pool=5&timeout=5000
