@@ -26,7 +26,7 @@ set :keep_releases, 10
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, 'config/secrets.yml', 'config/unicorn.rb', 'config/master.key'
+append :linked_files, 'config/unicorn.rb', 'config/master.key', 'config/database.yml'
 
 # Default value for linked_dirs is []
 append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/system", 'vendor/bundle'
@@ -61,14 +61,14 @@ namespace :deploy do
   desc 'Stop unicorn'
   task :stop do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "kill -s QUIT `cat #{shared_path}/pids/unicorn.pid`"
+      execute "kill -s QUIT `cat #{shared_path}/tmp/pids/unicorn.pid`"
     end
   end
 
   desc 'Restart application'
   task :restart do
     on roles(:app), in: :sequence, wait: 5 do
-      execute "kill -s USR2 `cat #{shared_path}/pids/unicorn.pid`"
+      execute "kill -s USR2 `cat #{shared_path}/tmp/pids/unicorn.pid`"
     end
   end
 
