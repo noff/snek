@@ -6,6 +6,14 @@ html
     = csp_meta_tag
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
+    script src="https://www.googletagmanager.com/gtag/js?id=UA-4022494-25" async
+    javascript:
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-4022494-25');
+
   body
     .navbar.navbar-expand-lg.navbar-light.bg-light
       = link_to 'Snek Fite', root_path, class: 'navbar-brand'

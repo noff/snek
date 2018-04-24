@@ -1,6 +1,11 @@
 worker_processes Integer(ENV["WEB_CONCURRENCY"] || 3)
 timeout 15
 preload_app true
+stderr_path '/path_to_shared/log/unicorn.error.log'
+stdout_path '/path_to_shared/log/unicorn.access.log'
+pid '/path_to_shared/tmp/pids/unicorn.pid'
+listen '/path_to_shared/tmp/sockets/unicorn.sock', :backlog => 1024
+
 
 before_fork do |server, worker|
   Signal.trap 'TERM' do
