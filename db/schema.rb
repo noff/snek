@@ -24,9 +24,9 @@ ActiveRecord::Schema.define(version: 2018_04_23_213833) do
     t.bigint "author_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
-    t.index ["namespace"], name: "index_active_admin_comments_on_namespace"
-    t.index ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
+    t.board ["author_type", "author_id"], name: "index_active_admin_comments_on_author_type_and_author_id"
+    t.board ["namespace"], name: "index_active_admin_comments_on_namespace"
+    t.board ["resource_type", "resource_id"], name: "index_active_admin_comments_on_resource_type_and_resource_id"
   end
 
   create_table "admin_users", force: :cascade do |t|
@@ -42,8 +42,8 @@ ActiveRecord::Schema.define(version: 2018_04_23_213833) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_admin_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+    t.board ["email"], name: "index_admin_users_on_email", unique: true
+    t.board ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -59,8 +59,8 @@ ActiveRecord::Schema.define(version: 2018_04_23_213833) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.board ["email"], name: "index_users_on_email", unique: true
+    t.board ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
 end

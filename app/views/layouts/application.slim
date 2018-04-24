@@ -4,14 +4,14 @@ html
     title Snek
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag    'application', media: 'all', :'data-turbolinks-track' => 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
 
     - if Rails.env.production?
       script src="https://www.googletagmanager.com/gtag/js?id=UA-4022494-25" async
       javascript:
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag(){ dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', 'UA-4022494-25');
 
@@ -21,6 +21,8 @@ html
       .collapse.navbar-collapse#navbarSupportedContent
         ul.navbar-nav.mr-auto
           li.nav-item = link_to 'Home', root_path, class: 'nav-link'
+          - if user_signed_in?
+            li.nav-item = link_to 'My sneks', snek_board_path, class: 'nav-link'
       .my-2.my-lg-0
         ul.navbar-nav
           - if user_signed_in?
@@ -29,7 +31,9 @@ html
             li.nav-item = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary btn-sm mr-3'
             li.nav-item = link_to 'Sign in', new_user_session_path, class: 'btn btn-outline-secondary btn-sm'
 
-    = notice
-    = alert
+    - if notice
+      .alert.alert-primary = notice
+    - if alert
+      .alert.alert-danger = alert
     .mb-3
     = yield
