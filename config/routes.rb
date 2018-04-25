@@ -4,8 +4,7 @@ Rails.application.routes.draw do
   devise_for :users
 
 
-  get 'snek/board'
-
+  resources :sneks
 
   root 'welcome#index'
 end

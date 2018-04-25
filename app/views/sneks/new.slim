@@ -1,0 +1,9 @@
+.container
+  .row
+    .col
+
+      h1 New snek
+
+      = simple_form_for @snek do |f|
+        = f.input :name, hint: 'Min name length – 5 symbols. Must be unique.'
+        = f.submit 'Save', class: 'btn btn-primary'
