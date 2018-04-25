@@ -1,9 +1,13 @@
 .container
   .row
     .col
-
       h1 New snek
-
+  .row
+    .col
       = simple_form_for @snek do |f|
         = f.input :name, hint: 'Min name length – 5 symbols. Must be unique.'
         = f.submit 'Save', class: 'btn btn-primary'
+    .col
+      .alert.alert-secondary role="alert"
+        p Carefully choose your snek's name. You can't change it later. It must be unique.
+        p Snek's name is its reputation, history, and value. Legendary sneks with lots of wins can be traded at Snek Market.

@@ -21,18 +21,20 @@ html
     .container
       .navbar.navbar-expand-lg.navbar-dark.bg-dark
         = link_to 'Snek Fite', root_path, class: 'navbar-brand'
-        .collapse.navbar-collapse#navbarSupportedContent
+        button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
+          span class="navbar-toggler-icon"
+        .collapse.navbar-collapse#menu
           ul.navbar-nav.mr-auto
             li.nav-item = link_to 'Home', root_path, class: 'nav-link'
             - if user_signed_in?
               li.nav-item = link_to 'My sneks', sneks_path, class: 'nav-link'
-        .my-2.my-lg-0
-          ul.navbar-nav
-            - if user_signed_in?
-              li.nav-item = link_to 'Exit', destroy_user_session_path, method: :delete, class: 'btn btn-primary btn-sm mr-3'
-            - else
-              li.nav-item = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary btn-sm mr-3'
-              li.nav-item = link_to 'Sign in', new_user_session_path, class: 'btn btn-outline-secondary btn-sm'
+          .my-2.my-lg-0
+            ul.navbar-nav
+              - if user_signed_in?
+                li.nav-item = link_to 'Exit', destroy_user_session_path, method: :delete, class: 'btn btn-primary btn-sm mr-3'
+              - else
+                li.nav-item = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary btn-sm mr-3'
+                li.nav-item = link_to 'Sign in', new_user_session_path, class: 'btn btn-outline-secondary btn-sm'
 
     - if notice
       .container
