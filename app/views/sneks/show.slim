@@ -1,0 +1,20 @@
+.container
+  .row
+    .col
+      h1 = @snek.name
+
+  .row
+    .col-md-9
+      table.table
+        thead
+          tr
+            th Fight date
+            th Opponents
+            th Result
+        tbody
+          tr
+            td
+            td
+            td
+    .col
+      = link_to 'Rules editor', rules_snek_path(@snek), class: 'btn btn-outline-primary btn-block'

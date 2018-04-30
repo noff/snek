@@ -1,0 +1,48 @@
+<div class="d-flex flex-wrap">
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'default' }">
+    <img src="<%= image_url('tools/default.png') %>" alt="Any object" title="Any object" data-tool="default" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'my_head' }">
+    <img src="<%= image_url('tools/my_head.png') %>" alt="My head" title="My head" data-tool="my_head" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'enemy_head' }">
+    <img src="<%= image_url('tools/enemy_head.png') %>" alt="Enemy head" title="Enemy head" data-tool="enemy_head" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'my_body' }">
+    <img src="<%= image_url('tools/my_body.png') %>" alt="My body" title="My body" data-tool="my_body" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'enemy_body' }">
+    <img src="<%= image_url('tools/enemy_body.png') %>" alt="Enemy body" title="Enemy body" data-tool="enemy_body" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'my_tail' }">
+    <img src="<%= image_url('tools/my_tail.png') %>" alt="My tail" title="My tail" data-tool="my_tail" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'enemy_tail' }">
+    <img src="<%= image_url('tools/enemy_tail.png') %>" alt="Enemy tail" title="Enemy tail" data-tool="enemy_tail" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'wall' }">
+    <img src="<%= image_url('tools/wall.png') %>" alt="Wall" title="Wall" data-tool="wall" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'empty' }">
+    <img src="<%= image_url('tools/empty.png') %>" alt="Empty cell" title="Empty cell" data-tool="empty" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'not' }">
+    <img src="<%= image_url('tools/not.png') %>" alt="Exclude" title="Exclude" data-tool="not" v-on:click="selectTool">
+  </div>
+
+  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'or' }">
+    <img src="<%= image_url('tools/or.png') %>" alt="Or" title="Or" data-tool="or" v-on:click="selectTool">
+  </div>
+
+</div>
+

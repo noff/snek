@@ -13,14 +13,12 @@
               th Wins
               th Loses
               th Last fight
-              th
           tbody
             - @sneks.each do |snek|
-              td = snek.name
+              td = link_to snek.name, snek
               td 0
               td 0
               td 0
               td n/a
-              td.text-right = link_to 'Kill', snek_path(snek), method: :delete, data: {confirm: 'Are you sure?'}, class: 'btn btn-outline-secondary btn-sm'
       - else
         div = link_to 'Create snek', new_snek_path, class: 'btn btn-primary'

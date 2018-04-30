@@ -1,0 +1,187 @@
+.container#app
+  .row
+    .col
+      h1 #{@snek.name} rules
+    .col.text-right
+      = link_to 'Back', @snek, class: 'btn btn-outline-secondary'
+
+  .row
+    .col.mb-3
+      = render 'tools'
+
+
+
+  .row#patterns-container
+    rule-pattern v-for="(pattern, index) in rules" v-bind:pattern="pattern" v-bind:key="index"
+
+  / .row
+  /   .col-md-4
+  /     .r-rules-pattern-container.mb-3#pattern-0
+  /   .col-md-4
+  /     .r-rules-pattern-container.mb-3#pattern-1
+  /   .col-md-4
+  /     .r-rules-pattern-container.mb-3#pattern-2
+  /   .col-md-4
+  /     .r-rules-pattern-container.mb-3#pattern-3
+  /   .col-md-4
+  /     .r-rules-pattern-container.mb-3#pattern-4
+  /   .col-md-4
+  /     .r-rules-pattern-container.mb-3#pattern-5
+  /   .col-md-4
+  /     .r-rules-pattern-container.mb-3#pattern-6
+  /   .col-md-4
+  /     .r-rules-pattern-container.mb-3#pattern-7
+  /   .col-md-4
+  /     .r-rules-pattern-container.mb-3#pattern-8
+
+
+/ .d-none#table-pattern
+/   table.r-pattern-table
+/     tr
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/     tr
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/     tr
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/     tr
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__my_head
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/     tr
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/     tr
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/     tr
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+/       td.r-pattern-cell__default
+
+
+javascript:
+
+  Vue.component("rule-cell", {
+      template: '<td v-bind:class="cellClass(cell)"></td>',
+      props: ['cell'],
+      methods: {
+          cellClass: function(className) {
+              return 'r-pattern-cell__' + className;
+          }
+      }
+  });
+
+  Vue.component("rule-row", {
+      template: '<tr><rule-cell v-for="(cell, index) in row" v-bind:cell="cell" v-bind:key="index"></rule-cell></tr>',
+      props: ['row']
+  });
+
+  Vue.component("rule-pattern", {
+      template: '<div class="col-md-4"><div class="r-rules-pattern-container mb-3"><table class="r-pattern-table"><rule-row v-for="(row, index) in pattern" v-bind:row="row" v-bind:key="index"></rule-row></table></div></div>',
+      props: ['pattern']
+  });
+
+
+
+  // // Fill patters with template
+  // for(var i = 0; i < 9; i++) {
+  //   $('#pattern-' + i).html( $('#table-pattern').html() );
+  // }
+
+  // On window resize
+  $(document).ready(resizePatterns);
+  $(window).resize(resizePatterns);
+
+  // Resize patterns cells
+  function resizePatterns() {
+    $('.r-pattern-table').height($('.r-pattern-table').width());
+    $('.r-pattern-table td').height($('.r-pattern-table td').width());
+  }
+
+  // Init app
+  var app = new Vue({
+      el: '#app',
+      data: {
+          currentTool: 'default',
+          rules: []
+      },
+      methods: {
+          selectTool: function(event) {
+              this.currentTool = event.target.dataset.tool;
+          },
+
+          setCell: function(pattern_id, row_id, cell_id) {
+              this.rules[pattern_id][row_id][cell_id] = this.currentTool;
+              this.renderPatterns();
+              resizePatterns();
+          },
+
+          renderPatterns: function() {
+
+              this.rules.forEach(function (pattern, pattern_index) {
+                  var html = '';
+                  html += '<table class="r-pattern-table">';
+                  pattern.forEach(function (row, row_index) {
+                      html += '<tr>';
+                      row.forEach(function (cell, cell_index) {
+                          html += '<td class="r-pattern-cell__' + cell + '" onclick="app.setCell(' + pattern_index + ', ' + row_index + ', ' + cell_index + ')"></td>';
+                      });
+                      html += '</tr>';
+                  });
+                  html += '</table>';
+                  $('#pattern-' + pattern_index).html(html)
+              });
+          }
+      },
+      computed: {
+
+      },
+      watch: {
+          currentTool: function(value) { },
+
+          // Render patterns when rules variable changes
+          rules: function(rules) {
+              this.renderPatterns();
+          }
+      }
+  });
+
+  // Init rules. It will render patterns automatically
+  app.rules = window.gon.snek_rules;
+

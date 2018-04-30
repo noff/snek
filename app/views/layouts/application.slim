@@ -4,6 +4,7 @@ html
     title Snek
     = csrf_meta_tags
     = csp_meta_tag
+    = Gon::Base.render_data
     meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
     = stylesheet_link_tag    'application', media: 'all', :'data-turbolinks-track' => 'reload'
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
@@ -17,6 +18,11 @@ html
         }
         gtag('js', new Date());
         gtag('config', 'UA-4022494-25');
+
+    - if Rails.env.production?
+      script src="https://cdn.jsdelivr.net/npm/vue"
+    - else
+      script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"
 
   body
     .container

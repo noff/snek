@@ -4,7 +4,11 @@ Rails.application.routes.draw do
   devise_for :users
 
 
-  resources :sneks
+  resources :sneks do
+    member do
+      get :rules
+    end
+  end
 
   root 'welcome#index'
 end

@@ -29,4 +29,13 @@ class SneksController < ApplicationController
     redirect_to sneks_path, notice: "Rest in peace, #{@snek.name}"
   end
 
+  def show
+    @snek = current_user.sneks.find(params[:id])
+  end
+
+  def rules
+    @snek = current_user.sneks.find(params[:id])
+    gon.snek_rules = @snek.fetch_rules
+  end
+
 end

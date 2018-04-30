@@ -1,0 +1,51 @@
+.r-
+  &rules-pattern-container
+    border: 3px solid
+    border-color: #999999
+    background: #555555
+
+
+  &pattern-table
+    width: 100%
+    td
+      border: 1px solid #999999
+      -webkit-background-size: 100% 100%
+      background-size: 100% 100%
+      background-position: 0 0
+      background-repeat: no-repeat
+      cursor: pointer
+
+  &pattern-cell
+    &__default
+      background-image: url(tools/default.png)
+    &__my_head
+      background-image: url(tools/my_head.png)
+    &__enemy_head
+      background-image: url(tools/enemy_head.png)
+    &__my_body
+      background-image: url(tools/my_body.png)
+    &__enemy_body
+      background-image: url(tools/enemy_body.png)
+    &__my_tail
+      background-image: url(tools/my_tail.png)
+    &__enemy_tail
+      background-image: url(tools/enemy_tail.png)
+    &__wall
+      background-image: url(tools/wall.png)
+    &__empty
+      background-image: url(tools/empty.png)
+    &__not
+      background-image: url(tools/not.png)
+    &__or
+      background-image: url(tools/or.png)
+
+  &rules-tools-cell
+    width: 48px
+    height: 48px
+    border: 2px solid white
+    &__selected
+      border: 2px solid deepskyblue
+    img
+      width: 44px
+      height: 44px
+      cursor: pointer
