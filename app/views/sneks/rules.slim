@@ -14,95 +14,29 @@
   .row#patterns-container
     rule-pattern v-for="(pattern, index) in rules" v-bind:pattern="pattern" v-bind:key="index"
 
-  / .row
-  /   .col-md-4
-  /     .r-rules-pattern-container.mb-3#pattern-0
-  /   .col-md-4
-  /     .r-rules-pattern-container.mb-3#pattern-1
-  /   .col-md-4
-  /     .r-rules-pattern-container.mb-3#pattern-2
-  /   .col-md-4
-  /     .r-rules-pattern-container.mb-3#pattern-3
-  /   .col-md-4
-  /     .r-rules-pattern-container.mb-3#pattern-4
-  /   .col-md-4
-  /     .r-rules-pattern-container.mb-3#pattern-5
-  /   .col-md-4
-  /     .r-rules-pattern-container.mb-3#pattern-6
-  /   .col-md-4
-  /     .r-rules-pattern-container.mb-3#pattern-7
-  /   .col-md-4
-  /     .r-rules-pattern-container.mb-3#pattern-8
-
-
-/ .d-none#table-pattern
-/   table.r-pattern-table
-/     tr
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/     tr
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/     tr
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/     tr
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__my_head
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/     tr
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/     tr
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/     tr
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-/       td.r-pattern-cell__default
-
 
 javascript:
 
+  // TODO: нужно реализовать так, чтобы при клике на ячейку:
+  // 1. Свойство 'cell' меняется на то, что хранится в главном объекте приложения в свойстве currentTool
+  // 2. Сразу после этого должен сработать метод cellClass(cell) в CSS классе (это вроде сработает)
+  // 3. Выбранный currentTool помещается в головном объекте в свойстве 'rules' в нужный паттерн-строку-ячейку
   Vue.component("rule-cell", {
-      template: '<td v-bind:class="cellClass(cell)"></td>',
+      template: '<td v-bind:class="cellClass(cell)" v-bind:click="setTool()"></td>',
       props: ['cell'],
+      // Не уверен, что в data все так, как надо.
+      data: function() {
+          return {
+              value: cell,
+              logic: null
+          }
+      },
       methods: {
           cellClass: function(className) {
               return 'r-pattern-cell__' + className;
+          },
+          setTool: function() {
+
           }
       }
   });
@@ -117,12 +51,6 @@ javascript:
       props: ['pattern']
   });
 
-
-
-  // // Fill patters with template
-  // for(var i = 0; i < 9; i++) {
-  //   $('#pattern-' + i).html( $('#table-pattern').html() );
-  // }
 
   // On window resize
   $(document).ready(resizePatterns);
@@ -139,49 +67,20 @@ javascript:
       el: '#app',
       data: {
           currentTool: 'default',
-          rules: []
+          rules: window.gon.snek_rules
       },
       methods: {
           selectTool: function(event) {
               this.currentTool = event.target.dataset.tool;
           },
 
-          setCell: function(pattern_id, row_id, cell_id) {
-              this.rules[pattern_id][row_id][cell_id] = this.currentTool;
-              this.renderPatterns();
-              resizePatterns();
-          },
-
-          renderPatterns: function() {
-
-              this.rules.forEach(function (pattern, pattern_index) {
-                  var html = '';
-                  html += '<table class="r-pattern-table">';
-                  pattern.forEach(function (row, row_index) {
-                      html += '<tr>';
-                      row.forEach(function (cell, cell_index) {
-                          html += '<td class="r-pattern-cell__' + cell + '" onclick="app.setCell(' + pattern_index + ', ' + row_index + ', ' + cell_index + ')"></td>';
-                      });
-                      html += '</tr>';
-                  });
-                  html += '</table>';
-                  $('#pattern-' + pattern_index).html(html)
-              });
-          }
-      },
-      computed: {
+          // setCell: function(pattern_id, row_id, cell_id) {
+          //     this.rules[pattern_id][row_id][cell_id] = this.currentTool;
+          // },
 
       },
-      watch: {
-          currentTool: function(value) { },
-
-          // Render patterns when rules variable changes
-          rules: function(rules) {
-              this.renderPatterns();
-          }
-      }
+      computed: { },
+      watch: { }
   });
 
-  // Init rules. It will render patterns automatically
-  app.rules = window.gon.snek_rules;
 
