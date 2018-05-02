@@ -12,22 +12,24 @@
 
 
   .row#patterns-container
-    rule-pattern v-for="(pattern, index) in rules" v-bind:pattern="pattern" v-bind:key="index"
+    rule-pattern v-for="(pattern, index) in rules" v-bind:pattern="pattern" v-bind:pattern_id="index" v-bind:key="index" v-on:set-tool="setTool()"
 
 
 javascript:
 
-  // TODO: нужно реализовать так, чтобы при клике на ячейку:
-  // 1. Свойство 'cell' меняется на то, что хранится в главном объекте приложения в свойстве currentTool
-  // 2. Сразу после этого должен сработать метод cellClass(cell) в CSS классе (это вроде сработает)
-  // 3. Выбранный currentTool помещается в головном объекте в свойстве 'rules' в нужный паттерн-строку-ячейку
+  // TODO: I need to implement this behavior when user clicks on cell:
+  // 1. Property 'cell' changes to value `currentTool` in root object
+  // 2. Immediately after that method cellClass(cell) have to be called in root object
+  // 3. Selected currentTool is set in root's property 'rues' into specific pattern-row-cell field.
+  // In other words: I need a way to exec a method in root component from third level component and a way to change data or exec method in
+  // third level component from the root component. $emit method is not transfers from third level component to the root component.
   Vue.component("rule-cell", {
-      template: '<td v-bind:class="cellClass(cell)" v-bind:click="setTool()"></td>',
-      props: ['cell'],
+      template: '<td v-bind:class="cellClass(cell)" v-bind:click="setTool(pattern_id, row_id, cell_id)"></td>',
+      props: ['cell', 'pattern_id', 'row_id', 'cell_id'],
       // Не уверен, что в data все так, как надо.
       data: function() {
           return {
-              value: cell,
+              value: null,
               logic: null
           }
       },
@@ -35,32 +37,22 @@ javascript:
           cellClass: function(className) {
               return 'r-pattern-cell__' + className;
           },
-          setTool: function() {
-
-          }
+          setTool: function(pattern_id, row_id, cell_id) {
+              // console.log(app.currentTool);
+              this.$emit('set-tool', {pattern: pattern_id, row: row_id, cell: cell_id});
+          },
       }
   });
 
   Vue.component("rule-row", {
-      template: '<tr><rule-cell v-for="(cell, index) in row" v-bind:cell="cell" v-bind:key="index"></rule-cell></tr>',
-      props: ['row']
+      template: '<tr><rule-cell v-for="(cell, index) in row" v-bind:cell="cell" v-bind:key="index" v-bind:pattern_id="pattern_id" v-bind:row_id="row_id" v-bind:cell_id="index"></rule-cell></tr>',
+      props: ['row', 'row_id', 'pattern_id']
   });
 
   Vue.component("rule-pattern", {
-      template: '<div class="col-md-4"><div class="r-rules-pattern-container mb-3"><table class="r-pattern-table"><rule-row v-for="(row, index) in pattern" v-bind:row="row" v-bind:key="index"></rule-row></table></div></div>',
-      props: ['pattern']
+      template: '<div class="col-md-4"><div class="r-rules-pattern-container mb-3"><table class="r-pattern-table"><rule-row v-for="(row, index) in pattern" v-bind:row="row" v-bind:pattern_id="pattern_id" v-bind:row_id="index" v-bind:key="index"></rule-row></table></div></div>',
+      props: ['pattern', 'pattern_id'],
   });
-
-
-  // On window resize
-  $(document).ready(resizePatterns);
-  $(window).resize(resizePatterns);
-
-  // Resize patterns cells
-  function resizePatterns() {
-    $('.r-pattern-table').height($('.r-pattern-table').width());
-    $('.r-pattern-table td').height($('.r-pattern-table td').width());
-  }
 
   // Init app
   var app = new Vue({
@@ -74,6 +66,32 @@ javascript:
               this.currentTool = event.target.dataset.tool;
           },
 
+          setTool: function(data) {
+              console.log(data);
+              switch(this.currentTool) {
+                  case 'my_head':
+                      if(this.rules[data.pattern][data.row][data.cell] != this.currentTool) {
+                        // Заменить текущую голову на default
+                        // Поставить голову в новое место
+                        // TODO Перерисовать ячейки
+                      }
+                      break;
+                  case 'not':
+                      break;
+                  case 'or':
+                      break;
+                  default:
+                      if (this.rules[data.pattern][data.row][data.cell] != this.currentTool) {
+                          this.rules[data.pattern][data.row][data.cell] = this.currentTool;
+                          // TODO Перерисовать ячейку
+                      }
+
+                      break;
+
+              }
+
+          }
+
           // setCell: function(pattern_id, row_id, cell_id) {
           //     this.rules[pattern_id][row_id][cell_id] = this.currentTool;
           // },
@@ -83,4 +101,13 @@ javascript:
       watch: { }
   });
 
+  // On window resize
+  $(document).ready(resizePatterns);
+  $(window).resize(resizePatterns);
+
+  // Resize patterns cells
+  function resizePatterns() {
+      $('.r-pattern-table').height($('.r-pattern-table').width());
+      $('.r-pattern-table td').height($('.r-pattern-table td').width());
+  }
 
