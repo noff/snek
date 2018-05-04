@@ -20,13 +20,13 @@ class Snek < ApplicationRecord
   def rules_template
     9.times.map do
       [
-          ['default', 'default', 'default', 'default', 'default', 'default', 'default'],
-          ['default', 'default', 'default', 'default', 'default', 'default', 'default'],
-          ['default', 'default', 'default', 'default', 'default', 'default', 'default'],
-          ['default', 'default', 'default', 'my_head', 'default', 'default', 'default'],
-          ['default', 'default', 'default', 'default', 'default', 'default', 'default'],
-          ['default', 'default', 'default', 'default', 'default', 'default', 'default'],
-          ['default', 'default', 'default', 'default', 'default', 'default', 'default'],
+          [ ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and']],
+          [ ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and']],
+          [ ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and']],
+          [ ['default', 'and'], ['default', 'and'], ['default', 'and'], ['my_head', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and']],
+          [ ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and']],
+          [ ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and']],
+          [ ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and'], ['default', 'and']],
       ]
     end
   end

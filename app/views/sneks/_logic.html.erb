@@ -1,0 +1,12 @@
+<h5>Logic</h5>
+
+<div class="d-flex flex-wrap">
+
+  <div class="btn-group" role="group">
+    <button class="btn btn-outline-secondary" v-bind:class="{ 'active': currentLogic == 'and' }" v-on:click="selectLogic" data-logic="and">MUST</button>
+    <button class="btn btn-outline-secondary" v-bind:class="{ 'active': currentLogic == 'or' }" v-on:click="selectLogic" data-logic="or">OPTIONAL</button>
+    <button class="btn btn-outline-secondary" v-bind:class="{ 'active': currentLogic == 'not' }" v-on:click="selectLogic" data-logic="not">MUST NOT</button>
+  </div>
+
+</div>
+

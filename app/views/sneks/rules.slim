@@ -6,8 +6,10 @@
       = link_to 'Back', @snek, class: 'btn btn-outline-secondary'
 
   .row
-    .col.mb-3
+    .col-md-8.mb-3
       = render 'tools'
+    .col-md-4.mb-3
+      = render 'logic'
 
   .row
     - (0..8).each do |pattern_id|
@@ -26,6 +28,7 @@ javascript:
       el: '#app',
       data: {
           currentTool: 'default',
+          currentLogic: 'and',
           rules: window.gon.snek_rules
       },
       methods: {
@@ -33,21 +36,24 @@ javascript:
               this.currentTool = event.target.dataset.tool;
           },
 
+          selectLogic: function(event) {
+              this.currentLogic = event.target.dataset.logic;
+          },
+
           cellClass: function(x,y,z) {
-              console.log(this.rules[x][y][z]);
-              return 'r-pattern-cell__' + this.rules[x][y][z];
+              return 'r-pattern-cell__' + this.rules[x][y][z][0];
           },
 
           setTool: function(data) {
-              console.log(data);
               switch(this.currentTool) {
                   case 'my_head':
                       if(this.rules[data.pattern][data.row][data.cell] != this.currentTool) {
                           // Find current my head and replace to default
                           for(var i = 0; i < this.rules[data.pattern].length; i++) {
                               for(var j = 0; j < this.rules[data.pattern][i].length; j++) {
-                                  if(this.rules[data.pattern][i][j] == 'my_head') {
-                                      this.rules[data.pattern][i][j] = 'default';
+                                  if(this.rules[data.pattern][i][j][0] == 'my_head') {
+                                      this.rules[data.pattern][i][j][0] = 'default';
+                                      this.rules[data.pattern][i][j][1] = 'and';
                                       $('#c_' + data.pattern + '_' + i + '_' + j).removeClass();
                                       $('#c_' + data.pattern + '_' + i + '_' + j).addClass('r-pattern-cell__default');
                                       break;
@@ -55,19 +61,24 @@ javascript:
                               }
                           }
                           // Set my head to new position
-                          this.rules[data.pattern][data.row][data.cell] = this.currentTool;
+                          this.rules[data.pattern][data.row][data.cell][0] = this.currentTool;
+                          this.rules[data.pattern][data.row][data.cell][1] = 'and';
                           $('#c_' + data.pattern + '_' + data.row + '_' + data.cell).removeClass();
                           $('#c_' + data.pattern + '_' + data.row + '_' + data.cell).addClass('r-pattern-cell__' + this.currentTool);
                       }
                       break;
-                  case 'not':
-                      break;
-                  case 'or':
-                      break;
+                  // case 'not':
+                  //     if(this.rules[data.pattern][data.row][data.cell][0] != 'my_head' && this.rules[data.pattern][data.row][data.cell][0] != 'default') {
+                  //         this.rules[data.pattern][data.row][data.cell][0]
+                  //     }
+                  //     break;
+                  // case 'or':
+                  //     break;
                   default:
                       // Do not change for the same cell or if current cell is my head
-                      if (this.rules[data.pattern][data.row][data.cell] != this.currentTool && this.rules[data.pattern][data.row][data.cell] != 'my_head') {
-                          this.rules[data.pattern][data.row][data.cell] = this.currentTool;
+                      if (this.rules[data.pattern][data.row][data.cell][0] != 'my_head') {
+                          this.rules[data.pattern][data.row][data.cell][0] = this.currentTool;
+                          this.rules[data.pattern][data.row][data.cell][1] = this.currentLogic;
                           $('#c_' + data.pattern + '_' + data.row + '_' + data.cell).removeClass();
                           $('#c_' + data.pattern + '_' + data.row + '_' + data.cell).addClass('r-pattern-cell__' + this.currentTool);
                       }

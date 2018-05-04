@@ -1,3 +1,5 @@
+<h5>Tools</h5>
+
 <div class="d-flex flex-wrap">
 
   <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'default' }">
@@ -5,7 +7,7 @@
   </div>
 
   <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'my_head' }">
-    <img src="<%= image_url('tools/my_head.png') %>" alt="My head" title="My head" data-tool="my_head" v-on:click="selectTool">
+    <img src="<%= image_url('tools/my_head.png') %>" alt="My head" title="My head" data-tool="myhead" v-on:click="selectTool">
   </div>
 
   <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'enemy_head' }">
@@ -36,13 +38,7 @@
     <img src="<%= image_url('tools/empty.png') %>" alt="Empty cell" title="Empty cell" data-tool="empty" v-on:click="selectTool">
   </div>
 
-  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'not' }">
-    <img src="<%= image_url('tools/not.png') %>" alt="Exclude" title="Exclude" data-tool="not" v-on:click="selectTool">
-  </div>
 
-  <div class="mr-2 mb-2 r-rules-tools-cell" v-bind:class="{ 'r-rules-tools-cell__selected': currentTool == 'or' }">
-    <img src="<%= image_url('tools/or.png') %>" alt="Or" title="Or" data-tool="or" v-on:click="selectTool">
-  </div>
 
 </div>
 
