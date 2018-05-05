@@ -41,21 +41,44 @@ javascript:
           },
 
           cellClass: function(x,y,z) {
-              return 'r-pattern-cell__' + this.rules[x][y][z][0];
+              var classes = 'r-pattern-cell__' + this.rules[x][y][z][0];
+              switch(this.rules[x][y][z][1]) {
+                  case 'or':
+                      classes += ' r-pattern-cell__or';
+                      break;
+                  case 'not':
+                      classes += ' r-pattern-cell__not';
+                      break;
+              }
+              return classes;
+          },
+
+          cellClassByTools: function() {
+              var classes = 'r-pattern-cell__' + this.currentTool;
+              switch (this.currentLogic) {
+                  case 'or':
+                      classes += ' r-pattern-cell__or';
+                      break;
+                  case 'not':
+                      classes += ' r-pattern-cell__not';
+                      break;
+              }
+              return classes;
           },
 
           setTool: function(data) {
+              var $cell = $('#c_' + data.pattern + '_' + data.row + '_' + data.cell);
               switch(this.currentTool) {
                   case 'my_head':
-                      if(this.rules[data.pattern][data.row][data.cell] != this.currentTool) {
+                      if($cell[0] !== this.currentTool) {
                           // Find current my head and replace to default
                           for(var i = 0; i < this.rules[data.pattern].length; i++) {
                               for(var j = 0; j < this.rules[data.pattern][i].length; j++) {
-                                  if(this.rules[data.pattern][i][j][0] == 'my_head') {
+                                  if(this.rules[data.pattern][i][j][0] === 'my_head') {
                                       this.rules[data.pattern][i][j][0] = 'default';
                                       this.rules[data.pattern][i][j][1] = 'and';
                                       $('#c_' + data.pattern + '_' + i + '_' + j).removeClass();
-                                      $('#c_' + data.pattern + '_' + i + '_' + j).addClass('r-pattern-cell__default');
+                                      $('#c_' + data.pattern + '_' + i + '_' + j).addClass( this.cellClassByTools() );
                                       break;
                                   }
                               }
@@ -63,24 +86,25 @@ javascript:
                           // Set my head to new position
                           this.rules[data.pattern][data.row][data.cell][0] = this.currentTool;
                           this.rules[data.pattern][data.row][data.cell][1] = 'and';
-                          $('#c_' + data.pattern + '_' + data.row + '_' + data.cell).removeClass();
-                          $('#c_' + data.pattern + '_' + data.row + '_' + data.cell).addClass('r-pattern-cell__' + this.currentTool);
+                          $cell.removeClass();
+                          $cell.addClass('r-pattern-cell__' + this.currentTool);
                       }
                       break;
-                  // case 'not':
-                  //     if(this.rules[data.pattern][data.row][data.cell][0] != 'my_head' && this.rules[data.pattern][data.row][data.cell][0] != 'default') {
-                  //         this.rules[data.pattern][data.row][data.cell][0]
-                  //     }
-                  //     break;
-                  // case 'or':
-                  //     break;
+                  case 'default':
+                      if (this.rules[data.pattern][data.row][data.cell][0] !== 'my_head') {
+                          this.rules[data.pattern][data.row][data.cell][0] = this.currentTool;
+                          this.rules[data.pattern][data.row][data.cell][1] = 'and';
+                          $cell.removeClass();
+                          $cell.addClass( 'r-pattern-cell__default' );
+                      }
+                      break;
                   default:
                       // Do not change for the same cell or if current cell is my head
-                      if (this.rules[data.pattern][data.row][data.cell][0] != 'my_head') {
+                      if (this.rules[data.pattern][data.row][data.cell][0] !== 'my_head') {
                           this.rules[data.pattern][data.row][data.cell][0] = this.currentTool;
                           this.rules[data.pattern][data.row][data.cell][1] = this.currentLogic;
-                          $('#c_' + data.pattern + '_' + data.row + '_' + data.cell).removeClass();
-                          $('#c_' + data.pattern + '_' + data.row + '_' + data.cell).addClass('r-pattern-cell__' + this.currentTool);
+                          $cell.removeClass();
+                          $cell.addClass( this.cellClassByTools() );
                       }
 
                       break;

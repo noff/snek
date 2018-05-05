@@ -17,27 +17,52 @@
 
   &pattern-cell
     &__default
+      position: relative
       background-image: asset-url('tools/default.png')
     &__my_head
+      position: relative
       background-image: asset-url('tools/my_head.png')
     &__enemy_head
+      position: relative
       background-image: asset-url('tools/enemy_head.png')
     &__my_body
+      position: relative
       background-image: asset-url('tools/my_body.png')
     &__enemy_body
+      position: relative
       background-image: asset-url('tools/enemy_body.png')
     &__my_tail
+      position: relative
       background-image: asset-url('tools/my_tail.png')
     &__enemy_tail
+      position: relative
       background-image: asset-url('tools/enemy_tail.png')
     &__wall
+      position: relative
       background-image: asset-url('tools/wall.png')
     &__empty
+      position: relative
       background-image: asset-url('tools/empty.png')
-    &__not
-      background-image: asset-url('tools/not.png')
     &__or
-      background-image: asset-url('tools/or.png')
+      &::before
+        content: 'OPTIONAL'
+        background: green
+        color: #fff
+        font-size: 6px
+        text-align: center
+        width: 100%
+        position: absolute
+        top: 0
+    &__not
+      &::before
+        content: 'MUST NOT'
+        background: red
+        color: #fff
+        font-size: 6px
+        text-align: center
+        width: 100%
+        position: absolute
+        top: 0
 
   &rules-tools-cell
     width: 48px
