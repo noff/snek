@@ -8,6 +8,7 @@ Rails.application.routes.draw do
     member do
       get :rules
       put :save_rules
+      put :auto_fight
     end
   end
 

@@ -17,4 +17,11 @@
             td
             td
     .col
-      = link_to 'Rules editor', rules_snek_path(@snek), class: 'btn btn-outline-primary btn-block'
+      .mb-3 = link_to 'Rules editor', rules_snek_path(@snek), class: 'btn btn-primary'
+      .mb-3.btn-group
+        - if @snek.auto_fight?
+          = link_to 'Disable', auto_fight_snek_path(@snek, mode: 'off'), class: 'btn btn-outline-secondary', method: :put
+          = link_to 'Autofight ON',  auto_fight_snek_path(@snek, mode: 'on'), class: 'btn btn-success active', method: :put
+        - else
+          = link_to 'Autofight OFF',  auto_fight_snek_path(@snek, mode: 'off'), class: 'btn btn-danger active', method: :put
+          = link_to 'Enable',  auto_fight_snek_path(@snek, mode: 'on'), class: 'btn btn-outline-secondary', method: :put

@@ -49,4 +49,15 @@ class SneksController < ApplicationController
     end
   end
 
+  # Enables or disables auto fight mode
+  def auto_fight
+    @snek = current_user.sneks.find(params[:id])
+    if params[:mode] == 'on'
+      @snek.update auto_fight: true
+    else
+      @snek.update auto_fight: false
+    end
+    redirect_to @snek, notice: 'Autofight mode changed'
+  end
+
 end

@@ -33,7 +33,6 @@ class Snek < ApplicationRecord
   end
 
   def rules_must_be_correct
-    # raise rules.inspect
     errors.add(:rules, 'must be an Array') unless rules.is_a?(Array)
     errors.add(:rules, 'must be an Array of 9 patterns') if rules.length != 9
     rules.each_with_index do |pattern, index|
