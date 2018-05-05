@@ -3,7 +3,10 @@
     .col
       h1 #{@snek.name} rules
     .col.text-right
-      = link_to 'Back', @snek, class: 'btn btn-outline-secondary'
+      = simple_form_for @snek, url: save_rules_snek_path(@snek), method: :put do |f|
+        = f.input :rules,  as: :hidden, input_html: {value: @snek.rules.to_json}
+        = link_to 'Cancel', @snek, class: 'btn btn-outline-secondary'
+        = f.submit 'Save', class: 'btn btn-primary ml-3'
 
   .row
     .col-md-8.mb-3
@@ -110,6 +113,9 @@ javascript:
                       break;
 
               }
+
+              // Store to the form
+              $('#snek_rules').val( JSON.stringify(this.rules) );
 
           }
 

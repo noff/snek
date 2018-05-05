@@ -38,4 +38,15 @@ class SneksController < ApplicationController
     gon.snek_rules = @snek.fetch_rules
   end
 
+  def save_rules
+    @snek = current_user.sneks.find(params[:id])
+    # raise JSON.parse(params[:snek][:rules])[0].inspect
+    @snek.rules = JSON.parse(params[:snek][:rules])
+    if @snek.save
+      redirect_to @snek, notice: 'Rules saved'
+    else
+      redirect_to @snek, alert: "Rules invalid, did not saved. Errors: #{@snek.errors.messages[:rules].join(', ') }"
+    end
+  end
+
 end

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   resources :sneks do
     member do
       get :rules
+      put :save_rules
     end
   end
 
