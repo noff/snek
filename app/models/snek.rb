@@ -8,16 +8,27 @@ class Snek < ApplicationRecord
   validates :user_id, presence: true
   validate :rules_must_be_correct
 
+  before_validation :assign_default_rules
+
+  scope :for_autofight, -> { where(auto_fight: true) }
 
   # Fetch rules or create empty set if rules are null
+  # @return Array
   def fetch_rules
     update rules: rules_template if rules.nil?
     rules
   end
 
+  # Remove duplicate patterns and returns only patterns ready to fight
+  # @return Array
+  def rules_for_fight
+    rules.uniq
+  end
+
   private
 
   # Empty rules template - single pattern
+  # @return Array
   def rules_template
     9.times.map do
       [
@@ -40,6 +51,13 @@ class Snek < ApplicationRecord
       errors.add(:rules, "Pattern #{index} must have exact 7 rows") if pattern.length != 7
       errors.add(:rules, "Pattern #{index} must be 7x7 cells") if pattern.flatten.length != 98 # 49 times per 2 elements
       errors.add(:rules, "Pattern #{index} must have one and only one my head") if pattern.flatten.select{ |cell| cell == 'my_head' }.length != 1
+    end
+  end
+
+  # When create new snek, assign default rules
+  def assign_default_rules
+    if rules.nil?
+      self.rules = rules_template
     end
   end
 

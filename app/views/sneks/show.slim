@@ -17,11 +17,17 @@
             td
             td
     .col
+
       .mb-3 = link_to 'Rules editor', rules_snek_path(@snek), class: 'btn btn-primary'
-      .mb-3.btn-group
-        - if @snek.auto_fight?
+      - if @snek.auto_fight?
+        .mb-3.btn-group
           = link_to 'Disable', auto_fight_snek_path(@snek, mode: 'off'), class: 'btn btn-outline-secondary', method: :put
           = link_to 'Autofight ON',  auto_fight_snek_path(@snek, mode: 'on'), class: 'btn btn-success active', method: :put
-        - else
+      - else
+        p Please, enable auto fight mode if your snek is ready to fight with opponents.
+        .mb-3.btn-group
           = link_to 'Autofight OFF',  auto_fight_snek_path(@snek, mode: 'off'), class: 'btn btn-danger active', method: :put
           = link_to 'Enable',  auto_fight_snek_path(@snek, mode: 'on'), class: 'btn btn-outline-secondary', method: :put
+
+      - if Snek.for_autofight.count > 1
+        = link_to 'Fight!', '', class: 'btn btn-primary'
