@@ -35,6 +35,7 @@ html
             li.nav-item = link_to 'Home', root_path, class: 'nav-link'
             - if user_signed_in?
               li.nav-item = link_to 'My sneks', sneks_path, class: 'nav-link'
+            li.nav-item = link_to 'Rules', welcome_rules_path, class: 'nav-link'
           .my-2.my-lg-0
             ul.navbar-nav
               - if user_signed_in?

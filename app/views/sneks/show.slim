@@ -30,4 +30,4 @@
           = link_to 'Enable',  auto_fight_snek_path(@snek, mode: 'on'), class: 'btn btn-outline-secondary', method: :put
 
       - if Snek.for_autofight.count > 1
-        = link_to 'Fight!', '', class: 'btn btn-primary'
+        = link_to 'Fight!', '', class: 'btn btn-danger'

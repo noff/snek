@@ -12,5 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'welcome/rules'
+
   root 'welcome#index'
 end
