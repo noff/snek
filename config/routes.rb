@@ -12,6 +12,9 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :battles, only: [:create] do
+  end
+
   get 'welcome/rules'
 
   root 'welcome#index'

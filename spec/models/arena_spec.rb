@@ -1,5 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Arena, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let!(:arena) { create(:arena) }
+
+  context 'initial setup' do
+    it 'has default arena' do
+      expect(arena.area).to eq Arena.default_arena
+    end
+  end
 end
