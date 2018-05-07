@@ -67,64 +67,61 @@ module SnekMath
       value
     end
 
+    # Fill selected area
+    # @param [Fixnum] x1
+    # @param [Fixnum] y1
+    # @param [Fixnum] x2
+    # @param [Fixnum] y2
+    # @param [String] value
+    # @return String
+    def set_rect(x1, y1, x2, y2, value)
+      validate_x!(x1)
+      validate_x!(x2)
+      validate_y!(y1)
+      validate_y!(y2)
 
-    # TODO get column
-    # TODO get row
-    # TODO get submatrix
-    def [](x,y)
+      # Sort ascending (will be the same area)
+      (x2, x1 = x1, x2) if x1 > x2
+      (y2, y1 = y1, y2) if y1 > y2
 
-      # Validations
-      raise(ArgumentError, 'X less than 0') if !x.nil? && x < 0
-      raise(ArgumentError, 'Y less than 0') if !y.nil? && y < 0
-      raise(ArgumentError, 'X more than matrix size') if !x.nil? && x >= self.width
-      raise(ArgumentError, 'Y more than matrix size') if !y.nil? && y >= self.height
-      # X and Y not set, it's bad
-      if x.nil? && y.nil?
-        raise(ArgumentError, 'X and Y are not set') if x.nil? && y.nil?
-      # Y is not set, fetch column
-      elsif x.nil? && !y.nil?
-
-      # X is not set, fetch row
-      elsif !x.nil? && y.nil?
-
-
-      # Get a value from the specific cell
-      else
-        @area[y][x]
+      # Fill
+      (y1..y2).each do |y|
+        (x1..x2).each do |x|
+          @area[y][x] = value
+        end
       end
+      value
     end
 
-    # TODO fill row
-    # TODO fill column
-    def []=(x,y,value)
+    # Get submatrix
+    # @param [Fixnum] x1
+    # @param [Fixnum] y1
+    # @param [Fixnum] x2
+    # @param [Fixnum] y2
+    # @param [String] fill Which value to use to fill cells if selected area is outside of the matrix
+    # @return SnekMath::Matrix
+    def get_rect(x1, y1, x2, y2, fill = nil)
+      raise NotImplementedError
+    end
 
-      # Validations
-      raise(ArgumentError, 'X less than 0') if !x.nil? && x < 0
-      raise(ArgumentError, 'Y less than 0') if !y.nil? && y < 0
-      raise(ArgumentError, 'X more than matrix size') if !x.nil? && x >= self.width
-      raise(ArgumentError, 'Y more than matrix size') if !y.nil? && y >= self.height
+    # TODO
+    def add_column
+      raise NotImplementedError
+    end
 
-      # X and Y not set, fill all cels
-      if x.nil? && y.nil?
-        @area.each_with_index do |row, y_index|
-          row.each_with_index do |cell,x_index|
-            @area[y_index][x_index] = value
-          end
-        end
-      # Y is not set, fill column
-      elsif x.nil? && !y.nil?
+    # TODO
+    def delete_column
+      raise NotImplementedError
+    end
 
-      # X is not set, fill row
-      elsif !x.nil? && y.nil?
+    # TODO
+    def add_row
+      raise NotImplementedError
+    end
 
-
-      # Set value to the specific cell
-      else
-        @area[y][x] = value
-      end
-
-      nil
-
+    # TODO
+    def delete_row
+      raise NotImplementedError
     end
 
 
@@ -140,6 +137,7 @@ module SnekMath
       @area.length
     end
 
+    # Debug matrix
     def print
       @area.each do |row|
         puts row.join("\t")
