@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :battles, only: [:create] do
+  resources :battles, only: [:create, :show] do
   end
 
   get 'welcome/rules'

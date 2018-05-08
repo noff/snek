@@ -32,3 +32,7 @@
 
 .idea
 *.iml
+
+
+# For local purposes
+/app/assets/javascripts/vue.js

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_06_101327) do
+ActiveRecord::Schema.define(version: 2018_05_08_121404) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -55,6 +55,16 @@ ActiveRecord::Schema.define(version: 2018_05_06_101327) do
 
   create_table "battles", force: :cascade do |t|
     t.string "aasm_state"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "fail_reason"
+    t.integer "initiator_snek_id"
+  end
+
+  create_table "snek_battles", force: :cascade do |t|
+    t.integer "snek_id"
+    t.integer "battle_id"
+    t.integer "score", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

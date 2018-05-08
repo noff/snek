@@ -1,5 +1,7 @@
 class Snek < ApplicationRecord
   belongs_to :user
+  has_many :started_battles, foreign_key: "initiator_snek_id", class_name: 'Battle'
+  has_many :snek_battles
 
   validates :name,
             uniqueness:   { case_sensitive: false },
@@ -11,6 +13,11 @@ class Snek < ApplicationRecord
   before_validation :assign_default_rules
 
   scope :for_autofight, -> { where(auto_fight: true) }
+
+
+
+
+
 
   # Fetch rules or create empty set if rules are null
   # @return Array
