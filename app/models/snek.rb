@@ -1,6 +1,8 @@
 class Snek < ApplicationRecord
   belongs_to :user
-  has_many :started_battles, foreign_key: "initiator_snek_id", class_name: 'Battle'
+  has_many :started_battles,
+           foreign_key: "initiator_snek_id",
+           class_name: 'Battle'
   has_many :snek_battles
 
   validates :name,

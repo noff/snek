@@ -42,9 +42,57 @@ class Battle < ApplicationRecord
       snek_battles.create! snek_id: snek.id
     end
 
+    # Get array of all sneks and random sort it
+    # position – array of snek's cells and it's coords
+    sneks = snek_battles.map { |s| { snek: s.snek, position: []} }.shuffle
+
+    # Create arena
+    initial_arena = Arena.find(1).get_matrix
+    current_arena = initial_arena
+
+    # Put sneks on the arena
+    # See README.md – default sneks position
+    sneks.each_with_index do |snek, index|
+
+      case index
+      when 0 then
+        (0..9).each do |i|
+          sneks[index][:position] << { x: 13, y: (11 - i) }
+        end
+      when 1 then
+        (0..9).each do |i|
+          sneks[index][:position] << { x: (15 + i), y: 13 }
+        end
+      when 2 then
+        (0..9).each do |i|
+          sneks[index][:position] << { x: 13, y: (15 + i) }
+        end
+      when 3 then
+        (0..9).each do |i|
+          sneks[index][:position] << { x: (11 - i), y: 13 }
+        end
+      else
+        raise Exception, 'Wrong number of sneks – more than 4'
+      end
+
+      # Put on current_arena
+      sneks[index][:position].each_with_index do |coords, i|
+        if i == 0
+          current_arena.set(coords[:x], coords[:y], "head-#{sneks[index][:snek].id}")
+        elsif i == sneks[index][:position].length
+          current_arena.set(coords[:x], coords[:y], "tail-#{sneks[index][:snek].id}")
+        else
+          current_arena.set(coords[:x], coords[:y], "body-#{sneks[index][:snek].id}")
+        end
+      end
+
+    end
+
+    # 10000 steps for a battle (and stop of longer)
     # TODO Run battle and save each step and each sneks' stat
+    (0..9999).each do |step|
 
-
+    end
 
 
     # Finish the battle
