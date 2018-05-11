@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>body</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="body" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <polygon id="color" fill="#F4F6F8" transform="translate(24.000000, 24.000000) rotate(-90.000000) translate(-24.000000, -24.000000) " points="12 8.45300841e-15 12 48 36 48 36 0"></polygon>
+        <path d="M1.77635684e-15,12 L1.77635684e-15,9 L48,9 L48,12 L1.77635684e-15,12 Z M1.77635684e-15,39 L1.77635684e-15,36 L48,36 L48,39 L1.77635684e-15,39 Z" id="stroke" fill="#000000"></path>
+    </g>
+</svg>

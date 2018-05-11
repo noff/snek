@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48px" height="48px" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>bend</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="bend" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <path d="M3.55271368e-15,21 L3.55271368e-15,18 C4.97056275,18 9,13.9705627 9,9 L12,9 C12,15.627417 6.627417,21 3.55271368e-15,21 Z M3.55271368e-15,45 L15,45 C26.5979797,45 36,35.5979797 36,24 L36,9 L39,9 L39,24 C39,37.254834 28.254834,48 15,48 L3.55271368e-15,48 L3.55271368e-15,45 Z" id="stroke" fill="#000000" fill-rule="nonzero" transform="translate(19.500000, 28.500000) rotate(-90.000000) translate(-19.500000, -28.500000) "></path>
+        <path d="M-0.0048346369,48.0048346 L15.0048346,48.0048346 C26.6028144,48.0048346 36.0048346,38.6028144 36.0048346,27.0048346 L36.0048346,12.0466413 L12.0048346,12.0048346 C12.0048346,18.6322516 6.63225163,24.0048346 0.0048346369,24.0048346 L-0.0048346369,48.0048346 Z" id="color" fill="#F4F6F8" transform="translate(18.000000, 30.004835) rotate(-90.000000) translate(-18.000000, -30.004835) "></path>
+    </g>
+</svg>

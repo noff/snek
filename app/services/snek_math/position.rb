@@ -23,7 +23,7 @@ module SnekMath
       when 'S'
         new_position = { x: position[0][:x], y: (position[0][:y] + 1) }
       when 'E'
-        new_position = x: (position[0][:x] + 1), y: position[0][:y]
+        new_position = { x: (position[0][:x] + 1), y: position[0][:y] }
       when 'W'
         new_position = { x: (position[0][:x] - 1), y: position[0][:y] }
       else
@@ -49,6 +49,28 @@ module SnekMath
       end
 
       nil
+    end
+
+    # Returns head coordinates
+    # @returns Hash
+    def get_head_coords
+      position.first
+    end
+
+    # @return String
+    # @throws Exception
+    def get_current_direction
+      if position[0][:x] == position[1][:x] && position[0][:y] < position[1][:y]
+        return 'N'
+      elsif position[0][:x] == position[1][:x] && position[0][:y] > position[1][:y]
+        return 'S'
+      elsif position[0][:x] > position[1][:x] && position[0][:y] == position[1][:y]
+        return 'E'
+      elsif position[0][:x] < position[1][:x] && position[0][:y] == position[1][:y]
+        return 'W'
+      else
+        raise Exception, "Incorrect snek position direction: #{position}"
+      end
     end
 
     # Put snek on SnekMath::Matrix arena.

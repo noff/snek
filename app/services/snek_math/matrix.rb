@@ -1,6 +1,8 @@
 module SnekMath
   class Matrix
 
+    attr_reader :area
+
     # Create matrix
     # @param [Fixnum] width
     # @param [Fixnum] height
