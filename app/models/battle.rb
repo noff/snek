@@ -129,8 +129,6 @@ class Battle < ApplicationRecord
 
       Rails.logger.info "Round #{round_number}"
 
-      # TODO If all sneks dead, only one winner left, finish the game
-
       # Cycle sneks
       snek_positions.each_with_index do |snek_position, snek_position_index|
 

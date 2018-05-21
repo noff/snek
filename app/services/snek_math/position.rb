@@ -77,10 +77,12 @@ module SnekMath
           begin
             observable_area.area.each_with_index do |row, y|
               row.each_with_index do |cell, x|
+
+                # Get cell
                 pattern_cell = pattern_matrix.matrix.get(x, y)
 
                 # Save all optional groups to this hash. Later all values must be true
-                optional_matches[pattern_cell[0]] = false if pattern_cell[1] == 'or' and !optional_matches.key?(pattern_cell[1])
+                optional_matches[pattern_cell[0]] = false if pattern_cell[1] == 'or' and !optional_matches.key?(pattern_cell[0])
 
                 # Skip if pattern_cell is default
                 next if pattern_cell[0] == 'default'
@@ -123,6 +125,9 @@ module SnekMath
                     case pattern_cell[1]
                     when 'or'
                       optional_matches[pattern_cell[0]] = true if pattern_cell[0] == "enemy_#{parts[0]}"
+                      # if test_direction == 'E' && pattern_index == 0
+                      #   raise optional_matches.inspect
+                      # end
                     when 'not'
                       raise NotMatchedPattern if pattern_cell[0] == "enemy_#{parts[0]}"
                     when 'and'
