@@ -1,5 +1,6 @@
 class Arena < ApplicationRecord
   validates :name, :area, presence: true
+  has_many :battles
 
   # Convert arena area to matrix
   # @return SnekMath::Matrix
@@ -49,5 +50,31 @@ class Arena < ApplicationRecord
           %w(wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall)
       ]
     end
+
+    # Default arena 15x15 cells and a wall
+    def default_small_arena
+      [
+          %w(wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall empty empty empty empty empty empty empty empty empty empty empty empty empty empty empty wall),
+          %w(wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall wall)
+      ]
+    end
+
+
+
   end
 end

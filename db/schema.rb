@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_08_121404) do
+ActiveRecord::Schema.define(version: 2018_05_21_111358) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,12 +53,22 @@ ActiveRecord::Schema.define(version: 2018_05_08_121404) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "battle_rounds", force: :cascade do |t|
+    t.integer "battle_id"
+    t.integer "round_number"
+    t.jsonb "arena"
+    t.jsonb "sneks"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "battles", force: :cascade do |t|
     t.string "aasm_state"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "fail_reason"
     t.integer "initiator_snek_id"
+    t.integer "arena_id", default: 1
   end
 
   create_table "snek_battles", force: :cascade do |t|

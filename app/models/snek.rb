@@ -17,10 +17,6 @@ class Snek < ApplicationRecord
   scope :for_autofight, -> { where(auto_fight: true) }
 
 
-
-
-
-
   # Fetch rules or create empty set if rules are null
   # @return Array
   def fetch_rules

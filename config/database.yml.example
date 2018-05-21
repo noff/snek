@@ -2,7 +2,14 @@ development:
   url: postgresql://user:password@localhost/snek_development?pool=5&timeout=5000
 
 test:
-  url: postgresql://user:password@localhost/snek_test?pool=5&timeout=5000
+  database: snek_test
+  host: localhost
+  adapter: postgresql
+  username: <%= ENV['PG_USER'] %>
+  password: <%= ENV['PG_PASSWORD'] %>
+  port: 5432
+  timeout: 5000
+  pool: 5
 
 production:
   url: postgresql://user:password@localhost/snek_production?pool=5&timeout=5000

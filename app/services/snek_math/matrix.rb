@@ -3,6 +3,20 @@ module SnekMath
 
     attr_reader :area
 
+    class << self
+
+      def from_json(json)
+        m = self::new(json.first.length, json.length, nil)
+        json.each_with_index do |row, y|
+          row.each_with_index do |cell, x|
+            m.set(x, y, cell)
+          end
+        end
+        m
+      end
+
+    end
+
     # Create matrix
     # @param [Fixnum] width
     # @param [Fixnum] height
@@ -103,7 +117,15 @@ module SnekMath
     # @param [String] fill Which value to use to fill cells if selected area is outside of the matrix
     # @return SnekMath::Matrix
     def get_rect(x1, y1, x2, y2, fill = nil)
-      raise NotImplementedError
+      new_matrix = SnekMath::Matrix.new(x2 - x1 + 1, y2 - y1 + 1, fill)
+      new_matrix.area.each_with_index do |row, y|
+        row.each_with_index do |_, x|
+          if (x1 + x) >= 0 && (x1 + x) < width && (y1 + y) >= 0 && (y1 + y) < height
+            new_matrix.set(x, y, get(x1 + x, y1 + y))
+          end
+        end
+      end
+      new_matrix
     end
 
     # TODO
@@ -126,6 +148,43 @@ module SnekMath
       raise NotImplementedError
     end
 
+    # Rotate matrix
+    # @param degree [Fixnum] Degree: 90, 180, 270
+    # TODO: rspec
+    def rotate!(degree)
+      degree = 270 if degree == -90
+      case degree
+      when 0
+        # Do nothing
+      when 90
+        new_area = SnekMath::Matrix.new(height, width, nil)
+        @area.each_with_index do |row, y|
+          row.each_with_index do |cell, x|
+            new_area.set(new_area.width - y - 1, x, cell)
+          end
+        end
+        @area = new_area.area
+      when 180
+        new_area = SnekMath::Matrix.new(width, height, nil)
+        @area.each_with_index do |row, y|
+          row.each_with_index do |cell, x|
+            new_area.set(width - x - 1, height - y - 1, cell)
+          end
+        end
+        @area = new_area.area
+      when 270
+        new_area = SnekMath::Matrix.new(height, width, nil)
+        @area.each_with_index do |row, y|
+          row.each_with_index do |cell, x|
+            new_area.set(y, new_area.height - x - 1, cell)
+          end
+        end
+        @area = new_area.area
+      else
+        raise ArgumentError, 'Wrong degree. Only 90, 180 and 270 supported'
+      end
+    end
+
 
     # Get matrix width
     # @return Integer
@@ -145,6 +204,16 @@ module SnekMath
         puts row.join("\t")
       end
       nil
+    end
+
+    # @return String
+    def to_str
+      @area.map { |row| row.join("\t") }.join("\n")
+    end
+
+    # @return String
+    def to_json
+      @area.to_json
     end
 
     private

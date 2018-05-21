@@ -3,6 +3,8 @@ class Battle < ApplicationRecord
 
   belongs_to :snek, class_name: "Snek", foreign_key: "initiator_snek_id", validate: false
   has_many :snek_battles
+  has_many :battle_rounds
+  belongs_to :arena
 
   aasm no_direct_assignment: true do
     state :draft, initual: true
@@ -42,106 +44,191 @@ class Battle < ApplicationRecord
       snek_battles.create! snek_id: snek.id
     end
 
+    if snek_battles.count < 3
+      update! arena_id: 2
+    else
+      update! arena_id: 1
+    end
+
     # Create arena
-    initial_arena = Arena.find(1).get_matrix
-    current_arena = initial_arena
+    current_arena = arena.reload.get_matrix
 
     # Get array of all sneks and random sort it
     sneks = snek_battles.map(&:snek).shuffle
     snek_positions = []
 
+
     # Put sneks on the arena
     # See README.md – default sneks position
-    sneks.each_with_index do |snek, index|
+    if arena_id == 1
+      sneks.each_with_index do |snek, index|
+        position = []
+        case index
+        when 0 then
+          (0..9).each do |i|
+            position << { x: 13, y: (11 - i) }
+          end
+        when 1 then
+          (0..9).each do |i|
+            position << { x: (15 + i), y: 13 }
+          end
+        when 2 then
+          (0..9).each do |i|
+            position << { x: 13, y: (15 + i) }
+          end
+        when 3 then
+          (0..9).each do |i|
+            position << { x: (11 - i), y: 13 }
+          end
+        else
+          raise Exception, 'Wrong number of sneks – more than 4'
+        end
 
-      position = []
+        # Store to Position model
+        snek_position = SnekMath::Position.new(snek, position)
+        snek_positions << snek_position
 
-      case index
-      when 0 then
-        (0..9).each do |i|
-          position << { x: 13, y: (11 - i) }
-        end
-      when 1 then
-        (0..9).each do |i|
-          position << { x: (15 + i), y: 13 }
-        end
-      when 2 then
-        (0..9).each do |i|
-          position << { x: 13, y: (15 + i) }
-        end
-      when 3 then
-        (0..9).each do |i|
-          position << { x: (11 - i), y: 13 }
-        end
-      else
-        raise Exception, 'Wrong number of sneks – more than 4'
       end
+    elsif arena_id == 2
+      sneks.each_with_index do |snek, index|
+        position = []
+        case index
+        when 0 then
+          (0..9).each do |i|
+            position << { x: 2, y: (11 - i) }
+          end
+        when 1 then
+          (0..9).each do |i|
+            position << { x: 14, y: (5 + i) }
+          end
+        else
+          raise Exception, 'Wrong number of sneks – more than 4'
+        end
 
-      # Store to Position model
-      snek_position = SnekMath::Position.new(snek, position)
-      snek_positions << snek_position
+        # Store to Position model
+        snek_position = SnekMath::Position.new(snek, position)
+        snek_positions << snek_position
 
-      # Put on current_arena (my pointer)
-      snek_position.draw_on(current_arena)
-
+      end
+    else
+      raise Exception, 'Not supported arena ID'
     end
 
-    current_arena.print
+    # Put on current_arena (my pointer)
+    draw_sneks_on_arena(snek_positions, current_arena)
+
+    # Save current arena to DB
+    battle_rounds.create!( round_number: 0, arena: current_arena.area, sneks: snek_positions.map { |p| {snek_id: p.snek.id, position: p.position } } )
 
     # 10000 steps for a battle (and stop of longer)
-    # TODO Run battle and save each step and each sneks' stat
-    (0..9999).each do |step|
+    # Run battle and save each step and each sneks' stat
+    (1..999).each do |round_number|
+
+      # Flag to break cycle if no snek moved
+      any_snek_moved = false
+
+      Rails.logger.info "Round #{round_number}"
+
+      # TODO If all sneks dead, only one winner left, finish the game
 
       # Cycle sneks
-      snek_positions.each_with_index do |snek_position, index|
+      snek_positions.each_with_index do |snek_position, snek_position_index|
 
-        # Snek head coordinates on arena
-        current_head_coordinates = snek_position.get_head_coords
+        # Get possible direction for the snek
+        move_direction = snek_position.get_next_move(current_arena)
 
-        # TODO cycle snek's patterns and find matched pattern if possible
-        found_pattern = nil
-        snek_position.snek.rules.each do |pattern|
+        # Check can we move forward? If not, stay.
+        # Do we eat something? If do, move with growth.
+        next_x, next_y = snek_position.get_next_coords(move_direction)
+        target_cell = current_arena.get(next_x, next_y)
 
-          # Get snek's head relative coords in pattern
-          pattern_matrix = SnekMath::Pattern.new(pattern)
-          snek_head_coords_in_pattern = pattern_matrix.get_my_head_coords
+        # If it's impossible to move in this direction, try to get random free direction
+        if target_cell == 'wall' || %w[head body].include?(target_cell.split('-')[0])
+          move_direction = snek_position.get_random_next_move(current_arena)
 
-          # Calculate area to snap from arena matrix (pattern width x pattern height)
-          # Depending on where my head is set in the pattern
-          pattern_width = pattern_matrix.matrix.width
-          pattern_height = pattern_matrix.matrix.height
+          # No free ways, skip round
+          next if move_direction.nil?
 
-          # Area to cut from arena
+          # Found free direction
+          next_x, next_y = snek_position.get_next_coords(move_direction)
+          target_cell = current_arena.get(next_x, next_y)
+        end
 
-          # TODO Get pattern around snek's head
-          # depending on where snek head is located and headed in the pattern.
-          #
 
-          # TODO Check pattern matches to the current situation
-          #
-          #
-          # TODO If pattern is not match to the current situation,
-          # rotate it to three sides randomly and match.
-          #
-          #
-          #
+        if target_cell == 'wall'
+          # Can't move into wall.
+          raise Exception, 'Tries to move into wall'
+        else
+
+          # Tries to move into someones head or body
+          if %w[head body].include?(target_cell.split('-')[0])
+            # Can't move into body or head or my tail.
+            raise Exception, 'Tries to move into body, head or self tail'
+          end
+
+          # Tries to move into owns tail. It's ok, just pull the tail forward
+          if target_cell == "tail-#{snek_position.snek.id}"
+            snek_positions[snek_position_index].move(move_direction, false)
+          end
+
+          # Enemy's tail?
+          if target_cell.split('-')[0] == 'tail' && target_cell != "tail-#{snek_position.snek.id}"
+
+            # Eat and move
+            snek_positions[snek_position_index].move(move_direction, true)
+
+            # Find snek to reduce and reduce it
+            snek_positions.each_with_index do |snp, snp_idx|
+              next if snp.snek.id == snek_position.snek.id # Don't eat self
+              if snp.position.last[:x] == next_x && snp.position.last[:y] == next_y
+                snek_positions[snp_idx].position.pop
+                Rails.logger.warn "Eat !"
+                break
+              end
+            end
+
+          end
+
+          # Free space?
+          if target_cell == 'empty'
+            snek_positions[snek_position_index].move(move_direction, false)
+          end
 
         end
 
-        # TODO If pattern not found, move snek forward if possible (stay in place if not possible)
-        # Not possible, if next cell is body, head or wall
+        any_snek_moved = true
 
-        # TODO Check if eat something
-
-        # TODO Move snek in snek position storage
+        # Draw new arena after each move to reflect actual situation
+        current_arena = arena.reload.get_matrix
+        draw_sneks_on_arena(snek_positions, current_arena)
 
       end
 
+      # Remove dead sneks
+      snek_positions.delete_if { |row| row.position.length < 2 }
+
+      # Dump arena snapshot and sneks positions to DB
+      battle_rounds.create!( round_number: round_number, arena: current_arena.area, sneks: snek_positions.map { |p| {snek_id: p.snek.id, position: p.position } } )
+
+      # If no alive sneks except one, finish battle
+      if snek_positions.count == 1
+        Rails.logger.debug "Battle finished!"
+        break
+      end
+
+      Rails.logger.info "Sneks stats"
+      snek_positions.each do |snek_position|
+        Rails.logger.info "Snek ##{snek_position.snek.id}: Length: #{snek_position.position.length}. Head: #{snek_position.position.first.inspect}. Tail: #{snek_position.position.last.inspect}"
+      end
+
+      # Stop game if all sneks can't move
+      break unless any_snek_moved
+
     end
 
+    # TODO Write statistics
 
     # Finish the battle
-    # TODO and write statistics
     finish!
 
     true
@@ -155,6 +242,18 @@ class Battle < ApplicationRecord
   # @param message [String]
   def fail_battle(message)
     update! fail_reason: message
+  end
+
+
+
+  # Draw sneks on arena
+  # @param snek_positions [Array]
+  # @param current_arena [SnekMath::Matrix]
+  def draw_sneks_on_arena(snek_positions, current_arena)
+    snek_positions.each do |snek_position|
+      snek_position.draw_on(current_arena)
+    end
+    nil
   end
 
 

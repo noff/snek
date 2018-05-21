@@ -1,0 +1,13 @@
+#!/bin/bash
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+rvm use 2.3.1 && bundle install
+cp config/database.yml.example config/database.yml
+cp config/secrets.yml.example config/secrets.yml
+#sed -i "s|5432|5435|" "config/database.yml"
+psql -p 5432 -c "drop database snek_test;"
+psql -p 5432 -c "create database snek_test;"
+#bundle exec rake db:create
+#bundle exec rake db:schema:load
+#bundle exec rake db:seed
