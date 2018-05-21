@@ -1,5 +1,8 @@
 ActiveAdmin.register Snek do
 
+  scope 'All', :all
+  scope 'Autofight', :for_autofight
+
   index do
     selectable_column
     id_column
