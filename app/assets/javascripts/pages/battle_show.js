@@ -165,6 +165,8 @@ window.showBattle = function(arena_width) {
                     _this.playInterval = setInterval(function(){
                         if(_this.currentRound < (_this.totalRounds - 1) ) {
                             _this.currentRound++;
+                        } else {
+                            _this.nowPlaying = false;
                         }
                     }, 100);
                 } else {
