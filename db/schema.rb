@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_21_111358) do
+ActiveRecord::Schema.define(version: 2018_05_22_193419) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,9 @@ ActiveRecord::Schema.define(version: 2018_05_21_111358) do
     t.datetime "updated_at", null: false
     t.jsonb "rules"
     t.boolean "auto_fight", default: false
+    t.string "color"
+    t.string "pattern"
+    t.string "pattern_color"
   end
 
   create_table "users", force: :cascade do |t|

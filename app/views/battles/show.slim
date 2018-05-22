@@ -1,3 +1,5 @@
+- content_for :title, "Battle ##{@battle.id}"
+
 .container
   .row
     .col
@@ -24,13 +26,15 @@
       table.table#sneks
         tr
           td Round
+          td
           td.text-right
             ' {{ currentRound }}
         tr v-for="(snek, index) in rounds[currentRound].sneks"
           / td
           /   img src='{ gon.snek_parts[index].head }'
           td
-            ' {{ snek_names[snek.snek_id] }}
+            ' {{ sneks[snek.snek_id].name }}
+          td
           td.text-right
             ' {{ snek.position.length }}
 

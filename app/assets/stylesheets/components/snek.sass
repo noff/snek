@@ -1,0 +1,37 @@
+table.snek
+  td
+    padding: 0
+    position: relative
+    height: 24px
+    width: 24px
+    img
+      display: block
+      position: absolute
+      top: 0
+      left: 0
+      width: 100%
+      heigth: 100%
+      &.cell-down
+        transform:          rotate(270deg)
+        -ms-transform:      rotate(270deg)
+        -moz-transform:     rotate(270deg)
+        -webkit-transform:  rotate(270deg)
+        -o-transform:       rotate(270deg)
+      &.cell-up
+        transform:          rotate(90deg)
+        -ms-transform:      rotate(90deg)
+        -moz-transform:     rotate(90deg)
+        -webkit-transform:  rotate(90deg)
+        -o-transform:       rotate(90deg)
+      &.cell-left
+        transform:          rotate(0deg)
+        -ms-transform:      rotate(0deg)
+        -moz-transform:     rotate(0deg)
+        -webkit-transform:  rotate(0deg)
+        -o-transform:       rotate(0deg)
+      &.cell-right
+        transform:          rotate(180deg)
+        -ms-transform:      rotate(180deg)
+        -moz-transform:     rotate(180deg)
+        -webkit-transform:  rotate(180deg)
+        -o-transform:       rotate(180deg)

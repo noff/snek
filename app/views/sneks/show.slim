@@ -3,6 +3,7 @@
     .col
       h1 = @snek.name
 
+
   .row
     .col-md-9
       table.table
@@ -18,7 +19,22 @@
             td
     .col
 
+      table.snek.mb-3
+        tr
+          td
+            img src="#{@snek.style_asset_urls[:tail]}" class='cell-right'
+            img src="#{@snek.style_asset_urls[:tail_pattern]}" class='cell-right'
+          - 5.times do
+            td
+              img src="#{@snek.style_asset_urls[:body]}" class='cell-right'
+              img src="#{@snek.style_asset_urls[:body_pattern]}" class='cell-right'
+          td
+            img src="#{@snek.style_asset_urls[:head]}" class='cell-right'
+
       .mb-3 = link_to 'Rules editor', rules_snek_path(@snek), class: 'btn btn-primary'
+      / TODO
+      / .mb-3 = link_to 'Style editor', style_snek_path(@snek), class: 'btn btn-primary'
+
       - if @snek.auto_fight?
         .mb-3.btn-group
           = link_to 'Disable', auto_fight_snek_path(@snek, mode: 'off'), class: 'btn btn-outline-secondary', method: :put

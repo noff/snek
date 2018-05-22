@@ -9,7 +9,7 @@ window.showBattle = function(arena_width) {
             totalRounds: window.gon.rounds.length,
             nowPlaying: false,
             playInterval: null,
-            snek_names: window.gon.snek_names
+            sneks: window.gon.sneks
         },
         methods: {
             renderRound: function () {
@@ -17,19 +17,27 @@ window.showBattle = function(arena_width) {
                 var _this = this;
                 var sneks = this.rounds[this.currentRound].sneks;
                 var direction_code = '';
+                var cell_html = '';
                 sneks.forEach(function(snek, snek_number){
                     snek.position.forEach(function (position, index) {
                         direction_code = _this.directionClass(index, snek);
                         if(index == 0) {
-                            $('#c_' + position.x + '_' + position.y).html('<img src="' + gon.snek_parts[snek_number].head + '" class="' + direction_code + '" title="' + snek.snek_id + '">');
+                            cell_html = '<img src="' + gon.sneks[snek.snek_id].style.head + '" class="' + direction_code + '" title="' + gon.sneks[snek.snek_id].name + '">';
+                            $('#c_' + position.x + '_' + position.y).html(cell_html);
                         } else if (index != (snek.position.length - 1) ) {
                             if( snek.position[index-1].x != snek.position[index+1].x && snek.position[index-1].y != snek.position[index+1].y ) {
-                                $('#c_' + position.x + '_' + position.y).html('<img src="' + gon.snek_parts[snek_number].curve + '" class="' + direction_code + '">');
+                                cell_html = '<img src="' + gon.sneks[snek.snek_id].style.curve + '" class="' + direction_code + '">';
+                                cell_html += '<img src="' + gon.sneks[snek.snek_id].style.curve_pattern + '" class="' + direction_code + '">';
+                                $('#c_' + position.x + '_' + position.y).html(cell_html);
                             } else {
-                                $('#c_' + position.x + '_' + position.y).html('<img src="' + gon.snek_parts[snek_number].body + '" class="' + direction_code + '">');
+                                cell_html = '<img src="' + gon.sneks[snek.snek_id].style.body + '" class="' + direction_code + '">';
+                                cell_html += '<img src="' + gon.sneks[snek.snek_id].style.body_pattern + '" class="' + direction_code + '">';
+                                $('#c_' + position.x + '_' + position.y).html(cell_html);
                             }
                         } else {
-                            $('#c_' + position.x + '_' + position.y).html('<img src="' + gon.snek_parts[snek_number].tail + '" class="' + direction_code + '">');
+                            cell_html = '<img src="' + gon.sneks[snek.snek_id].style.tail + '" class="' + direction_code + '">';
+                            cell_html += '<img src="' + gon.sneks[snek.snek_id].style.tail_pattern + '" class="' + direction_code + '">';
+                            $('#c_' + position.x + '_' + position.y).html(cell_html);
                         }
                     });
                 });

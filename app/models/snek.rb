@@ -30,6 +30,21 @@ class Snek < ApplicationRecord
     rules.uniq
   end
 
+
+  # Returns path to assets of snek's style
+  # @return Hash
+  def style_asset_urls
+    {
+        head: ActionController::Base.helpers.asset_url("snek/head_#{color}.png", type: :image),
+        body: ActionController::Base.helpers.asset_url("snek/body_#{color}.png", type: :image),
+        curve: ActionController::Base.helpers.asset_url("snek/curve_#{color}.png", type: :image),
+        tail: ActionController::Base.helpers.asset_url("snek/tail_#{color}.png", type: :image),
+        body_pattern: ActionController::Base.helpers.asset_url("skin/pattern_#{pattern}_body_#{pattern_color}.png", type: :image),
+        tail_pattern: ActionController::Base.helpers.asset_url("skin/pattern_#{pattern}_tail_#{pattern_color}.png", type: :image),
+        curve_pattern: ActionController::Base.helpers.asset_url("skin/pattern_#{pattern}_curve_#{pattern_color}.png", type: :image),
+    }
+  end
+
   private
 
   # Empty rules template - single pattern
