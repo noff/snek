@@ -1,4 +1,4 @@
-- content_for :title, "Battle ##{@battle.id}"
+- content_for :title, "Battle ##{@battle.id}: #{@battle.snek_battles.map { |sb| sb.snek.name }.join(', ')}"
 
 .container
   .row

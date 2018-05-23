@@ -4,7 +4,7 @@
       p Here will be landing. Maybe.
 
     .col-md-4
-      .card
+      .card.mb-3
         .card-body
           h5.card-title Join us
           p.card-text Join our community and help to spread the word
@@ -12,3 +12,16 @@
             = link_to image_tag('socials/twitter.png', style: 'width: 48px'), 'https://twitter.com/snekfite', target: '_blank', class: 'mr-2'
             = link_to image_tag('socials/facebook.png', style: 'width: 48px'), 'https://www.facebook.com/Snek-Fite-829977270521979', target: '_blank', class: 'mr-2'
             = link_to image_tag('socials/telegram.png', style: 'width: 48px'), 'https://t.me/snekfite', target: '_blank', class: 'mr-2'
+
+      .card
+        .card-body
+          table.table
+            thead
+              tr
+                th Battle #
+                th Initiator
+            tbody
+              - Battle.order(id: :desc).limit(10).each do |battle|
+                tr
+                  td = link_to battle.id, battle
+                  td = battle.snek.name
