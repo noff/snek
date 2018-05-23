@@ -13,6 +13,7 @@ class Snek < ApplicationRecord
   validate :rules_must_be_correct
 
   before_validation :assign_default_rules
+  after_create :generate_random_style
 
   scope :for_autofight, -> { where(auto_fight: true) }
 
@@ -44,6 +45,16 @@ class Snek < ApplicationRecord
         curve_pattern: ActionController::Base.helpers.asset_url("skin/pattern_#{pattern}_curve_#{pattern_color}.png", type: :image),
     }
   end
+
+  # Generate random style
+  def generate_random_style
+    if color.nil? || pattern.nil? || pattern_color.nil?
+      update  color: SnekStyle::COLORS.sample,
+              pattern: SnekStyle::PATTERNS.sample,
+              pattern_color: SnekStyle::PATTERN_COLORS.sample
+    end
+  end
+
 
   private
 
