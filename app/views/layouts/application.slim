@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title = content_for?(:title) ? yield(:title) : 'Snek Fite: intellectual game for someone who can think logically'
+    title = content_for?(:title) ? yield(:title) : 'Snek Fite: the intellectual game for someone who can think logically'
     = csrf_meta_tags
     = csp_meta_tag
     = Gon::Base.render_data
