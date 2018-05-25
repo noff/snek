@@ -31,6 +31,11 @@ class Snek < ApplicationRecord
     rules.uniq
   end
 
+  # Get short name
+  # @return String
+  def short_name
+    name[0..10]
+  end
 
   # Returns path to assets of snek's style
   # @return Hash

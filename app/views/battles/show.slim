@@ -5,42 +5,13 @@
     .col
       h1 Battle ##{@battle.id}
 
-  .row#app
-    .col-md-8
-      div#arena
-        table class="arena-container"
-          - @arena.area.each_with_index do |row, y|
-            tr
-              - row.each_with_index do |cell, x|
-                - if cell == 'wall'
-                  td.wall
-                - else
-                  td.empty id="c_#{x}_#{y}"
+  - if @battle.finished?
+    = render 'finished'
 
-    .col-md-4
-      div class="btn-group mb-3" role="group" aria-label="Controls"
-        button type="button" class="btn btn-secondary" v-on:click="prevRound()" <
-        button type="button" class="btn btn-secondary" v-on:click="nowPlaying = !nowPlaying" {{ nowPlaying ? 'Pause' : 'Play' }}
-        button type="button" class="btn btn-secondary" v-on:click="nextRound()" >
+  - elsif @battle.running? || @battle.draft?
+    = render 'running'
 
-      table.table#sneks
-        tr
-          td Round
-          td
-          td.text-right
-            ' {{ currentRound }}
-        tr v-for="(snek, index) in rounds[currentRound].sneks"
-          / td
-          /   img src='{ gon.snek_parts[index].head }'
-          td
-            ' {{ sneks[snek.snek_id].name }}
-          td
-          td.text-right
-            ' {{ snek.position.length }}
+  - elsif @battle.failed?
+    = render 'failed'
 
 
-
-
-javascript:
-
-  window.showBattle(#{@arena.get_matrix.width});

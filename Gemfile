@@ -26,6 +26,7 @@ gem 'slim-rails'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'unicorn', '~> 4.9.0'
+gem 'sidekiq'
 
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -60,6 +61,7 @@ group :development do
   gem 'capistrano-rvm', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano3-unicorn', require: false
+  gem 'capistrano-sidekiq'
 end
 
 group :test do
