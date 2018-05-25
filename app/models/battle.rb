@@ -224,7 +224,10 @@ class Battle < ApplicationRecord
 
     end
 
-    # TODO Write statistics
+    # Write statistics. Leave default 0 for dead sneks
+    snek_positions.each do |snek_position|
+      SnekBattle.find_by(battle_id: id, snek_id: snek_position.snek.id).update score: snek_position.position.length
+    end
 
     # Finish the battle
     finish!

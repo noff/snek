@@ -20,6 +20,20 @@
       - else
         div = link_to 'Sign up to create your snek fighter', new_user_registration_path, class: 'btn btn-primary'
 
+      h2.mt-5 Most dangerous sneks
+      table.table
+        thead
+          th #
+          th Snek
+          th Fights
+          th Score
+        tbody
+          - @top_sneks.each_with_index do |snek, index|
+            tr
+              td = (index + 1)
+              td = snek[:snek].name
+              td = snek[:battles]
+              td = snek[:score]
 
 
     .col-md-4
@@ -34,6 +48,7 @@
 
       .card
         .card-body
+          h5.card-title Latest battles
           table.table
             thead
               tr

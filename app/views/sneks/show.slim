@@ -11,12 +11,13 @@
           tr
             th Fight date
             th Opponents
-            th Result
+            th Score
         tbody
-          tr
-            td
-            td
-            td
+          - @snek.snek_battles.order(id: :desc).limit(50).each do |snek_battle|
+            tr
+              td = snek_battle.created_at.to_formatted_s(:short)
+              td = snek_battle.battle.snek_battles.map { |sb| sb.snek.name }.join(', ')
+              td = snek_battle.score
     .col
 
       table.snek.mb-3
