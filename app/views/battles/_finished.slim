@@ -16,7 +16,7 @@
       button type="button" class="btn btn-secondary" v-on:click="nowPlaying = !nowPlaying" {{ nowPlaying ? 'Pause' : 'Play' }}
       button type="button" class="btn btn-secondary" v-on:click="nextRound()" >
 
-    table.table#sneks
+    table.table.mb-5#sneks
       tr
         td Round
         td
@@ -30,6 +30,9 @@
         td
         td.text-right
           ' {{ snek.position.length }}
+
+    h5.mb-3 Share this epic battle with friends!
+    div class="sharethis-inline-share-buttons"
 
 
 javascript:
