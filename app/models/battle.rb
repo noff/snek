@@ -100,9 +100,8 @@ class Battle < ApplicationRecord
                         snek_positions: snek_positions,
                         snek_position_index: snek_position_index,
                         snek_position: snek_position,
-                        target_cell: target_cell,
-                        move_direction: move_direction,
-                        current_arena: current_arena
+                        current_arena: current_arena,
+                        round_number: round_number
           raise NoMethodError
         end
 
@@ -154,7 +153,8 @@ class Battle < ApplicationRecord
                             snek_position: snek_position,
                             target_cell: target_cell,
                             move_direction: move_direction,
-                            current_arena: current_arena
+                            current_arena: current_arena,
+                            round_number: round_number
               raise NoMethodError
             end
 
