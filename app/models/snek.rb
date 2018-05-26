@@ -8,7 +8,7 @@ class Snek < ApplicationRecord
   validates :name,
             uniqueness:   { case_sensitive: false },
             presence:     true,
-            length:       { minimum: 5 }
+            length:       { minimum: 5, maximum: 30 }
   validates :user_id, presence: true
   validate :rules_must_be_correct
 
@@ -34,7 +34,7 @@ class Snek < ApplicationRecord
   # Get short name
   # @return String
   def short_name
-    name[0..10]
+    name.truncate(20)
   end
 
   # Returns path to assets of snek's style

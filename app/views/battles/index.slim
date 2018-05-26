@@ -15,8 +15,8 @@
             - if battle.finished?
               tr
                 td = link_to battle.id, battle
-                td = battle.snek.name
-                td = battle.snek_battles.map { |sb| sb.snek.name }.select { |n| n != battle.snek.name }.join(', ')
+                td = battle.snek.short_name
+                td = battle.snek_battles.map { |sb| sb.snek.short_name }.select { |n| n != battle.snek.short_name }.join(', ')
             - elsif battle.draft?
               tr class='table-secondary'
                 td = battle.id

@@ -31,7 +31,7 @@
           - @top_sneks.each_with_index do |snek, index|
             tr
               td = (index + 1)
-              td = snek[:snek].name
+              td = snek[:snek].short_name
               td = snek[:battles]
               td = snek[:score]
 
@@ -58,4 +58,4 @@
               - Battle.order(id: :desc).limit(10).each do |battle|
                 tr
                   td = link_to battle.id, battle
-                  td = battle.snek.name
+                  td = battle.snek.short_name
