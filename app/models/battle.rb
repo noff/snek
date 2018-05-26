@@ -101,7 +101,8 @@ class Battle < ApplicationRecord
                         snek_position_index: snek_position_index,
                         snek_position: snek_position,
                         current_arena: current_arena,
-                        round_number: round_number
+                        round_number: round_number,
+                        battle_id: id
           raise NoMethodError
         end
 
@@ -154,7 +155,8 @@ class Battle < ApplicationRecord
                             target_cell: target_cell,
                             move_direction: move_direction,
                             current_arena: current_arena,
-                            round_number: round_number
+                            round_number: round_number,
+                            battle_id: id
               raise NoMethodError
             end
 
@@ -164,6 +166,12 @@ class Battle < ApplicationRecord
               if snp.position.last[:x] == next_x && snp.position.last[:y] == next_y
                 snek_positions[snp_idx].position.pop
                 Rails.logger.warn "Eat !"
+
+                # Remove dead snek
+                if snek_positions[snp_idx].position.length < 2
+                  snek_positions.delete_at(snp_idx)
+                end
+
                 break
               end
             end
