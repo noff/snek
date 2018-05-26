@@ -1,0 +1,31 @@
+- content_for :title, "Latest battles"
+
+.container
+  .row
+    .col
+      h1 Latest battles
+      table.table
+        thead
+          tr
+            th Battle #
+            th Initiator
+            th Opponents
+        tbody
+          - Battle.order(id: :desc).each do |battle|
+            - if battle.finished?
+              tr
+                td = link_to battle.id, battle
+                td = battle.snek.name
+                td = battle.snek_battles.map { |sb| sb.snek.name }.select { |n| n != battle.snek.name }.join(', ')
+            - elsif battle.draft?
+              tr class='table-secondary'
+                td = battle.id
+                td colspan='2' Draft
+            - elsif battle.failed?
+              tr class='table-danger'
+                td = battle.id
+                td colspan='2' Failed
+            - elsif battle.running?
+              tr class='table-warning'
+                td = link_to battle.id, battle
+                td colspan='2' Running

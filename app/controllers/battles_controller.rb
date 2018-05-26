@@ -1,5 +1,8 @@
 class BattlesController < ApplicationController
 
+  def index
+  end
+
   def create
     @snek = current_user.sneks.find(params[:snek_id])
     battle = Battle.create!(initiator_snek_id: @snek.id)
