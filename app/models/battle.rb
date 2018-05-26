@@ -20,6 +20,23 @@ class Battle < ApplicationRecord
     event :fail do
       transitions from: :running, to: :failed, after: Proc.new { |*args| fail_battle(*args) }
     end
+    event :draft do
+      transitions from: :failed, to: :draft
+      transitions from: :running, to: :draft
+    end
+  end
+
+
+  # Restart failed battle
+  def restart!(sure = false)
+    if sure
+      battle_rounds.destroy_all
+      snek_battles.destroy_all
+      draft!
+      start!
+    else
+      Rails.logger.warn 'You are not sure to restart this battle'
+    end
   end
 
 
@@ -44,75 +61,17 @@ class Battle < ApplicationRecord
       snek_battles.create! snek_id: snek.id
     end
 
-    if snek_battles.count < 3
-      update! arena_id: 2
-    else
-      update! arena_id: 1
-    end
+    # Choose arena
+    update! arena_id: (snek_battles.count < 3 ? 2 : 1)
 
     # Create arena
     current_arena = arena.reload.get_matrix
 
     # Get array of all sneks and random sort it
     sneks = snek_battles.map(&:snek).shuffle
-    snek_positions = []
 
-
-    # Put sneks on the arena
-    # See README.md – default sneks position
-    if arena_id == 1
-      sneks.each_with_index do |snek, index|
-        position = []
-        case index
-        when 0 then
-          (0..9).each do |i|
-            position << { x: 13, y: (11 - i) }
-          end
-        when 1 then
-          (0..9).each do |i|
-            position << { x: (15 + i), y: 13 }
-          end
-        when 2 then
-          (0..9).each do |i|
-            position << { x: 13, y: (15 + i) }
-          end
-        when 3 then
-          (0..9).each do |i|
-            position << { x: (11 - i), y: 13 }
-          end
-        else
-          raise Exception, 'Wrong number of sneks – more than 4'
-        end
-
-        # Store to Position model
-        snek_position = SnekMath::Position.new(snek, position)
-        snek_positions << snek_position
-
-      end
-    elsif arena_id == 2
-      sneks.each_with_index do |snek, index|
-        position = []
-        case index
-        when 0 then
-          (0..9).each do |i|
-            position << { x: 2, y: (11 - i) }
-          end
-        when 1 then
-          (0..9).each do |i|
-            position << { x: 14, y: (5 + i) }
-          end
-        else
-          raise Exception, 'Wrong number of sneks – more than 4'
-        end
-
-        # Store to Position model
-        snek_position = SnekMath::Position.new(snek, position)
-        snek_positions << snek_position
-
-      end
-    else
-      raise Exception, 'Not supported arena ID'
-    end
+    # Put sneks on default positions
+    snek_positions = put_sneks_on_positions sneks, arena_id
 
     # Put on current_arena (my pointer)
     draw_sneks_on_arena(snek_positions, current_arena)
@@ -255,6 +214,77 @@ class Battle < ApplicationRecord
       snek_position.draw_on(current_arena)
     end
     nil
+  end
+
+
+  # Put sneks on default positions
+  # @param sneks [Array]
+  # @param arena_id [Fixnum]
+  # @return Array
+  def put_sneks_on_positions(sneks, arena_id)
+
+    snek_positions = []
+
+    # See README.md – default sneks position
+    if arena_id == 1
+      sneks.each_with_index do |snek, index|
+        position = []
+        case index
+        when 0 then
+          (0..9).each do |i|
+            position << { x: 13, y: (11 - i) }
+          end
+        when 1 then
+          (0..9).each do |i|
+            position << { x: (15 + i), y: 13 }
+          end
+        when 2 then
+          (0..9).each do |i|
+            position << { x: 13, y: (15 + i) }
+          end
+        when 3 then
+          (0..9).each do |i|
+            position << { x: (11 - i), y: 13 }
+          end
+        else
+          raise Exception, 'Wrong number of sneks – more than 4'
+        end
+
+        # Store to Position model
+        snek_position = SnekMath::Position.new(snek, position)
+        snek_positions << snek_position
+
+      end
+
+    elsif arena_id == 2
+
+      sneks.each_with_index do |snek, index|
+        position = []
+        case index
+        when 0 then
+          (0..9).each do |i|
+            position << { x: 2, y: (11 - i) }
+          end
+        when 1 then
+          (0..9).each do |i|
+            position << { x: 14, y: (5 + i) }
+          end
+        else
+          raise Exception, 'Wrong number of sneks – more than 4'
+        end
+
+        # Store to Position model
+        snek_position = SnekMath::Position.new(snek, position)
+        snek_positions << snek_position
+
+      end
+    else
+      raise Exception, 'Not supported arena ID'
+    end
+
+    # Return
+    snek_positions
+
   end
 
 
