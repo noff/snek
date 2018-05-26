@@ -33,4 +33,6 @@
 
 
 javascript:
-  window.showBattle(#{@arena.get_matrix.width});
+  if(typeof(window.showBattle) === 'function') {
+    window.showBattle(#{@arena.get_matrix.width});
+  }
