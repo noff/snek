@@ -92,7 +92,19 @@ class Battle < ApplicationRecord
       snek_positions.each_with_index do |snek_position, snek_position_index|
 
         # Get possible direction for the snek
-        move_direction = snek_position.get_next_move(current_arena)
+        # Try to catch https://rollbar.com/noff/snek/items/30/
+        begin
+          move_direction = snek_position.get_next_move(current_arena)
+        rescue NoMethodError
+          Rollbar.error NoMethodError, "undefined method `[]' for nil:NilClass",
+                        snek_positions: snek_positions,
+                        snek_position_index: snek_position_index,
+                        snek_position: snek_position,
+                        target_cell: target_cell,
+                        move_direction: move_direction,
+                        current_arena: current_arena
+          raise NoMethodError
+        end
 
         # Check can we move forward? If not, stay.
         # Do we eat something? If do, move with growth.
