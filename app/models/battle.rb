@@ -132,7 +132,19 @@ class Battle < ApplicationRecord
           if target_cell.split('-')[0] == 'tail' && target_cell != "tail-#{snek_position.snek.id}"
 
             # Eat and move
-            snek_positions[snek_position_index].move(move_direction, true)
+            # Try to catch https://rollbar.com/noff/snek/items/30/
+            begin
+              snek_positions[snek_position_index].move(move_direction, true)
+            rescue NoMethodError
+              Rollbar.error NoMethodError, "undefined method `[]' for nil:NilClass",
+                            snek_positions: snek_positions,
+                            snek_position_index: snek_position_index,
+                            snek_position: snek_position,
+                            target_cell: target_cell,
+                            move_direction: move_direction,
+                            current_arena: current_arena
+              raise NoMethodError
+            end
 
             # Find snek to reduce and reduce it
             snek_positions.each_with_index do |snp, snp_idx|
