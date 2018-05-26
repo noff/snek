@@ -7,7 +7,6 @@ class BattlesController < ApplicationController
     @snek = current_user.sneks.find(params[:snek_id])
     battle = Battle.create!(initiator_snek_id: @snek.id)
     PerformBattleJob.perform_later battle
-
     redirect_to battle
   end
 
