@@ -50,7 +50,7 @@ class Battle < ApplicationRecord
 
     # Find opponents
     sneks = Snek.for_autofight.where.not(id: initiator_snek_id).shuffle.take(3)
-    unless sneks.exists?
+    unless sneks.any?
       fail! 'Not enough opponents'
       return false
     end
