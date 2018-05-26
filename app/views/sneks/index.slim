@@ -21,6 +21,10 @@
               td = snek.snek_battles.count
               td = snek.snek_battles.map { |sb| sb.battle.snek_battles.order(score: :desc).first.snek_id }.select { |snek_id| snek_id == snek.id }.count
               td = snek.snek_battles.where(score: 0).count
-              td = snek.snek_battles.order(id: :desc).first.created_at.to_formatted_s(:short)
+              td
+                - if snek.snek_battles.exists?
+                  = snek.snek_battles.order(id: :desc).first.created_at.to_formatted_s(:short)
+                - else
+                  span N/A
       - else
         div = link_to 'Create snek', new_snek_path, class: 'btn btn-primary'
