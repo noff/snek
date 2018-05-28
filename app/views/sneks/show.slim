@@ -5,20 +5,8 @@
 
 
   .row
-    .col-md-9
-      table.table
-        thead
-          tr
-            th Fight date
-            th Opponents
-            th Score
-        tbody
-          - @snek.snek_battles.order(id: :desc).limit(50).each do |snek_battle|
-            tr
-              td = snek_battle.created_at.to_formatted_s(:short)
-              td = snek_battle.battle.snek_battles.map { |sb| sb.snek.name }.join(', ')
-              td = snek_battle.score
-    .col
+
+    .col-md-3.col-ms-4
 
       table.snek.mb-3
         tr
@@ -47,4 +35,20 @@
           = link_to 'Enable',  auto_fight_snek_path(@snek, mode: 'on'), class: 'btn btn-outline-secondary', method: :put
 
       - if Snek.for_autofight.count > 1
-        = link_to 'Fight!', battles_path(snek_id: @snek.id), method: :post, class: 'btn btn-danger'
+        div.mb-3 = link_to 'Fight!', battles_path(snek_id: @snek.id), method: :post, class: 'btn btn-danger'
+
+
+
+    .col-md-9.col-sm-8
+      table.table
+        thead
+          tr
+            th Fight date
+            th Opponents
+            th Score
+        tbody
+          - @snek.snek_battles.order(id: :desc).limit(50).each do |snek_battle|
+            tr
+              td = snek_battle.created_at.to_formatted_s(:short)
+              td = snek_battle.battle.snek_battles.map { |sb| sb.snek.name }.join(', ')
+              td = snek_battle.score

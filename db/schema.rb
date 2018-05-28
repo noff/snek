@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_22_193419) do
+ActiveRecord::Schema.define(version: 2018_05_28_131331) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,7 @@ ActiveRecord::Schema.define(version: 2018_05_22_193419) do
     t.jsonb "sneks"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["battle_id"], name: "index_battle_rounds_on_battle_id"
   end
 
   create_table "battles", force: :cascade do |t|
@@ -69,6 +70,7 @@ ActiveRecord::Schema.define(version: 2018_05_22_193419) do
     t.string "fail_reason"
     t.integer "initiator_snek_id"
     t.integer "arena_id", default: 1
+    t.index ["aasm_state"], name: "index_battles_on_aasm_state"
   end
 
   create_table "snek_battles", force: :cascade do |t|
@@ -77,6 +79,8 @@ ActiveRecord::Schema.define(version: 2018_05_22_193419) do
     t.integer "score", default: 0
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["battle_id"], name: "index_snek_battles_on_battle_id"
+    t.index ["snek_id"], name: "index_snek_battles_on_snek_id"
   end
 
   create_table "sneks", force: :cascade do |t|

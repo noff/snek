@@ -65,7 +65,7 @@ class Battle < ApplicationRecord
     update! arena_id: (snek_battles.count < 3 ? 2 : 1)
 
     # Create arena
-    current_arena = arena.reload.get_matrix
+    current_arena = arena.get_matrix
 
     # Get array of all sneks and random sort it
     sneks = snek_battles.map(&:snek).shuffle
@@ -188,7 +188,7 @@ class Battle < ApplicationRecord
         any_snek_moved = true
 
         # Draw new arena after each move to reflect actual situation
-        current_arena = arena.reload.get_matrix
+        current_arena = arena.get_matrix
         draw_sneks_on_arena(snek_positions, current_arena)
 
       end

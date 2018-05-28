@@ -56,9 +56,15 @@ javascript:
               return classes;
           },
 
-          cellClassByTools: function() {
-              var classes = 'r-pattern-cell__' + this.currentTool;
-              switch (this.currentLogic) {
+          cellClassByTools: function(tool, logic) {
+              if(!tool) {
+                  tool = this.currentTool;
+              }
+              if(!logic) {
+                  logic = this.currentLogic;
+              }
+              var classes = 'r-pattern-cell__' + tool;
+              switch (logic) {
                   case 'or':
                       classes += ' r-pattern-cell__or';
                       break;
@@ -81,7 +87,7 @@ javascript:
                                       this.rules[data.pattern][i][j][0] = 'default';
                                       this.rules[data.pattern][i][j][1] = 'and';
                                       $('#c_' + data.pattern + '_' + i + '_' + j).removeClass();
-                                      $('#c_' + data.pattern + '_' + i + '_' + j).addClass( this.cellClassByTools() );
+                                      $('#c_' + data.pattern + '_' + i + '_' + j).addClass( this.cellClassByTools('default', 'and') );
                                       break;
                                   }
                               }
