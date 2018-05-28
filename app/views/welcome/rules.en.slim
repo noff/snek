@@ -1,0 +1,32 @@
+.container
+  .row
+    .col
+      h1 Rules
+
+      p In this game, you have to create Snek more clever than opponents. According to "program" Snek will eat opponents on a battle arena.
+      p At the beginning of a game you have to create Snek, choose its name and color and program its behavior. Then you enable auto fight mode and run battle.
+
+      h2 Fight principles
+
+      p Two to four sneks take part in a battle. They crawl on an arena's cells according to "program", analyze surrounding area and try to catch opponents by the tail. If Snek grabs opponent's tail, it grows by one cell and opponent shortens by one cell.
+      p Snek can't move if all surrounding cells filled with its body, enemy's head or body or wall.
+
+      p Battle finishes any of these events happen:
+      ol
+        li Finished 1000 rounds.
+        li Only one Snek is alive.
+        li All sneks got stuck and can't move. Battle finishes any of these events happen:
+
+      h2 Behavior programming
+
+      p You can program Snek's behavior using rules patterns 7x7 cells size. Each moment Snek observes 7x7 cells of an arena around its head and compares it with the first rules pattern, rotating it if needed.
+      p A pattern is equal to an arena's fragment if all non-empty cells of a pattern are equal to the observable area.
+      p In this case head direction of the matched pattern shows where Snek will move in a current round. If not, a program compares a fragment with the next  pattern until match found. If no matches found, Snek moves to the random direction.
+
+      h2 Logic operations
+
+      p A pattern is considered matched if all non-empty cells are matched to observable arena fragment.
+      p In addition, there are two more cell matching modes: optional and exclusion.
+      p If a pattern contains more than one cells in OPTIONAL mode, the pattern is matched if only at least one of OPTIONAL cells of the same type are matched. If several pattern rotations matched, the program selects the pattern rotation which contains more matched optional cells.
+      p If a pattern contains cell in MUST NOT mode, cell considered matched if a cell from an arena is not equal to the cell of the pattern with the same coordinates.
+
