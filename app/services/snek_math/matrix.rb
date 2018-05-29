@@ -128,6 +128,18 @@ module SnekMath
       new_matrix
     end
 
+    # Mirrors matrix horizontal
+    def flip_horizontal!
+      new_matrix = SnekMath::Matrix.new(width, height, nil)
+      new_matrix.area.each_with_index do |row, y|
+        row.each_with_index do |cell, x|
+          new_matrix.set(width - x - 1, y, get(x, y))
+        end
+      end
+      @area = new_matrix.area
+      nil
+    end
+
     # TODO
     def add_column
       raise NotImplementedError

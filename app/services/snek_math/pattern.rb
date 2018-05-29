@@ -45,6 +45,11 @@ module SnekMath
       @matrix = @source_matrix.dup
     end
 
+    # Mirror matrix horizontal
+    def flip_horizontal!
+      @matrix.flip_horizontal!
+    end
+
     # Rotate matrix
     # @param direction [String] N, W, S, E. Doesn't do anything for N
     def rotate!(direction)

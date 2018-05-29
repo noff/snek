@@ -40,117 +40,124 @@ module SnekMath
         Rails.logger.debug pattern_matrix.matrix.to_str
         Rails.logger.debug '=== /Pattern Matrix ==='
 
-        # Possible directions for current head direction
-        current_possible_directions = possible_directions
+        # Also mirror pattern
+        [false, true].each do |do_mirror|
 
-        while test_direction = current_possible_directions.pop
+          pattern_matrix.flip_horizontal! if do_mirror
 
-          Rails.logger.debug "get_next_move: Rotate matrix ##{pattern_index} to #{test_direction}"
+          # Possible directions for current head direction
+          current_possible_directions = possible_directions
 
-          # Rotate pattern to snek's head direction
-          pattern_matrix.rotate! test_direction
+          while test_direction = current_possible_directions.pop
 
-          Rails.logger.debug "=== Rotated matrix ==="
-          Rails.logger.debug pattern_matrix.matrix.to_str
-          Rails.logger.debug "=== /Rotated matrix ==="
+            Rails.logger.debug "get_next_move: Rotate matrix ##{pattern_index} to #{test_direction}. Flip: #{do_mirror}"
 
-          # Get cut coords
-          snek_head_coords_in_pattern = pattern_matrix.get_my_head_coords
-          x1 = current_head_coordinates[:x] - snek_head_coords_in_pattern[:x]
-          y1 = current_head_coordinates[:y] - snek_head_coords_in_pattern[:y]
-          x2 = x1 + pattern_matrix.matrix.width - 1
-          y2 = y1 + pattern_matrix.matrix.height - 1
+            # Rotate pattern to snek's head direction
+            pattern_matrix.rotate! test_direction
 
-          # Cut area around snek's head
-          observable_area = arena.get_rect(x1, y1, x2, y2, 'wall')
+            Rails.logger.debug "=== Rotated matrix ==="
+            Rails.logger.debug pattern_matrix.matrix.to_str
+            Rails.logger.debug "=== /Rotated matrix ==="
 
-          Rails.logger.debug "=== Observable area ==="
-          Rails.logger.debug observable_area.to_str
-          Rails.logger.debug "=== /Observable area ==="
+            # Get cut coords
+            snek_head_coords_in_pattern = pattern_matrix.get_my_head_coords
+            x1 = current_head_coordinates[:x] - snek_head_coords_in_pattern[:x]
+            y1 = current_head_coordinates[:y] - snek_head_coords_in_pattern[:y]
+            x2 = x1 + pattern_matrix.matrix.width - 1
+            y2 = y1 + pattern_matrix.matrix.height - 1
 
-          # Check pattern matches to the current situation
-          # How it works:
-          # We check cell is (not) equal to AND or NOT pattern cell. If not - raise error and rotate pattern (or move to the next pattern)
-          # We check OR cell has at least one match for each group of same cells. If AND or NOT matching didn't raise error, we check OR matching.
-          # If OR matching failed, rotate pattern or go to the next pattern
-          optional_matches = {}
-          begin
-            observable_area.area.each_with_index do |row, y|
-              row.each_with_index do |cell, x|
+            # Cut area around snek's head
+            observable_area = arena.get_rect(x1, y1, x2, y2, 'wall')
 
-                # Get cell
-                pattern_cell = pattern_matrix.matrix.get(x, y)
+            Rails.logger.debug "=== Observable area ==="
+            Rails.logger.debug observable_area.to_str
+            Rails.logger.debug "=== /Observable area ==="
 
-                # Save all optional groups to this hash. Later all values must be true
-                optional_matches[pattern_cell[0]] = false if pattern_cell[1] == 'or' and !optional_matches.key?(pattern_cell[0])
+            # Check pattern matches to the current situation
+            # How it works:
+            # We check cell is (not) equal to AND or NOT pattern cell. If not - raise error and rotate pattern (or move to the next pattern)
+            # We check OR cell has at least one match for each group of same cells. If AND or NOT matching didn't raise error, we check OR matching.
+            # If OR matching failed, rotate pattern or go to the next pattern
+            optional_matches = {}
+            begin
+              observable_area.area.each_with_index do |row, y|
+                row.each_with_index do |cell, x|
 
-                # Skip if pattern_cell is default
-                next if pattern_cell[0] == 'default'
+                  # Get cell
+                  pattern_cell = pattern_matrix.matrix.get(x, y)
 
-                case cell
-                when 'empty', 'wall'
-                  Rails.logger.debug "get_next_move: check cell (#{x}, #{y}). Cell: #{cell}. Pattern cell: #{pattern_cell.inspect}"
-                  case pattern_cell[1]
-                  when 'or'
-                    optional_matches[pattern_cell[0]] = true if pattern_cell[0] == cell
-                  when 'not'
-                    raise NotMatchedPattern if pattern_cell[0] == cell
-                  when 'and'
-                    raise NotMatchedPattern unless pattern_cell[0] == cell
-                  else
-                    Rails.logger.debug "get_next_move: Incorrect logic: #{pattern_cell[1]}"
-                    raise Exception, "Incorrect logic: #{pattern_cell[1]}"
-                  end
-                else
-                  # Sneks bodies, heads and tails
-                  parts = cell.split('-')
-                  raise Exception, "Not supported cell value: #{cell}" unless parts.length == 2
-                  raise Exception, "Not supported cell value: #{cell}" unless %w[head body tail].include?(parts[0])
-                  if parts[1].to_i == @snek.id
-                    # My parts
-                    Rails.logger.debug "get_next_move: check cell (#{x}, #{y}). Cell: #{parts.inspect}. Pattern cell: #{pattern_cell.inspect}"
+                  # Save all optional groups to this hash. Later all values must be true
+                  optional_matches[pattern_cell[0]] = false if pattern_cell[1] == 'or' and !optional_matches.key?(pattern_cell[0])
+
+                  # Skip if pattern_cell is default
+                  next if pattern_cell[0] == 'default'
+
+                  case cell
+                  when 'empty', 'wall'
+                    Rails.logger.debug "get_next_move: check cell (#{x}, #{y}). Cell: #{cell}. Pattern cell: #{pattern_cell.inspect}"
                     case pattern_cell[1]
                     when 'or'
-                      optional_matches[pattern_cell[0]] = true if pattern_cell[0] == "my_#{parts[0]}"
+                      optional_matches[pattern_cell[0]] = true if pattern_cell[0] == cell
                     when 'not'
-                      raise NotMatchedPattern if pattern_cell[0] == "my_#{parts[0]}"
+                      raise NotMatchedPattern if pattern_cell[0] == cell
                     when 'and'
-                      raise NotMatchedPattern unless pattern_cell[0] == "my_#{parts[0]}"
+                      raise NotMatchedPattern unless pattern_cell[0] == cell
                     else
+                      Rails.logger.debug "get_next_move: Incorrect logic: #{pattern_cell[1]}"
                       raise Exception, "Incorrect logic: #{pattern_cell[1]}"
                     end
                   else
-                    # Enemy parts
-                    Rails.logger.debug "get_next_move: check cell (#{x}, #{y}). Cell: #{parts.inspect}. Pattern cell: #{pattern_cell.inspect}"
-                    case pattern_cell[1]
-                    when 'or'
-                      optional_matches[pattern_cell[0]] = true if pattern_cell[0] == "enemy_#{parts[0]}"
-                      # if test_direction == 'E' && pattern_index == 0
-                      #   raise optional_matches.inspect
-                      # end
-                    when 'not'
-                      raise NotMatchedPattern if pattern_cell[0] == "enemy_#{parts[0]}"
-                    when 'and'
-                      raise NotMatchedPattern unless pattern_cell[0] == "enemy_#{parts[0]}"
+                    # Sneks bodies, heads and tails
+                    parts = cell.split('-')
+                    raise Exception, "Not supported cell value: #{cell}" unless parts.length == 2
+                    raise Exception, "Not supported cell value: #{cell}" unless %w[head body tail].include?(parts[0])
+                    if parts[1].to_i == @snek.id
+                      # My parts
+                      Rails.logger.debug "get_next_move: check cell (#{x}, #{y}). Cell: #{parts.inspect}. Pattern cell: #{pattern_cell.inspect}"
+                      case pattern_cell[1]
+                      when 'or'
+                        optional_matches[pattern_cell[0]] = true if pattern_cell[0] == "my_#{parts[0]}"
+                      when 'not'
+                        raise NotMatchedPattern if pattern_cell[0] == "my_#{parts[0]}"
+                      when 'and'
+                        raise NotMatchedPattern unless pattern_cell[0] == "my_#{parts[0]}"
+                      else
+                        raise Exception, "Incorrect logic: #{pattern_cell[1]}"
+                      end
                     else
-                      raise Exception, "Incorrect logic: #{pattern_cell[1]}"
+                      # Enemy parts
+                      Rails.logger.debug "get_next_move: check cell (#{x}, #{y}). Cell: #{parts.inspect}. Pattern cell: #{pattern_cell.inspect}"
+                      case pattern_cell[1]
+                      when 'or'
+                        optional_matches[pattern_cell[0]] = true if pattern_cell[0] == "enemy_#{parts[0]}"
+                        # if test_direction == 'E' && pattern_index == 0
+                        #   raise optional_matches.inspect
+                        # end
+                      when 'not'
+                        raise NotMatchedPattern if pattern_cell[0] == "enemy_#{parts[0]}"
+                      when 'and'
+                        raise NotMatchedPattern unless pattern_cell[0] == "enemy_#{parts[0]}"
+                      else
+                        raise Exception, "Incorrect logic: #{pattern_cell[1]}"
+                      end
                     end
                   end
                 end
               end
+            rescue NotMatchedPattern
+              Rails.logger.debug 'get_next_move: cell is not match'
+              # Pattern in this direction doesn't match, go to the next direction
+              next
             end
-          rescue NotMatchedPattern
-            Rails.logger.debug 'get_next_move: cell is not match'
-            # Pattern in this direction doesn't match, go to the next direction
-            next
-          end
 
-          Rails.logger.debug "get_next_move: Pattern ##{pattern_index} to direction #{test_direction}. Optional cells: #{optional_matches.inspect}"
+            Rails.logger.debug "get_next_move: Pattern ##{pattern_index} to direction #{test_direction}. Optional cells: #{optional_matches.inspect}"
 
-          # If pattern matched, return it
-          if optional_matches.empty? || optional_matches.values.uniq == [true]
-            Rails.logger.info "get_next_move: Matched pattern ##{pattern_index} of snek #{@snek.id} to direction #{test_direction}"
-            return test_direction
+            # If pattern matched, return it
+            if optional_matches.empty? || optional_matches.values.uniq == [true]
+              Rails.logger.info "get_next_move: Matched pattern ##{pattern_index} of snek #{@snek.id} to direction #{test_direction}"
+              return test_direction
+            end
+
           end
 
         end
