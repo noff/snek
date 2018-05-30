@@ -40,7 +40,22 @@
         - if current_user.crowns > 0
           div.mb-3 = link_to 'Battle Royale 👑', battles_path(snek_id: @snek.id, mode: BattleMode::BATTLE_ROYALE), method: :post, class: 'btn btn-outline-primary btn-block'
         - else
-          p Not enough crowns for battle royale :(. Win a duel or standard snekocide to earn a crown.
+
+          div.mb-3
+            button type="button" class="btn  btn-outline-primary btn-block" data-toggle="modal" data-target="#noCrown" Battle Royale 👑
+
+          div class="modal fade" id="noCrown" tabindex="-1" role="dialog" aria-labelledby="noCrown" aria-hidden="true"
+            div class="modal-dialog" role="document"
+              div class="modal-content"
+                / div class="modal-header"
+                /   h5 class="modal-title" id="exampleModalLabel" No crown :(
+                /   button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                /     span aria-hidden="true" &times;
+                div class="modal-body"
+                  div.mb-3 = image_tag 'no_crown.jpg', class: 'img-fluid'
+                  p Not enough crowns for battle royale :(. Win a duel or standard snekocide to earn a crown.
+                div class="modal-footer"
+                  button type="button" class="btn btn-secondary" data-dismiss="modal" Okay
 
 
 
