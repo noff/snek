@@ -80,8 +80,8 @@ window.showBattle = function(arena_width) {
             },
 
             stop: function() {
-                if(_this.playInterval ) {
-                    clearInterval(_this.playInterval);
+                if(this.playInterval ) {
+                    clearInterval(this.playInterval);
                 }
             },
 
