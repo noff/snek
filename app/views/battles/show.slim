@@ -1,9 +1,9 @@
-- content_for :title, "Battle ##{@battle.id}: #{@battle.snek_battles.map { |sb| sb.snek.name }.join(', ')}"
+- content_for :title, "#{battle_name(@battle)}: #{@battle.snek_battles.map { |sb| sb.snek.name }.join(', ')}"
 
 .container
   .row
     .col
-      h1 Battle ##{@battle.id}
+      h1 = battle_name(@battle)
 
   - if @battle.finished?
     = render 'finished'
