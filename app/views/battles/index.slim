@@ -14,18 +14,30 @@
           - Battle.order(id: :desc).each do |battle|
             - if battle.finished?
               tr
-                td = link_to battle.id, battle
+                td
+                  = link_to battle.id, battle
+                  - if battle.mode == BattleMode::BATTLE_ROYALE
+                    '  👑
                 td = battle.snek.short_name
                 td = battle.snek_battles.map { |sb| sb.snek.short_name }.select { |n| n != battle.snek.short_name }.join(', ')
             - elsif battle.draft?
               tr class='table-secondary'
-                td = battle.id
+                td
+                  = battle.id
+                  - if battle.mode == BattleMode::BATTLE_ROYALE
+                    '  👑
                 td colspan='2' Draft
             - elsif battle.failed?
               tr class='table-danger'
-                td = battle.id
+                td
+                  = battle.id
+                  - if battle.mode == BattleMode::BATTLE_ROYALE
+                    '  👑
                 td colspan='2' Failed
             - elsif battle.running?
               tr class='table-warning'
-                td = link_to battle.id, battle
+                td
+                  = link_to battle.id, battle
+                  - if battle.mode == BattleMode::BATTLE_ROYALE
+                    '  👑
                 td colspan='2' Running

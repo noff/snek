@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_28_131331) do
+ActiveRecord::Schema.define(version: 2018_05_30_054054) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(version: 2018_05_28_131331) do
     t.string "fail_reason"
     t.integer "initiator_snek_id"
     t.integer "arena_id", default: 1
+    t.integer "mode", default: 0
     t.index ["aasm_state"], name: "index_battles_on_aasm_state"
   end
 
@@ -108,6 +109,7 @@ ActiveRecord::Schema.define(version: 2018_05_28_131331) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "crowns", default: 0
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

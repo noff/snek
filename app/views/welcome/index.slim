@@ -57,5 +57,8 @@
             tbody
               - Battle.order(id: :desc).limit(10).each do |battle|
                 tr
-                  td = link_to battle.id, battle
+                  td
+                    = link_to battle.id, battle
+                    - if battle.mode == BattleMode::BATTLE_ROYALE
+                      '  👑
                   td = battle.snek.short_name

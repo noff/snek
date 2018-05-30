@@ -73,4 +73,11 @@ namespace :deploy do
     end
   end
 
+  desc "reload the database with seed data"
+  task :seed do
+    on roles(:app), in: :sequence, wait: 5 do
+      execute "cd #{current_path}; ~/.rvm/bin/rvm default do bundle exec rake db:seed RAILS_ENV=#{fetch :rails_env}"
+    end
+  end
+
 end

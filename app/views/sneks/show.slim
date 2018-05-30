@@ -20,7 +20,7 @@
           td
             img src="#{@snek.style_asset_urls[:head]}" class='cell-right'
 
-      .mb-3 = link_to 'Rules editor', rules_snek_path(@snek), class: 'btn btn-primary'
+      .mb-3 = link_to 'Rules editor', rules_snek_path(@snek), class: 'btn btn-primary btn-block'
       / TODO
       / .mb-3 = link_to 'Style editor', style_snek_path(@snek), class: 'btn btn-primary'
 
@@ -35,7 +35,12 @@
           = link_to 'Enable',  auto_fight_snek_path(@snek, mode: 'on'), class: 'btn btn-outline-secondary', method: :put
 
       - if Snek.for_autofight.count > 1
-        div.mb-3 = link_to 'Fight!', battles_path(snek_id: @snek.id), method: :post, class: 'btn btn-danger'
+        div.mb-3 = link_to 'Duel', battles_path(snek_id: @snek.id, mode: BattleMode::DUEL), method: :post, class: 'btn btn-outline-primary btn-block'
+        div.mb-3 = link_to 'Standard snekocide', battles_path(snek_id: @snek.id, mode: BattleMode::DEFAULT), method: :post, class: 'btn btn-outline-primary btn-block'
+        - if current_user.crowns > 0
+          div.mb-3 = link_to 'Battle Royale 👑', battles_path(snek_id: @snek.id, mode: BattleMode::BATTLE_ROYALE), method: :post, class: 'btn btn-outline-primary btn-block'
+        - else
+          p Not enough crowns for battle royale :(. Win a duel or standard snekocide to earn a crown.
 
 
 
@@ -43,12 +48,17 @@
       table.table
         thead
           tr
+            th #
             th Fight date
             th Opponents
             th Score
         tbody
           - @snek.snek_battles.order(id: :desc).limit(50).each do |snek_battle|
             tr
+              td
+                = link_to snek_battle.battle.id, snek_battle.battle
+                - if snek_battle.battle.mode == BattleMode::BATTLE_ROYALE
+                  '  👑
               td = snek_battle.created_at.to_formatted_s(:short)
               td = snek_battle.battle.snek_battles.map { |sb| sb.snek.name }.join(', ')
               td = snek_battle.score

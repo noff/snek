@@ -48,8 +48,20 @@ class Battle < ApplicationRecord
     # Start battle
     run!
 
+    case mode
+    when BattleMode::DEFAULT
+      sneks = Snek.for_autofight.where.not(id: initiator_snek_id).shuffle.take(3)
+      if sneks.count < 3
+        sneks = sneks.take(1)
+        update! mode: BattleMode::DUEL
+      end
+    when BattleMode::DUEL
+      sneks = Snek.for_autofight.where.not(id: initiator_snek_id).shuffle.take(1)
+    when BattleMode::BATTLE_ROYALE
+      sneks = Snek.for_autofight.where.not(id: initiator_snek_id).shuffle.take(8)
+    end
+
     # Find opponents
-    sneks = Snek.for_autofight.where.not(id: initiator_snek_id).shuffle.take(3)
     unless sneks.any?
       fail! 'Not enough opponents'
       return false
@@ -62,7 +74,7 @@ class Battle < ApplicationRecord
     end
 
     # Choose arena
-    update! arena_id: (snek_battles.count < 3 ? 2 : 1)
+    update! arena_id: (mode == BattleMode::DUEL ? 2 : 1)
 
     # Create arena
     current_arena = arena.get_matrix
@@ -199,8 +211,9 @@ class Battle < ApplicationRecord
       # Dump arena snapshot and sneks positions to DB
       battle_rounds.create!( round_number: round_number, arena: current_arena.area, sneks: snek_positions.map { |p| {snek_id: p.snek.id, position: p.position } } )
 
-      # If no alive sneks except one, finish battle
+      # If no alive sneks except one, finish battle and give a crown
       if snek_positions.count == 1
+        snek_positions.first.snek.user.increment!(:crowns)
         Rails.logger.debug "Battle finished!"
         break
       end
@@ -258,7 +271,13 @@ class Battle < ApplicationRecord
     snek_positions = []
 
     # See README.md – default sneks position
-    if arena_id == 1
+
+    case mode
+
+    when BattleMode::DEFAULT
+
+      raise(Exception, 'Incorrect area for default battle mode') if arena_id != 1
+
       sneks.each_with_index do |snek, index|
         position = []
         case index
@@ -288,7 +307,9 @@ class Battle < ApplicationRecord
 
       end
 
-    elsif arena_id == 2
+    when BattleMode::DUEL
+
+      raise(Exception, 'Incorrect area for duel battle mode') if arena_id != 2
 
       sneks.each_with_index do |snek, index|
         position = []
@@ -310,9 +331,64 @@ class Battle < ApplicationRecord
         snek_positions << snek_position
 
       end
+
+    when BattleMode::BATTLE_ROYALE
+
+      raise(Exception, 'Incorrect area for battle royale mode') if arena_id != 1
+
+      sneks.each_with_index do |snek, index|
+        position = []
+        case index
+        when 0 then
+          (0..9).each do |i|
+            position << { x: 3, y: (11 - i) }
+          end
+        when 1 then
+          (0..9).each do |i|
+            position << { x: 5, y: (15 + i) }
+          end
+        when 2 then
+          (0..9).each do |i|
+            position << { x: 8, y: (11 - i) }
+          end
+        when 3 then
+          (0..9).each do |i|
+            position << { x: 10, y: (15 + i) }
+          end
+        when 4 then
+          (0..9).each do |i|
+            position << { x: 13, y: (11 - i) }
+          end
+        when 5 then
+          (0..9).each do |i|
+            position << { x: 16, y: (15 + i) }
+          end
+        when 6 then
+          (0..9).each do |i|
+            position << { x: 18, y: (11 - i) }
+          end
+        when 7 then
+          (0..9).each do |i|
+            position << { x: 21, y: (15 + i) }
+          end
+        when 8 then
+          (0..9).each do |i|
+            position << { x: 23, y: (11 - i) }
+          end
+        else
+          raise Exception, 'Wrong number of sneks – more than 4'
+        end
+
+        # Store to Position model
+        snek_position = SnekMath::Position.new(snek, position)
+        snek_positions << snek_position
+
+      end
+
     else
-      raise Exception, 'Not supported arena ID'
+      raise Exception, 'Not supported battle mode'
     end
+
 
     # Return
     snek_positions

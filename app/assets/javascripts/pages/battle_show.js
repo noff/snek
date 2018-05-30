@@ -45,14 +45,43 @@ window.showBattle = function(arena_width) {
             },
 
             nextRound: function(){
+                this.stop();
                 if(this.currentRound < (this.totalRounds - 1) ) {
                     this.currentRound++;
                 }
             },
 
             prevRound: function() {
+                this.stop();
                 if(this.currentRound > 0) {
                     this.currentRound--;
+                }
+            },
+
+            gotoBeginning: function(){
+                this.stop();
+                this.currentRound = 0;
+            },
+
+            gotoEnd: function(){
+                this.stop();
+                this.currentRound = this.rounds.length - 1;
+            },
+
+            play: function() {
+                _this = this;
+                _this.playInterval = setInterval(function(){
+                    if(_this.currentRound < (_this.totalRounds - 1) ) {
+                        _this.currentRound++;
+                    } else {
+                        _this.nowPlaying = false;
+                    }
+                }, 100);
+            },
+
+            stop: function() {
+                if(_this.playInterval ) {
+                    clearInterval(_this.playInterval);
                 }
             },
 
@@ -169,18 +198,9 @@ window.showBattle = function(arena_width) {
 
             nowPlaying: function(value) {
                 if(value) {
-                    _this = this;
-                    _this.playInterval = setInterval(function(){
-                        if(_this.currentRound < (_this.totalRounds - 1) ) {
-                            _this.currentRound++;
-                        } else {
-                            _this.nowPlaying = false;
-                        }
-                    }, 100);
+                    this.play();
                 } else {
-                    if(_this.playInterval ) {
-                        clearInterval(_this.playInterval);
-                    }
+                    this.stop();
                 }
             }
         }

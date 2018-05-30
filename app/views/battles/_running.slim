@@ -1,6 +1,10 @@
 .row
   .col
-    p Battle is calculating. Please, wait few seconds.
+    - if @battle.mode == BattleMode::BATTLE_ROYALE
+      p Battle is calculating. Please, wait about 1 minute. It's Battle Royale. You don't need to hurry.
+    - else
+      p Battle is calculating. Please, wait 15 seconds.
+
 
 javascript:
   setTimeout(function(){ window.location.reload() }, 5000);
