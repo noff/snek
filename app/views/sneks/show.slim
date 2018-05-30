@@ -47,10 +47,6 @@
           div class="modal fade" id="noCrown" tabindex="-1" role="dialog" aria-labelledby="noCrown" aria-hidden="true"
             div class="modal-dialog" role="document"
               div class="modal-content"
-                / div class="modal-header"
-                /   h5 class="modal-title" id="exampleModalLabel" No crown :(
-                /   button type="button" class="close" data-dismiss="modal" aria-label="Close"
-                /     span aria-hidden="true" &times;
                 div class="modal-body"
                   div.mb-3 = image_tag 'no_crown.jpg', class: 'img-fluid'
                   p Not enough crowns for battle royale :(. Win a duel or standard snekocide to earn a crown.
@@ -75,5 +71,5 @@
                 - if snek_battle.battle.mode == BattleMode::BATTLE_ROYALE
                   '  👑
               td = snek_battle.created_at.to_formatted_s(:short)
-              td = snek_battle.battle.snek_battles.map { |sb| sb.snek.name }.join(', ')
+              td = snek_battle.battle.snek_battles.map { |sb| sb.snek.short_name }.join(', ')
               td = snek_battle.score

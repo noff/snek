@@ -34,7 +34,7 @@ class Snek < ApplicationRecord
   # Get short name
   # @return String
   def short_name
-    name.truncate(20)
+    name.truncate(15)
   end
 
   # Returns path to assets of snek's style
