@@ -32,4 +32,13 @@ class BattlesController < ApplicationController
     end
   end
 
+  def image
+    @battle = Battle.find params[:id]
+    send_data BattleImage.new(@battle).for_facebook,
+              type: 'image/png',
+              disposition: 'inline',
+              quality: 90,
+              filename: "battle-#{@battle.id}.png"
+  end
+
 end

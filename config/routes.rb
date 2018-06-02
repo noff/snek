@@ -13,6 +13,9 @@ Rails.application.routes.draw do
   end
 
   resources :battles, only: [:create, :show, :index] do
+    member do
+      get :image, defaults: { format: 'png' }
+    end
   end
 
   get 'welcome/rules'

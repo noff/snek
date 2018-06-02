@@ -27,6 +27,7 @@ gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 gem 'unicorn', '~> 4.9.0'
 gem 'sidekiq'
+gem 'rmagick'
 
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
