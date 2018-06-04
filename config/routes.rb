@@ -18,6 +18,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get 'feeds/yandex', defaults: { format: 'xml' }
+
   get 'welcome/rules'
   get 'welcome/long'
 
