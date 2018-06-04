@@ -33,9 +33,13 @@
         td.text-right
           ' {{ snek.position.length }}
 
+    - unless signed_in?
+      h5.mb-3 Still don't have Snek? Create your first!
+      p.mb-5 = link_to 'Sign up', new_user_registration_path, class: 'btn btn-primary btn-block'
 
     h5.mb-3 Share this epic battle with friends!
-    div class="sharethis-inline-share-buttons"
+    div.mb-5 class="sharethis-inline-share-buttons"
+
 
 
 javascript:
