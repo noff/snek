@@ -16,3 +16,8 @@
           = f.button :submit, "Sign up", class: 'btn btn-primary'
 
       = render "devise/shared/links"
+
+
+- if Rails.env.production?
+  javascript:
+      r46('track', 'cart', '1');

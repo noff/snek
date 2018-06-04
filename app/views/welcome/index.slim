@@ -62,3 +62,8 @@
                     - if battle.mode == BattleMode::BATTLE_ROYALE
                       '  👑
                   td = battle.snek.short_name
+
+
+- if Rails.env.production?
+  javascript:
+    r46('track', 'view', '1');

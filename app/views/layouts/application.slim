@@ -21,6 +21,10 @@ html
         gtag('js', new Date());
         gtag('config', 'UA-4022494-25');
 
+      javascript:
+        (function(r){window.r46=window.r46||function(){(r46.q=r46.q||[]).push(arguments)};var s=document.getElementsByTagName(r)[0],rs=document.createElement(r);rs.async=1;rs.src='//cdn.rees46.com/v3.js';s.parentNode.insertBefore(rs,s);})('script');
+        r46('init', 'e1296ff6f6c3a6076c18063c289311');
+
 
 
     - if Rails.env.production?
@@ -61,3 +65,10 @@ html
             .alert.alert-danger = alert
     .mb-3
     = yield
+
+
+
+- if flash[:just_signed_up]
+  - if Rails.env.production?
+    javascript:
+      r46('track', 'purchase', { products: [ {id: '1', price: 1, amount: 1}]});
