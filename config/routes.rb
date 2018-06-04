@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   end
 
   get 'welcome/rules'
+  get 'welcome/long'
 
   root 'welcome#index'
 end

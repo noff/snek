@@ -82,6 +82,7 @@ window.showBattle = function(arena_width) {
             stop: function() {
                 if(this.playInterval ) {
                     clearInterval(this.playInterval);
+                    _this.nowPlaying = false;
                 }
             },
 
