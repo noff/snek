@@ -61,6 +61,14 @@ class Snek < ApplicationRecord
   end
 
 
+  # Check number of currently processing battles for Snek
+  # Snek can't run more than 3 simultaneously battles
+  # @return Boolean
+  def too_much_battles?
+    current_battles_count >= 3
+  end
+
+
   private
 
   # Empty rules template - single pattern

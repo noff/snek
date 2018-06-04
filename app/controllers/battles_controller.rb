@@ -5,21 +5,30 @@ class BattlesController < ApplicationController
   def create
     @snek = current_user.sneks.find(params[:snek_id])
 
-    # Don't allow to run battle royale without crowns
-    mode = params[:mode].to_i
-    mode = BattleMode::ALL.include?(mode) ? mode : BattleMode::DEFAULT
-    if mode == BattleMode::BATTLE_ROYALE && current_user.crowns < 1
-      mode = BattleMode::DEFAULT
+    if @snek.too_much_battles?
+
+      redirect_to @snek, alert: "You are running #{@snek.current_battles_count} battles simultaneously. You can run new battles after these battles finish. Please, wait few minutes :)"
+
+    else
+
+      # Don't allow to run battle royale without crowns
+      mode = params[:mode].to_i
+      mode = BattleMode::ALL.include?(mode) ? mode : BattleMode::DEFAULT
+      if mode == BattleMode::BATTLE_ROYALE && current_user.crowns < 1
+        mode = BattleMode::DEFAULT
+      end
+
+      # If battle royale and has crowns, reduce crowns
+      if mode == BattleMode::BATTLE_ROYALE && current_user.crowns > 0
+        current_user.decrement!(:crowns)
+      end
+
+      battle = Battle.create!(initiator_snek_id: @snek.id, mode: mode)
+      PerformBattleJob.perform_later battle
+      redirect_to battle
+
     end
 
-    # If battle royale and has crowns, reduce crowns
-    if mode == BattleMode::BATTLE_ROYALE && current_user.crowns > 0
-      current_user.decrement!(:crowns)
-    end
-
-    battle = Battle.create!(initiator_snek_id: @snek.id, mode: mode)
-    PerformBattleJob.perform_later battle
-    redirect_to battle
   end
 
   def show

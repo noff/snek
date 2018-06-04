@@ -45,6 +45,8 @@ class Battle < ApplicationRecord
   # @return Boolean
   def start!
 
+    snek.increment!(:current_battles_count)
+
     # Start battle
     run!
 
@@ -235,6 +237,7 @@ class Battle < ApplicationRecord
 
     # Finish the battle
     finish!
+    snek.decrement!(:current_battles_count)
 
     true
 
@@ -246,6 +249,7 @@ class Battle < ApplicationRecord
   # Save fail reason to the failed battle
   # @param message [String]
   def fail_battle(message)
+    snek.decrement!(:current_battles_count)
     update! fail_reason: message
   end
 

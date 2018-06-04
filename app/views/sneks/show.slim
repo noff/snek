@@ -35,11 +35,17 @@
           = link_to 'Enable',  auto_fight_snek_path(@snek, mode: 'on'), class: 'btn btn-outline-secondary', method: :put
 
       - if Snek.for_autofight.count > 1
-        div.mb-3 = link_to 'Duel', battles_path(snek_id: @snek.id, mode: BattleMode::DUEL), method: :post, class: 'btn btn-outline-primary btn-block'
-        div.mb-3 = link_to 'Standard snekocide', battles_path(snek_id: @snek.id, mode: BattleMode::DEFAULT), method: :post, class: 'btn btn-outline-primary btn-block'
-        - if current_user.crowns > 0
-          div.mb-3 = link_to 'Battle Royale 👑', battles_path(snek_id: @snek.id, mode: BattleMode::BATTLE_ROYALE), method: :post, class: 'btn btn-outline-primary btn-block'
+
+        - if @snek.too_much_battles?
+
+          div.mb-3 You are running #{@snek.current_battles_count} battles simultaneously. You can run new battles after these battles finish. Please, wait few minutes :)
+
         - else
+          div.mb-3 = link_to 'Duel', battles_path(snek_id: @snek.id, mode: BattleMode::DUEL), method: :post, class: 'btn btn-outline-primary btn-block'
+          div.mb-3 = link_to 'Standard snekocide', battles_path(snek_id: @snek.id, mode: BattleMode::DEFAULT), method: :post, class: 'btn btn-outline-primary btn-block'
+          - if current_user.crowns > 0
+            div.mb-3 = link_to 'Battle Royale 👑', battles_path(snek_id: @snek.id, mode: BattleMode::BATTLE_ROYALE), method: :post, class: 'btn btn-outline-primary btn-block'
+          - else
 
           div.mb-3
             button type="button" class="btn  btn-outline-primary btn-block" data-toggle="modal" data-target="#noCrown" Battle Royale 👑
