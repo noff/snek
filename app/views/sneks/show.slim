@@ -37,7 +37,6 @@
       - if Snek.for_autofight.count > 1
 
         - if @snek.too_much_battles?
-
           div.mb-3 You are running #{@snek.current_battles_count} battles simultaneously. You can run new battles after these battles finish. Please, wait few minutes :)
 
         - else
@@ -47,17 +46,16 @@
             div.mb-3 = link_to 'Battle Royale 👑', battles_path(snek_id: @snek.id, mode: BattleMode::BATTLE_ROYALE), method: :post, class: 'btn btn-outline-primary btn-block'
           - else
 
-          div.mb-3
             button type="button" class="btn  btn-outline-primary btn-block" data-toggle="modal" data-target="#noCrown" Battle Royale 👑
 
-          div class="modal fade" id="noCrown" tabindex="-1" role="dialog" aria-labelledby="noCrown" aria-hidden="true"
-            div class="modal-dialog" role="document"
-              div class="modal-content"
-                div class="modal-body"
-                  div.mb-3 = image_tag 'no_crown.jpg', class: 'img-fluid'
-                  p Not enough crowns for battle royale :(. Win a duel or standard snekocide to earn a crown.
-                div class="modal-footer"
-                  button type="button" class="btn btn-secondary" data-dismiss="modal" Okay
+            div class="modal fade" id="noCrown" tabindex="-1" role="dialog" aria-labelledby="noCrown" aria-hidden="true"
+              div class="modal-dialog" role="document"
+                div class="modal-content"
+                  div class="modal-body"
+                    div.mb-3 = image_tag 'no_crown.jpg', class: 'img-fluid'
+                    p Not enough crowns for battle royale :(. Win a duel or standard snekocide to earn a crown.
+                  div class="modal-footer"
+                    button type="button" class="btn btn-secondary" data-dismiss="modal" Okay
 
 
 
