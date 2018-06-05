@@ -30,6 +30,22 @@ html
         for(h=0;h<k.length;h++)e(d,k[h]);a._i.push([b,c,f])};a.__SV=1.2;b=e.createElement("script");b.type="text/javascript";b.async=!0;b.src="undefined"!==typeof MIXPANEL_CUSTOM_LIB_URL?MIXPANEL_CUSTOM_LIB_URL:"file:"===e.location.protocol&&"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js".match(/^\/\//)?"https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js":"//cdn.mxpnl.com/libs/mixpanel-2-latest.min.js";c=e.getElementsByTagName("script")[0];c.parentNode.insertBefore(b,c)}})(document,window.mixpanel||[]);
         mixpanel.init("6509f7c5ffefabd05d69771ebef49a49");
 
+      javascript:
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '240832843135880');
+        fbq('track', 'PageView');
+      noscript
+        img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=240832843135880&ev=PageView&noscript=1"
+
+
+
 
     - if Rails.env.production?
       script src="https://cdn.jsdelivr.net/npm/vue"
@@ -79,6 +95,7 @@ html
     javascript:
       r46('track', 'purchase', { products: [ {id: '1', price: 1, amount: 1}]});
       mixpanel.track( "Signed Up");
+      fbq('track', 'CompleteRegistration');
 
 
 - if flash[:just_created_snek]
