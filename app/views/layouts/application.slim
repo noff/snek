@@ -96,17 +96,20 @@ html
       r46('track', 'purchase', { products: [ {id: '1', price: 1, amount: 1}]});
       mixpanel.track( "Signed Up");
       fbq('track', 'CompleteRegistration');
+      gtag('event', 'Sign Up');
 
 
 - if flash[:just_created_snek]
   - if Rails.env.production?
     javascript:
       mixpanel.track( "Created Snek");
+      gtag('event', 'Created Snek');
 
 
 - if flash[:just_launched_battle]
   - if Rails.env.production?
     javascript:
       mixpanel.track( "Launched Battle");
+      gtag('event', 'Launched Battle');
 
 
