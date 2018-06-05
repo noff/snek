@@ -1,6 +1,6 @@
 .container
   .row
-    .col
+    .col-8
       h1.mb-3 Rules
 
       p In this game, you have to create Snek more clever than opponents. According to "program" Snek will eat opponents on a battle arena.
@@ -30,6 +30,7 @@
       p If a pattern contains more than one cells in OPTIONAL mode, the pattern is matched if only at least one of OPTIONAL cells of the same type are matched. If several pattern rotations matched, the program selects the pattern rotation which contains more matched optional cells.
       p If a pattern contains cell in MUST NOT mode, cell considered matched if a cell from an arena is not equal to the cell of the pattern with the same coordinates.
 
+
       h2.mt-5.mb-3 Examples
 
       h3.mt-3.mb-2 Example 0
@@ -52,3 +53,16 @@
       p Snek will move down because it tries to have it's body behind.
       p = image_tag 'help/example-4.png'
 
+    .col-4
+
+      h2.mt-5.mb-3 More information
+
+      p Join our community:
+
+      p For discussions:
+      ul
+        li = link_to 'Group in Telegram', 'https://t.me/joinchat/AAjR7xLgJEb5RRR39nX6sQ', target: '_blank'
+
+      p For announcements:
+      ul
+        li = link_to 'Official channel in Twitter', 'https://twitter.com/snekfite', target: '_blank'

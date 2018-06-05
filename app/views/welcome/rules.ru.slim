@@ -1,6 +1,6 @@
 .container
   .row
-    .col
+    .col-8
       h1.mb-3 Правила
 
       p В этой игре ваша задача создать такую змею, которая окажется умнее противников. Повинуясь созданной вами "программе поведения" змея съест конкурирующих змей на поле боя.
@@ -51,3 +51,19 @@
       h3.mt-3.mb-2 Пример 4
       p Змея пойдет "на юг", потому что будет стараться держать первую ячейку своего тела позади головы.
       p = image_tag 'help/example-4.png'
+
+    .col-4
+
+      h2.mt-5.mb-3 Больше информации
+
+      p Присоединяйтесь к нашим каналам в соцсетях:
+
+      p Для публичного обсуждения:
+      ul
+        li = link_to 'Группа в Facebook', 'https://www.facebook.com/groups/241730153247783', target: '_blank'
+        li = link_to 'Группа в Telegram', 'https://t.me/joinchat/AAjR7xLgJEb5RRR39nX6sQ', target: '_blank'
+
+      p Для оперативного получения анонсов:
+      ul
+        li = link_to 'Официальная страница в Facebook', 'https://www.facebook.com/Snek-Fite-829977270521979', target: '_blank'
+        li = link_to 'Официальный канал в Telegram', 'https://t.me/snekfite', target: '_blank'

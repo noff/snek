@@ -7,7 +7,7 @@ class ApplicationController < ActionController::Base
     if locale_valid?(params[:locale])
       locale = params[:locale]
     else
-      if cookies[:locale] && locale_valid?(params[:locale])
+      if cookies[:locale].present? && locale_valid?(cookies[:locale])
         locale = cookies[:locale]
       else
         begin
@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
         end
       end
     end
-    cookies[:locale] = { value: locale, expires: 1.year.from_now, path: '/', domain: Rails.env.development? ? request.host : ".#{request.domain}" }
+    cookies[:locale] = { value: locale, expires: 1.year.from_now, path: '/', domain: Rails.env.development? ? request.host : request.domain }
     I18n.locale = locale
   end
 

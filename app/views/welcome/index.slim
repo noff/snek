@@ -35,9 +35,12 @@
           h5.card-title Join us
           p.card-text Join our community and help to spread the word
           p
-            = link_to image_tag('socials/twitter.png', style: 'width: 48px'), 'https://twitter.com/snekfite', target: '_blank', class: 'mr-2'
-            = link_to image_tag('socials/facebook.png', style: 'width: 48px'), 'https://www.facebook.com/Snek-Fite-829977270521979', target: '_blank', class: 'mr-2'
-            = link_to image_tag('socials/telegram.png', style: 'width: 48px'), 'https://t.me/snekfite', target: '_blank', class: 'mr-2'
+            - if I18n.locale.to_s == 'ru'
+              = link_to image_tag('socials/facebook.png', style: 'width: 48px'), 'https://www.facebook.com/Snek-Fite-829977270521979', target: '_blank', class: 'mr-2'
+              = link_to image_tag('socials/telegram.png', style: 'width: 48px'), 'https://t.me/snekfite', target: '_blank', class: 'mr-2'
+            - else
+              = link_to image_tag('socials/twitter.png', style: 'width: 48px'), 'https://twitter.com/snekfite', target: '_blank', class: 'mr-2'
+              = link_to image_tag('socials/telegram.png', style: 'width: 48px'), 'https://t.me/joinchat/AAjR7xLgJEb5RRR39nX6sQ', target: '_blank', class: 'mr-2'
 
       .card
         .card-body
