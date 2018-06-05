@@ -1,26 +1,19 @@
+.container-fluid.mb-5
+  .row.hero-unit
+    .col
+      .text-light.text-center.display-1.font-weight-bold.mb-2.mt-5 Snek Fite
+      .text-light.text-center.display-4.font-weight-bold.mb-5 The intellectual game for programmers
+      .lead.text-light.text-center.font-weight-bold.mb-5 Create your Snek. Teach Snek to hunt another sneks. Run battle. Improvise. Adapt. Overcome.
+      - if signed_in?
+        .text-center.mb-5 = link_to 'Go to my snekarium', sneks_path, class: 'btn btn-lg btn-primary'
+      - else
+        .text-center.mb-5 = link_to 'Sign up and get your Snek', new_user_registration_path, class: 'btn btn-lg btn-primary'
+
 .container
   .row
     .col
-      .card.mb-3
-        .card-body
-          p.lead.mb-0 Snek Fite – the intellectual game which helps to develop logic, imagination and programming skills (optional).
-      p Steps to become the most powerful snekowner:
-      ol
-        li Create your snek.
-        li Stylize your snek.
-        li Program your snek's behaviour.
-        li Call other sneks to battle.
-        li Improvise. Adapt. Overcome.
 
-      - if signed_in?
-        - if current_user.sneks.exists?
-          div = link_to 'Go to my snekarium', sneks_path, class: 'btn btn-primary'
-        - else
-          div = link_to 'Create your snek fighter', new_snek_path, class: 'btn btn-primary'
-      - else
-        div = link_to 'Sign up to create your snek fighter', new_user_registration_path, class: 'btn btn-primary'
-
-      h2.mt-5 Most dangerous sneks
+      h2 Most dangerous sneks
       table.table
         thead
           th #

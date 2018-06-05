@@ -37,25 +37,24 @@ html
       script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"
 
   body
-    .container
-      .navbar.navbar-expand-lg.navbar-dark.bg-dark
-        = link_to image_tag('snek_fite_logo_white.svg'), root_path, class: 'navbar-brand'
-        button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
-          span class="navbar-toggler-icon"
-        .collapse.navbar-collapse#menu
-          ul.navbar-nav.mr-auto
-          .my-2.my-lg-0
-            ul.navbar-nav
-              li.nav-item = link_to 'Home', root_path, class: 'nav-link'
-              - if user_signed_in?
-                li.nav-item = link_to 'My sneks', sneks_path, class: 'nav-link'
-                li.nav-item = link_to "#{current_user.crowns} 👑", '#', class: 'nav-link'
-              li.nav-item = link_to 'Rules', welcome_rules_path, class: 'nav-link'
-              - if user_signed_in?
-                li.nav-item = link_to 'Exit', destroy_user_session_path, method: :delete, class: 'nav-link'
-              - else
-                li.nav-item = link_to 'Sign up', new_user_registration_path, class: 'nav-link'
-                li.nav-item = link_to 'Sign in', new_user_session_path, class: 'nav-link'
+    .navbar.navbar-expand-lg.navbar-dark.bg-dark
+      = link_to image_tag('snek_fite_logo_white.svg'), root_path, class: 'navbar-brand'
+      button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
+        span class="navbar-toggler-icon"
+      .collapse.navbar-collapse#menu
+        ul.navbar-nav.mr-auto
+        .my-2.my-lg-0
+          ul.navbar-nav
+            li.nav-item = link_to 'Home', root_path, class: 'nav-link'
+            - if user_signed_in?
+              li.nav-item = link_to 'My sneks', sneks_path, class: 'nav-link'
+              li.nav-item = link_to "#{current_user.crowns} 👑", '#', class: 'nav-link'
+            li.nav-item = link_to 'Rules', welcome_rules_path, class: 'nav-link'
+            - if user_signed_in?
+              li.nav-item = link_to 'Exit', destroy_user_session_path, method: :delete, class: 'nav-link'
+            - else
+              li.nav-item = link_to 'Sign up', new_user_registration_path, class: 'nav-link'
+              li.nav-item = link_to 'Sign in', new_user_session_path, class: 'nav-link'
 
     - if notice
       .container
@@ -67,7 +66,10 @@ html
         .row
           .col
             .alert.alert-danger = alert
-    .mb-3
+
+    - unless @with_hero_unit
+      .mb-3
+
     = yield
 
 
