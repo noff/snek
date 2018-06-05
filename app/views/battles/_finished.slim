@@ -46,3 +46,7 @@ javascript:
   if(typeof(window.showBattle) === 'function') {
     window.showBattle(#{@arena.get_matrix.width});
   }
+
+- if Rails.env.prodcution? || true
+  javascript:
+      mixpanel.track( "Battle view", {id: #{@battle.id}});

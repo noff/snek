@@ -17,6 +17,7 @@ class SneksController < ApplicationController
     @snek = current_user.sneks.new
     @snek.name = params[:snek][:name].strip
     if @snek.save
+      flash[:just_created_snek] = true
       redirect_to sneks_path, notice: 'Your new snek is ready!'
     else
       render 'new'

@@ -29,7 +29,6 @@ gem 'unicorn', '~> 4.9.0'
 gem 'sidekiq'
 gem 'rmagick'
 
-
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'

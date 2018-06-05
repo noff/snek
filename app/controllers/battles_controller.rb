@@ -25,6 +25,9 @@ class BattlesController < ApplicationController
 
       battle = Battle.create!(initiator_snek_id: @snek.id, mode: mode)
       PerformBattleJob.perform_later battle
+
+      flash[:just_launched_battle] = true
+
       redirect_to battle
 
     end

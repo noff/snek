@@ -67,3 +67,4 @@
 - if Rails.env.production?
   javascript:
     r46('track', 'view', '1');
+    mixpanel.track( "Home Page", {"variant": "default"} );
