@@ -4,6 +4,8 @@
 
       h1 SnekBoard
 
+      h2 Basic zone
+
       - if @sneks.exists?
         table.table
           thead
@@ -28,3 +30,14 @@
                   span N/A
       - else
         div = link_to 'Create snek', new_snek_path, class: 'btn btn-primary'
+
+
+
+      - if @sneks.exists?
+
+        h2 Pro zone
+        p Professional sneks can be customized for specific battle types. You can program PRO snek using programming language or neural network. Only PRO sneks can fight with PRO sneks.
+
+        P Soon
+
+        # div = link_to 'Get additional PRO snek: $3/mo', new_snek_path, class: 'btn btn-primary'
