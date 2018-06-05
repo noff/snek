@@ -27,7 +27,7 @@ class ApplicationController < ActionController::Base
   private
 
   def locale_valid?(locale)
-    locale.present? && %w(ru en).inclide?(locale)
+    locale.present? && %w(ru en).include?(locale)
   end
 
 end
