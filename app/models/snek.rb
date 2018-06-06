@@ -16,6 +16,8 @@ class Snek < ApplicationRecord
   after_create :generate_random_style
 
   scope :for_autofight, -> { where(auto_fight: true) }
+  scope :pro, -> { where(pro: true) }
+  scope :not_pro, -> { where(pro: false) }
 
 
   # Fetch rules or create empty set if rules are null

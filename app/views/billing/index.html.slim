@@ -1,0 +1,28 @@
+.container
+  .row
+    .col
+      h1 Billing page
+      - if current_user.stripe_id.present?
+        p Possible PRO features:
+        ul
+          li = link_to 'Get additional PRO snek: $3/mo', paid_subscriptions_path(product: 'pro_snek'), method: :post
+      - else
+        = form_tag billing_addcard_path, method: :put do |f|
+          script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.application.credentials.stripe[:public]}" data-amount="1" data-email="#{current_user.email}" data-name="SNEK" data-description="Add card" data-image="https://stripe.com/img/documentation/checkout/marketplace.png" data-locale="auto"
+
+      - if current_user.paid_subscriptions.exists?
+
+        h2 Your purchases
+
+        table.table
+          thead
+            tr
+              th Product
+              th Price
+              th Paid till
+          tbody
+            - current_user.paid_subscriptions.each do |paid_subscription|
+              tr
+                td = paid_subscription.product
+                td = number_to_currency(paid_subscription.amount / 100, unit: '$')
+                td = paid_subscription.paid_till

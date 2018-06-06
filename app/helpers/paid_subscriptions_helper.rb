@@ -1,0 +1,2 @@
+module PaidSubscriptionsHelper
+end

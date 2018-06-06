@@ -1,10 +1,18 @@
 Rails.application.routes.draw do
+
+  get 'billing' => 'billing#index'
+  put 'billing/addcard'
+  post 'billing/webhook', defaults: {format: :json}
+
+
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
   devise_for :users, controllers: {
       registrations: 'users/registrations'
   }
 
+
+  resources :paid_subscriptions, only: [:create]
 
   resources :sneks do
     member do
