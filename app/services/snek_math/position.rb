@@ -48,7 +48,7 @@ module SnekMath
           # Possible directions for current head direction
           current_possible_directions = possible_directions
 
-          while test_direction = current_possible_directions.pop
+          while test_direction = current_possible_directions.shift
 
             Rails.logger.debug "get_next_move: Rotate matrix ##{pattern_index} to #{test_direction}. Flip: #{do_mirror}"
 
