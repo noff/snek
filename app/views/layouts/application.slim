@@ -24,7 +24,7 @@ html
       javascript:
         (function(r){window.r46=window.r46||function(){(r46.q=r46.q||[]).push(arguments)};var s=document.getElementsByTagName(r)[0],rs=document.createElement(r);rs.async=1;rs.src='//cdn.rees46.com/v3.js';s.parentNode.insertBefore(rs,s);})('script');
         r46('init', 'e1296ff6f6c3a6076c18063c289311');
-      - if signed_in?
+      - if user_signed_in?
         javascript:
           r46('profile', 'set', { id: #{current_user.id}, email: '#{current_user.email}' } );
 

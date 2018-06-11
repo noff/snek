@@ -4,7 +4,7 @@
       .text-light.text-center.display-1.font-weight-bold.mb-2.mt-5 Snek Fite
       .text-light.text-center.display-4.font-weight-bold.mb-5 The intellectual game for programmers
       .lead.text-light.text-center.font-weight-bold.mb-5 Create your Snek. Teach Snek to hunt another sneks. Run battle. Improvise. Adapt. Overcome.
-      - if signed_in?
+      - if user_signed_in?
         .text-center.mb-5 = link_to 'Go to my snekarium', sneks_path, class: 'btn btn-lg btn-primary'
       - else
         .text-center.mb-5 = link_to 'Sign up and get your Snek', new_user_registration_path, class: 'btn btn-lg btn-primary'
