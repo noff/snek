@@ -15,10 +15,14 @@ class BillingController < ApplicationController
                                               Rails.application.credentials.stripe[:webhook_secret]
     rescue JSON::ParserError => e
       # Invalid payload
+      Rails.logger.error e
+      Rollbar.error e
       status 400
       return
     rescue Stripe::SignatureVerificationError => e
       # Invalid signature
+      Rails.logger.error e
+      Rollbar.error e
       status 400
       return
     end
