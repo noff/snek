@@ -1,7 +1,7 @@
 class BillingController < ApplicationController
 
-  before_action :authenticate_user!
-  protect_from_forgery except: :webhook
+  before_action :authenticate_user!, except: [:webhook]
+  protect_from_forgery except: [:webhook]
 
   def index; end
 
