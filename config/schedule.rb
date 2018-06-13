@@ -20,5 +20,5 @@
 # Learn more: http://github.com/javan/whenever
 
 every 1.day, at: ['00:00'] do
-  runner "Mymodel.task_to_run_in_two_times_every_day", mailto: 'kechinoff@gmail.com'
+  runner "DailyRatingCalculator.perform_today", mailto: 'kechinoff@gmail.com'
 end

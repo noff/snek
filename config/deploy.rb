@@ -53,7 +53,6 @@ after 'deploy:publishing', 'deploy:restart'
 # rvm_trust_rvmrcs_flag=1
 # set :whenever_command, "bundle exec whenever"
 set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
-require "whenever/capistrano"
 
 namespace :deploy do
 
