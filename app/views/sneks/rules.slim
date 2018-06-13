@@ -5,7 +5,7 @@
     .col.text-right
       = simple_form_for @snek, url: save_rules_snek_path(@snek), method: :put do |f|
         = f.input :rules,  as: :hidden, input_html: {value: @snek.rules.to_json}
-        = link_to 'How to program Snek', welcome_rules_path, class: 'btn btn-outline-secondary', target: '_blank'
+        = link_to 'RTFM: How to program Snek', welcome_rules_path, class: 'btn btn-outline-secondary', target: '_blank'
         = link_to 'Cancel', @snek, class: 'btn btn-outline-secondary ml-3'
         = f.submit 'Save', class: 'btn btn-primary ml-3'
 
