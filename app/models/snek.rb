@@ -4,6 +4,7 @@ class Snek < ApplicationRecord
            foreign_key: "initiator_snek_id",
            class_name: 'Battle'
   has_many :snek_battles
+  has_many :daily_ratings
 
   validates :name,
             uniqueness:   { case_sensitive: false },

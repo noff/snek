@@ -50,6 +50,11 @@ set :rvm_ruby_version, '2.3.1'
 set :assets_roles, [:web, :app]
 after 'deploy:publishing', 'deploy:restart'
 
+# rvm_trust_rvmrcs_flag=1
+# set :whenever_command, "bundle exec whenever"
+set :whenever_identifier, ->{ "#{fetch(:application)}_#{fetch(:stage)}" }
+require "whenever/capistrano"
+
 namespace :deploy do
 
   desc 'Start unicorn'

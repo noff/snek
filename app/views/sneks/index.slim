@@ -4,7 +4,7 @@
 
       h1 SnekBoard
 
-      h2 Basic zone
+      h2.mt-5 Noob zone
 
       - if @sneks.not_pro.exists?
         table.table
@@ -36,7 +36,7 @@
 
       - if @sneks.exists?
 
-        h2 Pro zone
+        h2.mt-5 Pro zone
         p Professional sneks can be customized for specific battle types. You can program PRO snek using programming language or neural network. Only PRO sneks can fight with PRO sneks.
 
         - if @sneks.pro.exists?
