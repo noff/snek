@@ -6,6 +6,10 @@
 bundle 
 ```
 
+Then download `http://geolite.maxmind.com/download/geoip/database/GeoLite2-City.tar.gz`, unpack it and put file `GeoLite2-City.mmdb` into ./vendor
+
+Don't commit it to the repository.
+
 ## Run website
 
 ```

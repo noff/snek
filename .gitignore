@@ -33,6 +33,8 @@
 .idea
 *.iml
 
+# Ignore databases
+/vendor/GeoLite2-City.mmdb
 
 # For local purposes
 /app/assets/javascripts/vue.js

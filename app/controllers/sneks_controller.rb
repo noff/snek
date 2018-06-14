@@ -7,6 +7,7 @@ class SneksController < ApplicationController
 
   def new
     @snek = current_user.sneks.build
+    ahoy.track 'New Snek Form'
   end
 
   def create
@@ -29,6 +30,7 @@ class SneksController < ApplicationController
     @snek.pro = is_pro
     if @snek.save
       flash[:just_created_snek] = true
+      ahoy.track 'New Snek Created'
       redirect_to sneks_path, notice: 'Your new snek is ready!'
     else
       render 'new'
@@ -48,6 +50,7 @@ class SneksController < ApplicationController
   def rules
     @snek = current_user.sneks.find(params[:id])
     gon.snek_rules = @snek.fetch_rules
+    ahoy.track 'Open Rules Editor', { snek_id: @snek.id }
   end
 
   def save_rules

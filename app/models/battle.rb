@@ -1,5 +1,6 @@
 class Battle < ApplicationRecord
   include AASM
+  visitable
 
   belongs_to :snek, class_name: "Snek", foreign_key: "initiator_snek_id", validate: false
   has_many :snek_battles

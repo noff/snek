@@ -3,7 +3,9 @@ class BillingController < ApplicationController
   before_action :authenticate_user!, except: [:webhook]
   protect_from_forgery except: [:webhook]
 
-  def index; end
+  def index
+    ahoy.track 'Visited Billing'
+  end
 
   def webhook
     payload = request.body.read
@@ -59,6 +61,8 @@ class BillingController < ApplicationController
 
       # Save stripe ID
       current_user.update stripe_id: stripe_customer.id
+
+      ahoy.track 'Added Bank Card'
 
     end
     redirect_to billing_path, notice: "You've successfully added your card"

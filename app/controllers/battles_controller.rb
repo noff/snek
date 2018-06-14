@@ -28,6 +28,8 @@ class BattlesController < ApplicationController
 
       flash[:just_launched_battle] = true
 
+      ahoy.track('Start Battle', {battle_id: battle.id})
+
       redirect_to battle
 
     end
@@ -42,6 +44,7 @@ class BattlesController < ApplicationController
       gon.snek_names = Hash[@battle.battle_rounds.order(:id).first.sneks.map { |s| [ s['snek_id'], Snek.find(s['snek_id']).short_name] }]
       gon.sneks = Hash[@battle.snek_battles.map { |sb| [sb.snek.id.to_s, { id: sb.snek.id, name: sb.snek.short_name, style: sb.snek.style_asset_urls}] }]
     end
+    ahoy.track('Visit Battle', {battle_id: @battle.id})
   end
 
   def image

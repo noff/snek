@@ -1,4 +1,6 @@
 class Snek < ApplicationRecord
+  visitable
+
   belongs_to :user
   has_many :started_battles,
            foreign_key: "initiator_snek_id",
