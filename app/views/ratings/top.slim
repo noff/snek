@@ -16,7 +16,7 @@
               td
                 span = snek[:position]
                 - if snek[:change] != 0
-                  sup = snek[:change]
+                  sup class="#{ snek[:change] ? 'text-success' : 'text-danger' }" = snek[:change]
               td = snek[:snek].short_name
               td = render partial: 'partials/snek-preview', locals: {snek: snek[:snek]}
               td = snek[:battles]
