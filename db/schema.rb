@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_14_165753) do
+ActiveRecord::Schema.define(version: 2018_06_14_213616) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 2018_06_14_165753) do
     t.integer "position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "score", default: 0
     t.index ["date"], name: "index_daily_ratings_on_date"
     t.index ["snek_id", "date"], name: "index_daily_ratings_on_snek_id_and_date", unique: true
     t.index ["snek_id"], name: "index_daily_ratings_on_snek_id"

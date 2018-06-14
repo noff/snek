@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  get 'ratings/top'
+  get 'ratings/national'
+
   get 'billing' => 'billing#index'
   put 'billing/addcard'
   post 'billing/webhook', defaults: {format: :json}

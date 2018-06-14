@@ -27,7 +27,6 @@ module SnekMath
 
       # Cycle snek's patterns and find matched pattern if possible
       # Remove duplicate rules
-      found_pattern = nil
       @snek.rules.uniq.each_with_index do |pattern, pattern_index|
 
         # Snek's rules pattern
@@ -59,7 +58,7 @@ module SnekMath
             Rails.logger.debug pattern_matrix.matrix.to_str
             Rails.logger.debug "=== /Rotated matrix ==="
 
-            # Get cut coords
+            # Get observable area coords
             snek_head_coords_in_pattern = pattern_matrix.get_my_head_coords
             x1 = current_head_coordinates[:x] - snek_head_coords_in_pattern[:x]
             y1 = current_head_coordinates[:y] - snek_head_coords_in_pattern[:y]
@@ -130,9 +129,6 @@ module SnekMath
                       case pattern_cell[1]
                       when 'or'
                         optional_matches[pattern_cell[0]] = true if pattern_cell[0] == "enemy_#{parts[0]}"
-                        # if test_direction == 'E' && pattern_index == 0
-                        #   raise optional_matches.inspect
-                        # end
                       when 'not'
                         raise NotMatchedPattern if pattern_cell[0] == "enemy_#{parts[0]}"
                       when 'and'
@@ -213,7 +209,7 @@ module SnekMath
         raise Exception, 'Incorrect direction for move'
       end
 
-      # Prevent snek to move to itself. But snek can move to it's tail if it isn't grow
+      # Prevent snek to move to itself. But snek can move to it's tail if it isn't grow AND snek longer than 2 cells
       (0..(position.length - 2)).each do |i|
         if position[i][:x] == new_position[:x] && position[i][:y] == new_position[:y]
           raise Exception, 'Snek tries to go to itself'

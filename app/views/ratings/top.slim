@@ -1,0 +1,23 @@
+.container
+  .row
+    .col
+
+      h1.mb-3 Top dangerous sneks
+      table.table
+        thead
+          th #
+          th Snek
+          th
+          th Fights
+          th Score
+        tbody
+          - @top_sneks.each_with_index do |snek, index|
+            tr
+              td
+                span = snek[:position]
+                - if snek[:change] != 0
+                  sup = snek[:change]
+              td = snek[:snek].short_name
+              td = render partial: 'partials/snek-preview', locals: {snek: snek[:snek]}
+              td = snek[:battles]
+              td = snek[:score]

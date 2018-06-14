@@ -29,6 +29,9 @@
               td = render partial: 'partials/snek-preview', locals: {snek: snek[:snek]}
               td = snek[:battles]
               td = snek[:score]
+      p
+        = link_to 'Top rating', ratings_top_path, class: 'btn btn-primary mr-3'
+        = link_to 'National rating', ratings_national_path, class: 'btn btn-primary'
 
 
     .col-md-4

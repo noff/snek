@@ -17,12 +17,12 @@ class DailyRatingCalculator
       [snek, SnekScore.new(snek).score]
     end.sort { |a, b| a[1] <=> b[1] }.reverse
 
-    sneks_with_positions.each do |rating|
+    sneks_with_positions.each_with_index do |rating, index|
       row = DailyRating.find_by(snek_id: rating[0].id, date: date)
       if row
-        row.update position: rating[1]
+        row.update position: (index + 1), score: rating[1]
       else
-        DailyRating.create! snek_id: rating[0].id, date: date, position: rating[1]
+        DailyRating.create! snek_id: rating[0].id, date: date, position: (index + 1), score: rating[1]
       end
     end
 
