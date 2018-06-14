@@ -18,6 +18,7 @@
         thead
           th #
           th Snek
+          th
           th Fights
           th Score
         tbody
@@ -25,6 +26,7 @@
             tr
               td = (index + 1)
               td = snek[:snek].short_name
+              td = render partial: 'partials/snek-preview', locals: {snek: snek[:snek]}
               td = snek[:battles]
               td = snek[:score]
 
@@ -50,6 +52,7 @@
               tr
                 th Battle #
                 th Initiator
+                th
             tbody
               - Battle.order(id: :desc).limit(10).each do |battle|
                 tr
@@ -58,6 +61,7 @@
                     - if battle.mode == BattleMode::BATTLE_ROYALE
                       '  👑
                   td = battle.snek.short_name
+                  td = render partial: 'partials/snek-preview', locals: {snek: battle.snek}
 
 
 - if Rails.env.production?

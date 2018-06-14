@@ -192,6 +192,19 @@ window.showBattle = function(arena_width) {
 
         },
 
+        computed: {
+            snekTail: function(idx) {
+                console.log("IDX: " + idx);
+                return gon.sneks[index].style.tail;
+            },
+            snekBody: function(idx) {
+                return gon.sneks[idx].style.body;
+            },
+            snekHead: function(idx) {
+                return gon.sneks[idx].style.head;
+            }
+        },
+
         watch: {
             currentRound: function(value) {
                 this.renderRound();
