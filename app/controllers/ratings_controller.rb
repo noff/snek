@@ -13,5 +13,19 @@ class RatingsController < ApplicationController
   end
 
   def national
+    countries = {}
+    Snek.all.each do |snek|
+      if snek.country
+        score = SnekScore.new(snek).score
+        if score > 0
+          unless countries.key?(snek.country)
+            countries[snek.country] = 0
+          end
+          countries[snek.country] += score
+        end
+      end
+    end
+    @rating = countries.to_a.sort { |a,b| a[1] <=> b[1] }.reverse
   end
+
 end

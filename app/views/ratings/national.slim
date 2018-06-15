@@ -6,4 +6,14 @@
 
       h1.mb-3 National rating
 
-      p Soon
+      table.table
+        thead
+          th #
+          th Country
+          th Score
+        tbody
+          - @rating.each_with_index do |country, index|
+            tr
+              td = index + 1
+              td = country[0]
+              td = country[1]
