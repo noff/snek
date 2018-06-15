@@ -24,12 +24,14 @@ class PaidSubscriptionsController < ApplicationController
                                                       items: [
                                                         { plan: plan_id }
                                                       ]
-    Stripe::Plan
     # Create our local subscription
     current_user.paid_subscriptions.create! product: product,
                                             amount: product_price,
                                             paid_till: 1.month.from_now,
                                             stripe_id: stripe_subscription.id
+
+
+    flash[:just_paid_subscription] = true
 
     redirect_to redirect_path
 

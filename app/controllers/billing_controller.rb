@@ -63,6 +63,7 @@ class BillingController < ApplicationController
       current_user.update stripe_id: stripe_customer.id
 
       ahoy.track 'Added Bank Card'
+      flash[:just_added_card] = true
 
     end
     redirect_to billing_path, notice: "You've successfully added your card"
