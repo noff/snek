@@ -8,6 +8,7 @@
           th #
           th Snek
           th
+          th
           th Fights
           th Score
         tbody
@@ -16,8 +17,11 @@
               td
                 span = snek[:position]
                 - if snek[:change] != 0
-                  sup class="#{ snek[:change] ? 'text-success' : 'text-danger' }" = snek[:change]
+                  sup class="#{ snek[:change] > 0 ? 'text-success' : 'text-danger' }" = sprintf("%+d", snek[:change])
               td = snek[:snek].short_name
               td = render partial: 'partials/snek-preview', locals: {snek: snek[:snek]}
+              td
+                - if snek[:snek].auto_fight? && user_signed_in? && snek[:snek].user_id != current_user.id && current_user.sneks.for_autofight.exists?
+                  = link_to 'Revenge!!1', battles_path(snek_id: current_user.sneks.for_autofight.last, mode: BattleMode::DUEL, opponent_id: snek[:snek].id), method: :post, class: 'btn btn-outline-primary btn-sm'
               td = snek[:battles]
               td = snek[:score]

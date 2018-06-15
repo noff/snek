@@ -29,12 +29,12 @@ class Battle < ApplicationRecord
 
 
   # Restart failed battle
-  def restart!(sure = false)
+  def restart!(sure = false, options = {})
     if sure
       battle_rounds.destroy_all
       snek_battles.destroy_all
       draft!
-      start!
+      start! options
     else
       Rails.logger.warn 'You are not sure to restart this battle'
     end
@@ -44,7 +44,7 @@ class Battle < ApplicationRecord
   # Perform battle
   # @param initial_snek [Snek]
   # @return Boolean
-  def start!
+  def start!(options = {})
 
     snek.increment!(:current_battles_count)
 
@@ -59,7 +59,11 @@ class Battle < ApplicationRecord
         update! mode: BattleMode::DUEL
       end
     when BattleMode::DUEL
-      sneks = Snek.for_autofight.where.not(id: initiator_snek_id).shuffle.take(1)
+      if options[:opponent_snek]
+        sneks = [options[:opponent_snek]]
+      else
+        sneks = Snek.for_autofight.where.not(id: initiator_snek_id).shuffle.take(1)
+      end
     when BattleMode::BATTLE_ROYALE
       sneks = Snek.for_autofight.where.not(id: initiator_snek_id).shuffle.take(8)
     end

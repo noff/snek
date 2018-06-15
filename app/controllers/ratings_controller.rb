@@ -8,7 +8,7 @@ class RatingsController < ApplicationController
       if daily_rating
         prev_day_position = daily_rating.position
       end
-      @top_sneks[index][:change] = @top_sneks[index][:position] - prev_day_position
+      @top_sneks[index][:change] = -(@top_sneks[index][:position] - prev_day_position)
     end
   end
 

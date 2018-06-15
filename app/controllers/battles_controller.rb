@@ -11,11 +11,24 @@ class BattlesController < ApplicationController
 
     else
 
+      options = {}
+
       # Don't allow to run battle royale without crowns
       mode = params[:mode].to_i
       mode = BattleMode::ALL.include?(mode) ? mode : BattleMode::DEFAULT
       if mode == BattleMode::BATTLE_ROYALE && current_user.crowns < 1
         mode = BattleMode::DEFAULT
+      end
+
+      # If duel with somebody specific
+      if params[:opponent_id]
+        opponent_snek = Snek.find params[:opponent_id]
+        if opponent_snek
+          mode = BattleMode::DUEL
+          if opponent_snek.id != @snek.id && opponent_snek.auto_fight?
+            options[:opponent_snek] = opponent_snek
+          end
+        end
       end
 
       # If battle royale and has crowns, reduce crowns
@@ -24,11 +37,11 @@ class BattlesController < ApplicationController
       end
 
       battle = Battle.create!(initiator_snek_id: @snek.id, mode: mode)
-      PerformBattleJob.perform_later battle
+      PerformBattleJob.perform_later battle, options
 
       flash[:just_launched_battle] = true
 
-      ahoy.track('Start Battle', {battle_id: battle.id})
+      ahoy.track('Start Battle', {battle_id: battle.id, battle_mode: mode})
 
       redirect_to battle
 
