@@ -17,6 +17,7 @@ class Snek < ApplicationRecord
 
   before_validation :assign_default_rules
   after_create :generate_random_style
+  after_create :set_country_if_not_set
 
   scope :for_autofight, -> { where(auto_fight: true) }
   scope :pro, -> { where(pro: true) }
@@ -73,6 +74,18 @@ class Snek < ApplicationRecord
     current_battles_count >= 3
   end
 
+  # Set snek country
+  def set_country_if_not_set
+    if country.nil? && !user.current_sign_in_ip.nil?
+      geo_db = MaxMindDB.new('./vendor/GeoLite2-City.mmdb')
+      country = db.lookup(user.current_sign_in_ip.to_s).country.name
+      if country
+        update country: country
+      end
+    end
+  end
+
+
 
   private
 
@@ -109,5 +122,7 @@ class Snek < ApplicationRecord
       self.rules = rules_template
     end
   end
+
+
 
 end
