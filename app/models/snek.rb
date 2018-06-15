@@ -78,7 +78,7 @@ class Snek < ApplicationRecord
   def set_country_if_not_set
     if country.nil? && !user.current_sign_in_ip.nil?
       geo_db = MaxMindDB.new('./vendor/GeoLite2-City.mmdb')
-      country = db.lookup(user.current_sign_in_ip.to_s).country.name
+      country = geo_db.lookup(user.current_sign_in_ip.to_s).country.name
       if country
         update country: country
       end
