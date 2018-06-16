@@ -142,12 +142,11 @@ html
       fbq('track', 'AddPaymentInfo');
 
 
-- if flash[:just_paid_subscription]
+- if flash[:just_saved_rules]
   - if Rails.env.production?
     javascript:
-      mixpanel.track( "Paid Subscription");
-      gtag('event', 'Paid Subscription');
-      fbq('track', 'Purchase');
+      mixpanel.track( "Rules Saved");
+      gtag('event', 'Rules Saved');
 
 
 

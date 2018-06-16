@@ -58,6 +58,7 @@ class SneksController < ApplicationController
     # raise JSON.parse(params[:snek][:rules])[0].inspect
     @snek.rules = JSON.parse(params[:snek][:rules])
     if @snek.save
+      flash[:just_saved_rules] = true
       redirect_to @snek, notice: 'Rules saved'
     else
       redirect_to @snek, alert: "Rules invalid, did not saved. Errors: #{@snek.errors.messages[:rules].join(', ') }"

@@ -31,3 +31,8 @@ javascript:
         window.rulesEditor();
     }
 
+
+- if Rails.env.production?
+  javascript:
+      mixpanel.track("Rules Editor");
+      gtag('event', 'Rules Editor');
