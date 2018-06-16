@@ -7,4 +7,4 @@ export PG_USER=postgres
 export PG_PASSWORD=test
 export DISABLE_DATABASE_ENVIRONMENT_CHECK=1
 export RAILS_ENV=test
-bundle exec rake db:reset && bundle exec rspec
+bundle exec rake db:reset && bundle exec rake db:seed && bundle exec rspec
