@@ -1,1 +1,3 @@
-Stripe.api_key = Rails.application.credentials.stripe[:private]
+if Rails.env.production?
+  Stripe.api_key = Rails.application.credentials.stripe[:private]
+end
