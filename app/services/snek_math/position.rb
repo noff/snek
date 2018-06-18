@@ -51,8 +51,8 @@ module SnekMath
 
             # Rotate pattern to snek's head direction
             pattern_matrix.reset!
-            pattern_matrix.rotate! test_direction
             pattern_matrix.flip_horizontal! if do_mirror
+            pattern_matrix.rotate! test_direction
 
             Rails.logger.debug "=== Rotated matrix ==="
             Rails.logger.debug pattern_matrix.matrix.to_str
