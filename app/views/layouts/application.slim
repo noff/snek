@@ -68,6 +68,10 @@ html
       script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"
 
   body
+
+    - if false
+      .announcement Join our campaign at IndieGoGo! Help us to raise funding and invite more players: #{link_to 'IndieGoGo campaign', 'https://igg.me/at/snekfite', target: '_blank', class: 'btn btn-sm btn-warning'}
+
     .navbar.navbar-expand-lg.navbar-dark.bg-dark
       = link_to image_tag('snek_fite_logo_white.svg'), root_path, class: 'navbar-brand'
       button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
