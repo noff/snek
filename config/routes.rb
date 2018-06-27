@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
   get 'welcome/rules'
   get 'welcome/long'
+  get 'welcome/credits'
 
   root 'welcome#index'
 end
