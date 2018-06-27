@@ -16,7 +16,7 @@ $gray-300: #dee2e6 !default;
 $gray-400: #ced4da !default;
 $gray-500: #adb5bd !default;
 $gray-600: #6c757d !default;
-$gray-700: #495057 !default;
+$gray-700: #5A5C6C !default;
 $gray-800: #343a40 !default;
 $gray-900: #212529 !default;
 $black:    #000 !default;
@@ -41,7 +41,7 @@ $pink:    #e83e8c !default;
 $red:     #dc3545 !default;
 $orange:  #fd7e14 !default;
 $yellow:  #ffc107 !default;
-$green:   #28a745 !default;
+$green:   #9ECD5D !default;
 $teal:    #20c997 !default;
 $cyan:    #17a2b8 !default;
 
@@ -62,7 +62,7 @@ $colors: map-merge((
 "gray-dark":  $gray-800
 ), $colors);
 
-$primary:       $blue !default;
+$primary:       $green !default;
 $secondary:     $gray-600 !default;
 $success:       $green !default;
 $info:          $cyan !default;
@@ -634,8 +634,8 @@ $navbar-toggler-padding-x:          .75rem !default;
 $navbar-toggler-font-size:          $font-size-lg !default;
 $navbar-toggler-border-radius:      $btn-border-radius !default;
 
-$navbar-dark-color:                 rgba($white, .5) !default;
-$navbar-dark-hover-color:           rgba($white, .75) !default;
+$navbar-dark-color:                 rgba($white, 1.0) !default;
+$navbar-dark-hover-color:           rgba($white, 1.0) !default;
 $navbar-dark-active-color:          $white !default;
 $navbar-dark-disabled-color:        rgba($white, .25) !default;
 $navbar-dark-toggler-icon-bg:       str-replace(url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-dark-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E"), "#", "%23") !default;
@@ -691,10 +691,10 @@ $card-spacer-y:                     .75rem !default;
 $card-spacer-x:                     1.25rem !default;
 $card-border-width:                 $border-width !default;
 $card-border-radius:                $border-radius !default;
-$card-border-color:                 rgba($black, .125) !default;
+$card-border-color:                 rgba($black, .725) !default;
 $card-inner-border-radius:          calc(#{$card-border-radius} - #{$card-border-width}) !default;
 $card-cap-bg:                       rgba($black, .03) !default;
-$card-bg:                           $white !default;
+$card-bg:                           $gray-700 !default;
 
 $card-img-overlay-padding:          1.25rem !default;
 
@@ -801,8 +801,8 @@ $modal-transition:                  transform .3s ease-out !default;
 
 $alert-padding-y:                   .75rem !default;
 $alert-padding-x:                   1.25rem !default;
-$alert-margin-bottom:               1rem !default;
-$alert-border-radius:               $border-radius !default;
+$alert-margin-bottom:               0 !default;
+$alert-border-radius:               0 !default;
 $alert-link-font-weight:            $font-weight-bold !default;
 $alert-border-width:                $border-width !default;
 

@@ -97,15 +97,9 @@ html
               li.nav-item = link_to 'Sign in', new_user_session_path, class: 'nav-link'
 
     - if notice
-      .container
-        .row
-          .col
-            .alert.alert-primary = notice
+        .alert.alert-primary.text-center = notice
     - if alert
-      .container
-        .row
-          .col
-            .alert.alert-danger = alert
+        .alert.alert-danger.text-center = alert
 
     - unless @with_hero_unit
       .mb-3
