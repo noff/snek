@@ -42,8 +42,6 @@ module SnekMath
         # Also mirror pattern
         [false, true].each do |do_mirror|
 
-          pattern_matrix.flip_horizontal! if do_mirror
-
           # Possible directions for current head direction
           current_possible_directions = possible_directions
 
@@ -52,6 +50,8 @@ module SnekMath
             Rails.logger.debug "get_next_move: Rotate matrix ##{pattern_index} to #{test_direction}. Flip: #{do_mirror}"
 
             # Rotate pattern to snek's head direction
+            pattern_matrix.reset!
+            pattern_matrix.flip_horizontal! if do_mirror
             pattern_matrix.rotate! test_direction
 
             Rails.logger.debug "=== Rotated matrix ==="

@@ -1,7 +1,9 @@
+- content_for :title, 'Snek Programming'
+
 .container#app
   .row
     .col
-      h1 #{@snek.name} rules
+      h1 #{@snek.name} programming
     .col.text-right
       = simple_form_for @snek, url: save_rules_snek_path(@snek), method: :put do |f|
         = f.input :rules,  as: :hidden, input_html: {value: @snek.rules.to_json}
@@ -31,3 +33,8 @@ javascript:
         window.rulesEditor();
     }
 
+
+- if Rails.env.production?
+  javascript:
+      mixpanel.track("Rules Editor");
+      gtag('event', 'Rules Editor');

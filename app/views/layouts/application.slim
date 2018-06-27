@@ -1,7 +1,7 @@
 doctype html
 html
   head
-    title = content_for?(:title) ? yield(:title) : 'Snek Fite: the intellectual game for someone who can think logically'
+    title = content_for?(:title) ? yield(:title) : 'Snek Fite: the intellectual game for nerds and engineers'
     = csrf_meta_tags
     = csp_meta_tag
     = Gon::Base.render_data
@@ -19,7 +19,7 @@ html
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-        gtag('config', 'UA-4022494-25');
+        gtag('config', 'UA-4022494-25', { 'anonymize_ip': true });
 
       javascript:
         (function(r){window.r46=window.r46||function(){(r46.q=r46.q||[]).push(arguments)};var s=document.getElementsByTagName(r)[0],rs=document.createElement(r);rs.async=1;rs.src='//cdn.rees46.com/v3.js';s.parentNode.insertBefore(rs,s);})('script');
@@ -68,6 +68,10 @@ html
       script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"
 
   body
+
+    - if false
+      .announcement Join our campaign at IndieGoGo! Help us to raise funding and invite more players: #{link_to 'IndieGoGo campaign', 'https://igg.me/at/snekfite', target: '_blank', class: 'btn btn-sm btn-warning'}
+
     .navbar.navbar-expand-lg.navbar-dark.bg-dark
       = link_to image_tag('snek_fite_logo_white.svg'), root_path, class: 'navbar-brand'
       button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#menu" aria-controls="menu" aria-expanded="false" aria-label="Toggle navigation"
@@ -84,6 +88,8 @@ html
             li.nav-item = link_to 'Top sneks', ratings_top_path, class: 'nav-link'
             li.nav-item = link_to 'National rating', ratings_national_path, class: 'nav-link'
             li.nav-item = link_to 'Rules', welcome_rules_path, class: 'nav-link'
+            li.nav-item = link_to 'Crowdfunding!', 'https://igg.me/at/snekfite', class: 'nav-link', target: '_blank'
+            li.nav-item = link_to 'Credits', welcome_credits_path, class: 'nav-link'
             - if user_signed_in?
               li.nav-item = link_to 'Exit', destroy_user_session_path, method: :delete, class: 'nav-link'
             - else
@@ -142,12 +148,11 @@ html
       fbq('track', 'AddPaymentInfo');
 
 
-- if flash[:just_paid_subscription]
+- if flash[:just_saved_rules]
   - if Rails.env.production?
     javascript:
-      mixpanel.track( "Paid Subscription");
-      gtag('event', 'Paid Subscription');
-      fbq('track', 'Purchase');
+      mixpanel.track( "Rules Saved");
+      gtag('event', 'Rules Saved');
 
 
 

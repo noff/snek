@@ -3,7 +3,7 @@
     .col
       .text-light.text-center.display-1.font-weight-bold.mb-2.mt-5 Snek Fite
       .text-light.text-center.display-4.font-weight-bold.mb-5 The Game of Nerds
-      .lead.text-light.text-center.font-weight-bold.mb-5 Create your Snek. Teach Snek to hunt another sneks. Run battle. Improvise. Adapt. Overcome.
+      .lead.text-light.text-center.font-weight-bold.mb-5 Create your Snek. Teach Snek to hunt other sneks. Fight. Improvise. Adapt. Overcome.
       - if user_signed_in?
         .text-center.mb-5 = link_to 'Go to my snekarium', sneks_path, class: 'btn btn-lg btn-primary'
       - else
@@ -13,8 +13,32 @@
   .row
     .col
 
-      h2 Most dangerous sneks
-      table.table
+      h3.mb-3 Teach
+      p.lead Create your Snek. Program it with a simple behavior programming interface (BPI). No specific skills required.
+
+      h3.mb-3.mt-5 Fight
+      p.lead Run automatic P2P fights with other players:
+      ul.lead
+        li.lead Run 1-to-1 fighting (Duel) to get access to 4-snakes battle.
+        li.lead Run 4-snakes battle to win all opponents and get a crown.
+        li.lead Use crown to initiate Battle Royale mode with 9 snakes.
+        li.lead Win Battle Royale to get access to Tournament and win a prize.
+
+      h3.mb-3.mt-5 Trade
+      p.lead Improve your snakes, make it unbeatable and sell it on Marketplace.
+
+      h3.mb-3.mt-5 Research
+      p Unlock AI Mode and replace BPI with Neural Network. Teach your neural network to win on Arena.
+
+      h3.mb-3.mt-5 Group
+      p.lead Join in clans, create your own clan, fight with enemy clans.
+
+      h3.mb-3.mt-5 Win
+      p.lead Get #{link_to 'to the Top', ratings_top_path} in the rating table.
+      p.lead Get your country to the top of #{link_to 'National Rating', ratings_national_path}.
+      p.lead Be Nerd.
+
+      table.table.mb-5
         thead
           th #
           th Snek
@@ -29,9 +53,12 @@
               td = render partial: 'partials/snek-preview', locals: {snek: snek[:snek]}
               td = snek[:battles]
               td = snek[:score]
-      p
-        = link_to 'Top rating', ratings_top_path, class: 'btn btn-primary mr-3'
-        = link_to 'National rating', ratings_national_path, class: 'btn btn-primary'
+
+      - if user_signed_in?
+        .text-center.mb-5 = link_to 'Go to my snekarium', sneks_path, class: 'btn btn-lg btn-primary'
+      - else
+        .text-center.mb-5 = link_to 'Sign up and get your Snek', new_user_registration_path, class: 'btn btn-lg btn-primary'
+
 
 
     .col-md-4

@@ -53,7 +53,6 @@ module SnekMath
     # Rotate matrix
     # @param direction [String] N, W, S, E. Doesn't do anything for N
     def rotate!(direction)
-      reset!
       if direction == 'N'
         # Do nothing
       elsif direction == 'S'

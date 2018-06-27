@@ -14,4 +14,8 @@ class WelcomeController < ApplicationController
     render "welcome/rules.#{I18n.locale}.slim"
   end
 
+  def credits
+
+  end
+
 end
