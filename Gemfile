@@ -32,6 +32,8 @@ gem 'stripe'
 gem 'whenever', require: false
 gem 'ahoy_matey'
 gem 'maxminddb'
+gem 'kaminari'
+gem 'bootstrap4-kaminari-views'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # Use Redis adapter to run Action Cable in production

@@ -1,6 +1,8 @@
 class BattlesController < ApplicationController
 
-  def index; end
+  def index
+    @battles = Battle.order(id: :desc).page(params[:page] || 0)
+  end
 
   def create
     @snek = current_user.sneks.find(params[:snek_id])

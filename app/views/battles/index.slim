@@ -11,7 +11,7 @@
             th Initiator
             th Opponents
         tbody
-          - Battle.order(id: :desc).each do |battle|
+          - @battles.each do |battle|
             - if battle.finished?
               tr
                 td
@@ -41,3 +41,6 @@
                   - if battle.mode == BattleMode::BATTLE_ROYALE
                     '  👑
                 td colspan='2' Running
+
+
+      .mb-5.mt-5 = paginate @battles, theme: 'twitter-bootstrap-4'
