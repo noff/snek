@@ -3,4 +3,4 @@
 development:
   :concurrency: 6
 production:
-  :concurrency: 6
+  :concurrency: 15
