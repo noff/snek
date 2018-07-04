@@ -47,8 +47,6 @@ class Battle < ApplicationRecord
   # @return Boolean
   def start!(options = {})
 
-    snek.increment!(:current_battles_count)
-
     # Start battle
     run!
 

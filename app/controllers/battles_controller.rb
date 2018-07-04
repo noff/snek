@@ -39,6 +39,7 @@ class BattlesController < ApplicationController
       end
 
       battle = Battle.create!(initiator_snek_id: @snek.id, mode: mode)
+      @snek.increment!(:current_battles_count)
       PerformBattleJob.perform_later battle, options
 
       flash[:just_launched_battle] = true
