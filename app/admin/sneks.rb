@@ -1,4 +1,6 @@
 ActiveAdmin.register Snek do
+  permit_params :name, :color, :pattern, :pattern_color
+
 
   scope 'All', :all
   scope 'Autofight', :for_autofight
@@ -17,6 +19,16 @@ ActiveAdmin.register Snek do
 
   filter :name
   filter :user
+
+  form do |f|
+    f.inputs do
+      f.input :name
+      f.input :color, as: :string
+      f.input :pattern
+      f.input :pattern_color, as: :string
+    end
+    f.actions
+  end
 
 
   member_action :reset_count, method: :put do
