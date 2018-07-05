@@ -13,7 +13,7 @@
   .col-md-4
     div class="btn-group mb-3" role="group" aria-label="Controls"
       - if user_signed_in? &&  @battle.snek.user_id == current_user.id
-        = link_to '↩️', @battle.snek, class: "btn btn-lg btn-outline-secondary"
+        = link_to '🐍️', @battle.snek, class: 'btn btn-lg btn-outline-secondary'
       button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="gotoBeginning()" ⏮
       button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="prevRound()" ⏪
       button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="nowPlaying = !nowPlaying" {{ nowPlaying ? '⏸' : '⏯' }}
