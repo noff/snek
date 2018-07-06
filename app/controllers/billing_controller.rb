@@ -77,8 +77,8 @@ class BillingController < ApplicationController
   # @param event [Hash]
   # @return Booleanm
   def valid_event?(event)
-    return false unless event['data']['livemode']
-    return false unless event['data']['type'] != 'charge.succeeded'
+    return false unless event['livemode']
+    return false unless event['type'] != 'charge.succeeded'
     return false if event['data']['object']['refunded']
     return false unless event['data']['object']['paid']
     return false unless event['data']['object']['captured']
