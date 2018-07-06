@@ -1,5 +1,7 @@
 ActiveAdmin.register PaidSubscription do
 
+  permit_params :amount, :paid_till, :renewable, :product
+
   scope 'All', :all
 
   index do
@@ -13,6 +15,16 @@ ActiveAdmin.register PaidSubscription do
     column :product
     column :created_at
     actions
+  end
+
+  form do |f|
+    f.inputs do
+      f.input :amount
+      f.input :paid_till
+      f.input :renewable
+      f.input :product
+    end
+    f.actions
   end
 
   filter :user
