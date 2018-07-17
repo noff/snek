@@ -20,10 +20,18 @@ class PaidSubscriptionsController < ApplicationController
 
     # Create stripe subscription
     plan_id = Stripe::Plan.list(product: product_code).first['id']
-    stripe_subscription = Stripe::Subscription.create customer: current_user.stripe_id,
-                                                      items: [
-                                                        { plan: plan_id }
-                                                      ]
+
+    begin
+      stripe_subscription = Stripe::Subscription.create customer: current_user.stripe_id,
+                                                        items: [
+                                                          { plan: plan_id }
+                                                        ]
+    rescue Stripe::CardError => e
+      Rollbar.warn e
+      redirect_to billing_path, alert: e.message
+      return
+    end
+
     # Create our local subscription
     current_user.paid_subscriptions.create! product: product,
                                             amount: product_price,
