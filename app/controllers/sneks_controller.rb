@@ -23,7 +23,8 @@ class SneksController < ApplicationController
     end
 
     # Is snek PRO?
-    is_pro = current_user.paid_subscriptions.count > (current_user.sneks.count - 1)
+    # Also check if user didn't create free snek
+    is_pro = current_user.paid_subscriptions.count > (current_user.sneks.count - 1) && current_user.paid_subscriptions.count > 0
 
     @snek = current_user.sneks.new
     @snek.name = params[:snek][:name].strip
