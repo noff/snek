@@ -51,7 +51,7 @@ class SneksController < ApplicationController
   def rules
     @snek = current_user.sneks.find(params[:id])
     gon.snek_rules = @snek.fetch_rules
-    ahoy.track 'Open Rules Editor', { snek_id: @snek.id }
+    ahoy.track 'Open Rules Editor', {snek_id: @snek.id}
   end
 
   def save_rules
