@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
 
   resources :paid_subscriptions, only: [:create]
+  resources :saved_battles, only: [:create, :destroy, :index]
 
   resources :sneks do
     member do

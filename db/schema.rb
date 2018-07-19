@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_15_121003) do
+ActiveRecord::Schema.define(version: 2018_07_19_195509) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -134,6 +134,14 @@ ActiveRecord::Schema.define(version: 2018_06_15_121003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "product"
+  end
+
+  create_table "saved_battles", force: :cascade do |t|
+    t.integer "battle_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id", "battle_id"], name: "index_saved_battles_on_user_id_and_battle_id", unique: true
   end
 
   create_table "snek_battles", force: :cascade do |t|

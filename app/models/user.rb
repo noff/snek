@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :sneks
+  has_many :saved_battles
   has_many :paid_subscriptions
   has_many :subscription_payments
 end

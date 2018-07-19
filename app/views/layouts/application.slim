@@ -84,6 +84,7 @@ html
             - if user_signed_in?
               li.nav-item = link_to 'My sneks', sneks_path, class: 'nav-link'
               li.nav-item = link_to "#{current_user.crowns} 👑", '#', class: 'nav-link'
+              li.nav-item = link_to 'My saved battles', saved_battles_path, class: 'nav-link'
               li.nav-item = link_to "Billing", billing_path, class: 'nav-link'
             li.nav-item = link_to 'Top sneks', ratings_top_path, class: 'nav-link'
             li.nav-item = link_to 'National rating', ratings_national_path, class: 'nav-link'

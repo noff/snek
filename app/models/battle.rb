@@ -6,6 +6,7 @@ class Battle < ApplicationRecord
   belongs_to :snek, class_name: "Snek", foreign_key: "initiator_snek_id", validate: false
   has_many :snek_battles
   has_many :battle_rounds
+  has_many :saved_battles
   belongs_to :arena
 
   aasm no_direct_assignment: true do
@@ -26,6 +27,12 @@ class Battle < ApplicationRecord
       transitions from: :failed, to: :draft
       transitions from: :running, to: :draft
     end
+  end
+
+
+  # @return String
+  def name
+    "Battle ##{id} #{mode == BattleMode::BATTLE_ROYALE ? '👑': '' }".strip
   end
 
 

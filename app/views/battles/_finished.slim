@@ -18,6 +18,11 @@
       button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="prevRound()" ⏪
       button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="nowPlaying = !nowPlaying" {{ nowPlaying ? '⏸' : '⏯' }}
       button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="nextRound()" ⏩
+      - if user_signed_in?
+        - if current_user.saved_battles.where(battle_id: @battle.id).exists?
+          = link_to 'Remove', current_user.saved_battles.find_by(battle_id: @battle.id), class: "btn btn-lg btn-outline-secondary", method: :delete
+        - else
+          = link_to 'Save', saved_battles_path(battle_id: @battle.id), class: "btn btn-lg btn-outline-secondary", method: :post
       / button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="gotoEnd()" ⏭
 
     table.table.opponent-table.mb-5#sneks
