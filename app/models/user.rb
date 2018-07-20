@@ -8,4 +8,9 @@ class User < ApplicationRecord
   has_many :saved_battles
   has_many :paid_subscriptions
   has_many :subscription_payments
+
+  def to_s
+    email
+  end
+
 end
