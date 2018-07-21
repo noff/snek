@@ -6,7 +6,7 @@ window.rulesEditor = function() {
         data: {
             currentTool: 'default',
             currentLogic: 'and',
-            rules: window.gon.snek_rules
+            rules: gon.snek_rules
         },
         methods: {
             selectTool: function(event) {

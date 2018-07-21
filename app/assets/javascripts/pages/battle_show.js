@@ -5,11 +5,11 @@ window.showBattle = function(arena_width) {
         el: '#app',
         data: {
             currentRound: 0,
-            rounds: window.gon.rounds,
-            totalRounds: window.gon.rounds.length,
+            rounds: gon.rounds,
+            totalRounds: gon.rounds.length,
             nowPlaying: false,
             playInterval: null,
-            sneks: window.gon.sneks
+            sneks: gon.sneks
         },
         methods: {
             renderRound: function () {
