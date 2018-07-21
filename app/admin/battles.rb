@@ -2,6 +2,7 @@ ActiveAdmin.register Battle do
 
   index do
     id_column
+    column :aasm_state
     column :created_at
     column :updated_at
   end
@@ -10,6 +11,7 @@ ActiveAdmin.register Battle do
     attributes_table do
       row :id
       row :snek
+      row :aasm_state
       row :created_at
       row :updated_at
     end
