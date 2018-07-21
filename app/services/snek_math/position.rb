@@ -103,7 +103,7 @@ module SnekMath
                       raise NotMatchedPattern unless pattern_cell[0] == cell
                     else
                       Rails.logger.debug "get_next_move: Incorrect logic: #{pattern_cell[1]}"
-                      raise Exception, "Incorrect logic in empty or wall: <#{pattern_cell[1].inspect}>. Pattern cell: <#{pattern_cell.inspect}>. Pattern: <#{pattern_matrix.matrix.to_s}>"
+                      raise Exception, "Incorrect logic in empty or wall: <#{pattern_cell[1].inspect}>. Pattern cell: <#{pattern_cell.inspect}>. Pattern: <#{pattern_matrix.matrix.to_str}>. Snek: <#{@snek.id}>"
                     end
                   else
                     # Sneks bodies, heads and tails
@@ -121,7 +121,7 @@ module SnekMath
                       when 'and'
                         raise NotMatchedPattern unless pattern_cell[0] == "my_#{parts[0]}"
                       else
-                        raise Exception, "Incorrect logic in my parts: <#{pattern_cell[1].inspect}>. Pattern cell: <#{pattern_cell.inspect}>. Pattern: <#{pattern_matrix.matrix.to_s}>"
+                        raise Exception, "Incorrect logic in my parts: <#{pattern_cell[1].inspect}>. Pattern cell: <#{pattern_cell.inspect}>. Pattern: <#{pattern_matrix.matrix.to_str}>. Snek: <#{@snek.id}>"
                       end
                     else
                       # Enemy parts
@@ -134,7 +134,7 @@ module SnekMath
                       when 'and'
                         raise NotMatchedPattern unless pattern_cell[0] == "enemy_#{parts[0]}"
                       else
-                        raise Exception, "Incorrect logic in enemy parts: <#{pattern_cell[1].inspect}>. Pattern cell: <#{pattern_cell.inspect}>. Pattern: <#{pattern_matrix.matrix.to_s}>"
+                        raise Exception, "Incorrect logic in enemy parts: <#{pattern_cell[1].inspect}>. Pattern cell: <#{pattern_cell.inspect}>. Pattern: <#{pattern_matrix.matrix.to_str}>. Snek: <#{@snek.id}>"
                       end
                     end
                   end
