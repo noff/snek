@@ -49,8 +49,6 @@ ActiveAdmin.register User do
         column :current_battles_count
       end
     end
-
-
   end
 
 end

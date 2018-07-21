@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_19_195509) do
+ActiveRecord::Schema.define(version: 2018_07_21_063938) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,9 @@ ActiveRecord::Schema.define(version: 2018_07_19_195509) do
     t.integer "mode", default: 0
     t.bigint "visit_id"
     t.index ["aasm_state"], name: "index_battles_on_aasm_state"
+    t.index ["arena_id"], name: "index_battles_on_arena_id"
+    t.index ["initiator_snek_id"], name: "index_battles_on_initiator_snek_id"
+    t.index ["mode"], name: "index_battles_on_mode"
     t.index ["visit_id"], name: "index_battles_on_visit_id"
   end
 
@@ -142,6 +145,7 @@ ActiveRecord::Schema.define(version: 2018_07_19_195509) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id", "battle_id"], name: "index_saved_battles_on_user_id_and_battle_id", unique: true
+    t.index ["user_id"], name: "index_saved_battles_on_user_id"
   end
 
   create_table "snek_battles", force: :cascade do |t|
@@ -168,6 +172,7 @@ ActiveRecord::Schema.define(version: 2018_07_19_195509) do
     t.boolean "pro", default: false
     t.bigint "visit_id"
     t.string "country"
+    t.index ["user_id"], name: "index_sneks_on_user_id"
     t.index ["visit_id"], name: "index_sneks_on_visit_id"
   end
 

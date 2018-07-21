@@ -23,6 +23,9 @@ class Snek < ApplicationRecord
   scope :pro, -> { where(pro: true) }
   scope :not_pro, -> { where(pro: false) }
 
+  def to_s
+    name
+  end
 
   # Fetch rules or create empty set if rules are null
   # @return Array
