@@ -39,9 +39,8 @@ class SneksController < ApplicationController
   end
 
   def destroy
-    @snek = current_user.sneks.find(params[:id])
-    @snek.destroy
-    redirect_to sneks_path, notice: "Rest in peace, #{@snek.name}"
+    # Don't delete sneks
+    raise StandardError, 'You can not delete sneks, sorry'
   end
 
   def show
