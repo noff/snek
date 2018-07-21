@@ -116,6 +116,7 @@ class Snek < ApplicationRecord
       errors.add(:rules, "Pattern #{index} must have exact 7 rows") if pattern.length != 7
       errors.add(:rules, "Pattern #{index} must be 7x7 cells") if pattern.flatten.length != 98 # 49 times per 2 elements
       errors.add(:rules, "Pattern #{index} must have one and only one my head") if pattern.flatten.select{ |cell| cell == 'my_head' }.length != 1
+      errors.add(:rules, "Pattern #{index} has forbidden values") if (pattern.flatten.uniq - ["and", "default", "empty", "enemy_body", "enemy_head", "enemy_tail", "my_body", "my_head", "my_tail", "not", "or", "wall"]).any?
     end
   end
 
