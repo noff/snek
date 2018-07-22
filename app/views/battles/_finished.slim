@@ -13,16 +13,16 @@
   .col-md-4
     div class="btn-group mb-3" role="group" aria-label="Controls"
       - if user_signed_in? &&  @battle.snek.user_id == current_user.id
-        = link_to '🐍️', @battle.snek, class: 'btn btn-lg btn-outline-secondary'
-      button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="gotoBeginning()" ⏮
-      button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="prevRound()" ⏪
-      button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="nowPlaying = !nowPlaying" {{ nowPlaying ? '⏸' : '⏯' }}
-      button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="nextRound()" ⏩
+        = link_to '🐍️', @battle.snek, class: 'btn btn-lg btn-outline-secondary', id: 'to-snek'
+      button id="control-rewind" type="button" class="btn btn-lg btn-outline-secondary" v-on:click="gotoBeginning()" ⏮
+      button id="control-prev" type="button" class="btn btn-lg btn-outline-secondary" v-on:click="prevRound()" ⏪
+      button id="control-play" type="button" class="btn btn-lg btn-outline-secondary" v-on:click="nowPlaying = !nowPlaying" {{ nowPlaying ? '⏸' : '⏯' }}
+      button id="control-next" type="button" class="btn btn-lg btn-outline-secondary" v-on:click="nextRound()" ⏩
       - if user_signed_in?
         - if current_user.saved_battles.where(battle_id: @battle.id).exists?
-          = link_to '❌', current_user.saved_battles.find_by(battle_id: @battle.id), class: "btn btn-lg btn-outline-secondary", method: :delete
+          = link_to '❌', current_user.saved_battles.find_by(battle_id: @battle.id), class: "btn btn-lg btn-outline-secondary", method: :delete, id: 'unbookmark'
         - else
-          = link_to '♥️', saved_battles_path(battle_id: @battle.id), class: "btn btn-lg btn-outline-secondary", method: :post
+          = link_to '♥️', saved_battles_path(battle_id: @battle.id), class: "btn btn-lg btn-outline-secondary", method: :post, id: 'bookmark'
       / button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="gotoEnd()" ⏭
 
     table.table.opponent-table.mb-5#sneks

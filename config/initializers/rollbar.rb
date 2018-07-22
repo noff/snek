@@ -17,7 +17,7 @@ Rollbar.configure do |config|
     config.js_options = {
         accessToken: Rails.application.credentials.rollbar[:client],
         captureUncaught: true,
-        ignoredMessages: ["Uncaught TypeError: Cannot read property 'stamp' of undefined"],
+        ignoredMessages: ["Cannot read property 'stamp' of undefined"],
         payload: {
             environment: "production"
         }
