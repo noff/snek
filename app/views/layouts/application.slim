@@ -10,8 +10,8 @@ html
     - if content_for?(:og_image)
       meta property="og:image" content="#{yield(:og_image)}"
     script src="//platform-api.sharethis.com/js/sharethis.js#property=5b0982573dfc7c0011da0e45&product=inline-share-buttons"
-    = stylesheet_link_tag    'application', media: 'all', :'data-turbolinks-track' => 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag    'application', media: 'all'
+    = javascript_include_tag 'application'
 
     - if Rails.env.production?
       script src="https://www.googletagmanager.com/gtag/js?id=UA-4022494-25" async
