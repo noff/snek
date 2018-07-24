@@ -35,15 +35,20 @@ class BillingController < ApplicationController
     if valid_event?(event)
 
       # Find customer for prolongation (it can be not exist)
-      user = User.find_by stripe_id: event['data']['object']['customer']
+      user = User.find_by stripe_id: event.data.object.customer
       if user
 
-        event_id = event['id']
-        amount_paid = event['data']['object']['amount']
+        event_id = event.id
+        amount_paid = event.data.object.amount
+        paid_subscription = user.paid_subscriptions.where(renewable: true).order(paid_till: :asc).first
 
-        # TODO find subscription to prolongation
-        # TODO prolong subscription
-        # TODO store SubscriptionPayment model
+        if paid_subscription.product == 'pro_snek'
+          # Prolong subscription
+          paid_subscription.update! paid_till: (paid_subscription.paid_till + 1.month)
+          # Store SubscriptionPayment model
+          paid_subscription.subscription_payment.create! amount: event.data.object.amount,
+                                                         user_id: current_user.id
+        end
 
       end
     end
@@ -77,12 +82,12 @@ class BillingController < ApplicationController
   # @param event [Hash]
   # @return Booleanm
   def valid_event?(event)
-    return false unless event['livemode']
-    return false unless event['type'] != 'charge.succeeded'
-    return false if event['data']['object']['refunded']
-    return false unless event['data']['object']['paid']
-    return false unless event['data']['object']['captured']
-    return false unless event['data']['object']['currency'] == 'usd'
+    return false unless event.livemode
+    return false unless event.type != 'charge.succeeded'
+    return false if event.data.object.refunded
+    return false unless event.data.object.paid
+    return false unless event.data.object.captured
+    return false unless event.data.object.currency == 'usd'
     true
   end
 
