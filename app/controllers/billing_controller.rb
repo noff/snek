@@ -84,10 +84,10 @@ class BillingController < ApplicationController
   def valid_event?(event)
     return false unless event.livemode
     return false unless event.type != 'charge.succeeded'
-    return false if event.data.object.refunded
     return false unless event.data.object.paid
     return false unless event.data.object.captured
     return false unless event.data.object.currency == 'usd'
+    return false if event.data.object.refunded
     true
   end
 
