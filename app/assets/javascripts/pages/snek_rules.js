@@ -18,7 +18,7 @@ window.rulesEditor = function() {
             },
 
             cellClass: function(x,y,z) {
-                var classes = 'r-pattern-cell__' + this.rules[x][y][z][0];
+                var classes = 'r-pattern-cell r-pattern-cell__' + this.rules[x][y][z][0];
                 switch(this.rules[x][y][z][1]) {
                     case 'or':
                         classes += ' r-pattern-cell__or';
