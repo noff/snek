@@ -83,7 +83,7 @@ class BillingController < ApplicationController
   # @return Booleanm
   def valid_event?(event)
     return false unless event.livemode
-    return false unless event.type != 'charge.succeeded'
+    return false unless event.type == 'charge.succeeded'
     return false unless event.data.object.paid
     return false unless event.data.object.captured
     return false unless event.data.object.currency == 'usd'
