@@ -23,6 +23,9 @@ window.showBattle = function(arena_width) {
                         direction_code = _this.directionClass(index, snek);
                         if(index == 0) {
                             cell_html = '<img src="' + gon.sneks[snek.snek_id].style.head + '" class="' + direction_code + '" title="' + gon.sneks[snek.snek_id].name + '">';
+                            if(gon.rounds[_this.currentRound-1] && gon.rounds[_this.currentRound-1].sneks[snek_number].position.length < snek.position.length) {
+                                cell_html += '<span class="ate-tail">&nbsp;</span>';
+                            }
                             $('#c_' + position.x + '_' + position.y).html(cell_html);
                         } else if (index != (snek.position.length - 1) ) {
                             if( snek.position[index-1].x != snek.position[index+1].x && snek.position[index-1].y != snek.position[index+1].y ) {
