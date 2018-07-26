@@ -30,7 +30,7 @@
         td colspan="2" Round
         td.text-right
           ' {{ currentRound }}
-      tr v-for="(snek, index) in rounds[currentRound].sneks"
+      tr :id="'snek-id-'+snek.snek_id" v-for="(snek, index) in rounds[currentRound].sneks"
         td.opponent-table-snek
           table.leader-table-snek
             tr
