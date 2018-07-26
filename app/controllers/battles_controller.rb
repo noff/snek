@@ -23,15 +23,16 @@ class BattlesController < ApplicationController
       end
 
       # If duel with somebody specific
-      if params[:opponent_id]
-        opponent_snek = Snek.find params[:opponent_id]
-        if opponent_snek
-          mode = BattleMode::DUEL
-          if opponent_snek.id != @snek.id && opponent_snek.auto_fight?
-            options[:opponent_snek] = opponent_snek
-          end
-        end
-      end
+      # Removed due to prevent score growth on noob sneks
+      # if params[:opponent_id]
+      #   opponent_snek = Snek.find params[:opponent_id]
+      #   if opponent_snek
+      #     mode = BattleMode::DUEL
+      #     if opponent_snek.id != @snek.id && opponent_snek.auto_fight?
+      #       options[:opponent_snek] = opponent_snek
+      #     end
+      #   end
+      # end
 
       # If battle royale and has crowns, reduce crowns
       if mode == BattleMode::BATTLE_ROYALE && current_user.crowns > 0
