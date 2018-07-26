@@ -21,10 +21,11 @@
     - (0..8).each do |pattern_id|
       .col-md-4
         .r-rules-pattern-container.mb-3
-          / div
-            span Drag
-            span Delete
-            span Check mirror
+          div.r-rules-pattern-controls.d-flex.justify-content-between
+            a class='btn btn-secondary btn-sm mr-1 #{pattern_id == 0 ? 'invisible' : ''}' v-on:click="moveLeft(#{pattern_id})" Move left
+            a class='btn btn-secondary btn-sm ml-1 #{pattern_id == 8 ? 'invisible' : ''}' v-on:click="moveRight(#{pattern_id})" Move right
+            / a class='btn btn-secondary btn-sm mr-1' v-on:click="clearPattern(#{pattern_id})" Clear
+            / a class='btn btn-secondary btn-sm mr-1' v-on:click="deletePattern(#{pattern_id})" Delete
           table.r-pattern-table
             - (0..6).each do |row_id|
               tr

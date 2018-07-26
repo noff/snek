@@ -97,6 +97,46 @@ window.rulesEditor = function() {
                 // Store to the form
                 $('#snek_rules').val( JSON.stringify(this.rules) );
 
+            },
+
+
+            moveLeft: function(id) {
+                if(id > 0) {
+                    var buff = this.rules[id-1];
+                    this.rules[id-1] = this.rules[id];
+                    this.rules[id] = buff;
+                    // Store to the form
+                    $('#snek_rules').val( JSON.stringify(this.rules) );
+                    // Re-draw
+                    this.redrawPattern(id);
+                    this.redrawPattern(id-1);
+                }
+            },
+
+            moveRight: function(id) {
+                if(id < (this.rules.length - 1)) {
+                    var buff = this.rules[id+1];
+                    this.rules[id+1] = this.rules[id];
+                    this.rules[id] = buff;
+                    // Store to the form
+                    $('#snek_rules').val( JSON.stringify(this.rules) );
+                    // Re-draw
+                    this.redrawPattern(id);
+                    this.redrawPattern(id+1);
+                }
+            },
+
+            // Re-draw pattern after changed rules
+            redrawPattern: function(id) {
+                var $cell;
+                var _this = this;
+                this.rules[id].forEach(function(row, y){
+                    row.forEach(function(cell, x) {
+                        $cell = $('#c_' + id + '_' + y + '_' + x);
+                        $cell.removeClass();
+                        $cell.addClass( _this.cellClassByTools(cell[0], cell[1]) );
+                    });
+                });
             }
 
         }
