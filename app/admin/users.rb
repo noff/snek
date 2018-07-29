@@ -8,9 +8,13 @@ ActiveAdmin.register User do
     column :sneks do |u|
       u.sneks.count
     end
+    column :crowns
     column :current_sign_in_at
     column :sign_in_count
     column :created_at
+    column :crowns do |c|
+      link_to 'Grant crown', grant_crown_admin_user_path(c), method: :put
+    end
     actions
   end
 
@@ -49,6 +53,11 @@ ActiveAdmin.register User do
         column :current_battles_count
       end
     end
+  end
+
+  member_action :grant_crown, method: :put do
+    resource.increment!(:crowns)
+    redirect_to admin_users_path, notice: 'Crown granted'
   end
 
 end
