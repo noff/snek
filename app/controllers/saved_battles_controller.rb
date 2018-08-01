@@ -11,12 +11,16 @@ class SavedBattlesController < ApplicationController
   end
 
   def destroy
-    saved_battle = current_user.saved_battles.find params[:id]
-    battle = saved_battle.battle
-    if saved_battle
-      saved_battle.destroy
-    end
+    saved_battle = current_user.saved_battles.find_by id: params[:id]
+    battle = Battle.find params[:battle_id]
+    saved_battle.destroy if saved_battle
     redirect_to battle
+  rescue ActiveRecord::RecordNotFound
+    if battle
+      redirect_to battle
+    else
+      redirect_to root_path
+    end
   end
 
   def index

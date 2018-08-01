@@ -18,12 +18,14 @@
       button id="control-prev" type="button" class="btn btn-lg btn-outline-secondary" v-on:click="prevRound()" ⏪
       button id="control-play" type="button" class="btn btn-lg btn-outline-secondary" v-on:click="nowPlaying = !nowPlaying" {{ nowPlaying ? '⏸' : '⏯' }}
       button id="control-next" type="button" class="btn btn-lg btn-outline-secondary" v-on:click="nextRound()" ⏩
-      - if user_signed_in?
-        - if current_user.saved_battles.where(battle_id: @battle.id).exists?
-          = link_to '❌', current_user.saved_battles.find_by(battle_id: @battle.id), class: "btn btn-lg btn-outline-secondary", method: :delete, id: 'unbookmark'
-        - else
-          = link_to '♥️', saved_battles_path(battle_id: @battle.id), class: "btn btn-lg btn-outline-secondary", method: :post, id: 'bookmark'
       / button type="button" class="btn btn-lg btn-outline-secondary" v-on:click="gotoEnd()" ⏭
+
+    - if user_signed_in?
+      .mb-3.mt-2
+        - if @saved_battle
+          = link_to 'Save battle', saved_battle_path(id: @saved_battle.id, battle_id: @battle.id), class: "btn btn-sm btn-secondary", method: :delete, id: 'unbookmark'
+        - else
+          = link_to 'Remove from saved️', saved_battles_path(battle_id: @battle.id), class: "btn btn-sm btn-secondary", method: :post, id: 'bookmark'
 
     table.table.opponent-table.mb-5#sneks
       tr
