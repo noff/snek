@@ -23,9 +23,9 @@
     - if user_signed_in?
       .mb-3.mt-2
         - if @saved_battle
-          = link_to 'Save battle', saved_battle_path(id: @saved_battle.id, battle_id: @battle.id), class: "btn btn-sm btn-secondary", method: :delete, id: 'unbookmark'
+          = link_to 'Save battle', saved_battle_path(id: @saved_battle.id, battle_id: @battle.id), class: "btn btn-sm btn-secondary btn-block", method: :delete, id: 'unbookmark'
         - else
-          = link_to 'Remove from saved️', saved_battles_path(battle_id: @battle.id), class: "btn btn-sm btn-secondary", method: :post, id: 'bookmark'
+          = link_to 'Remove from saved️', saved_battles_path(battle_id: @battle.id), class: "btn btn-sm btn-secondary btn-block", method: :post, id: 'bookmark'
 
     table.table.opponent-table.mb-5#sneks
       tr
