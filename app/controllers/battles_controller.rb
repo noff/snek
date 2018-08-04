@@ -1,5 +1,7 @@
 class BattlesController < ApplicationController
 
+  protect_from_forgery
+
   def index
     @battles = Battle.order(id: :desc).page(params[:page] || 0)
   end
