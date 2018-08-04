@@ -9,7 +9,7 @@ class SnekScore
   end
 
   def efficiency
-    @snek.snek_battles.where('created_at >= ?', 2.weeks.ago).exists? ? @snek.snek_battles.where('created_at >= ?', 2.weeks.ago).sum(:score) / @snek.snek_battles.where('created_at >= ?', 2.weeks.ago).count : 0
+    @snek.snek_battles.where('created_at >= ?', 2.weeks.ago).exists? ? @snek.snek_battles.where('created_at >= ?', 2.weeks.ago).sum(:score).to_f / @snek.snek_battles.where('created_at >= ?', 2.weeks.ago).count.to_f : 0.00
   end
 
 end

@@ -24,7 +24,7 @@
               tr
                 td = link_to snek.name, snek
                 td = SnekScore.new(snek).activity
-                td = SnekScore.new(snek).efficiency
+                td = number_with_precision SnekScore.new(snek).efficiency, precision: 2
                 td = snek.snek_battles.count
                 td = snek.snek_battles.map { |sb| sb.battle.snek_battles.order(score: :desc).first.snek_id }.select { |snek_id| snek_id == snek.id }.count
                 td = snek.snek_battles.where(score: 0).count
@@ -59,7 +59,7 @@
                 tr
                   td = link_to snek.name, snek
                   td = SnekScore.new(snek).activity
-                  td = SnekScore.new(snek).efficiency
+                  td = number_with_precision SnekScore.new(snek).efficiency, precision: 2
                   td = snek.snek_battles.count
                   td = snek.snek_battles.map {|sb| sb.battle.snek_battles.order(score: :desc).first.snek_id}.select {|snek_id| snek_id == snek.id}.count
                   td = snek.snek_battles.where(score: 0).count
