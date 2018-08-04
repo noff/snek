@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   get 'ratings/top'
+  get 'ratings/activity'
   get 'ratings/national'
 
   get 'billing' => 'billing#index'

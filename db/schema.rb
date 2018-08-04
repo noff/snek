@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_21_063938) do
+ActiveRecord::Schema.define(version: 2018_08_04_191820) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -119,10 +119,12 @@ ActiveRecord::Schema.define(version: 2018_07_21_063938) do
   create_table "daily_ratings", force: :cascade do |t|
     t.integer "snek_id"
     t.date "date"
-    t.integer "position"
+    t.integer "activity_position"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "score", default: 0
+    t.integer "activity_score", default: 0
+    t.integer "efficiency_position"
+    t.integer "efficiency_score", default: 0
     t.index ["date"], name: "index_daily_ratings_on_date"
     t.index ["snek_id", "date"], name: "index_daily_ratings_on_snek_id_and_date", unique: true
     t.index ["snek_id"], name: "index_daily_ratings_on_snek_id"

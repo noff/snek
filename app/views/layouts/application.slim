@@ -83,8 +83,12 @@ html
               li.nav-item = link_to "#{current_user.crowns} 👑", '#', class: 'nav-link'
               li.nav-item = link_to 'My saved battles', saved_battles_path, class: 'nav-link'
               li.nav-item = link_to "Billing", billing_path, class: 'nav-link'
-            li.nav-item = link_to 'Top sneks', ratings_top_path, class: 'nav-link'
-            li.nav-item = link_to 'National rating', ratings_national_path, class: 'nav-link'
+            li class="nav-item dropdown"
+              a class="nav-link dropdown-toggle" href="#" id="navbarRating" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" Ratings
+              div class="dropdown-menu" aria-labelledby="navbarRating"
+                = link_to 'Top efficient sneks', ratings_top_path, class: 'dropdown-item'
+                = link_to 'Top active sneks', ratings_activity_path, class: 'dropdown-item'
+                = link_to 'National rating', ratings_national_path, class: 'dropdown-item'
             li.nav-item = link_to 'Rules', welcome_rules_path, class: 'nav-link'
             / li.nav-item = link_to 'Crowdfunding!', 'https://igg.me/at/snekfite', class: 'nav-link', target: '_blank'
             li.nav-item = link_to 'Credits', welcome_credits_path, class: 'nav-link'

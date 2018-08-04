@@ -13,16 +13,37 @@ class DailyRatingCalculator
   end
 
   def perform
-    sneks_with_positions = Snek.all.map do |snek|
-      [snek, SnekScore.new(snek).score]
-    end.sort { |a, b| a[1] <=> b[1] }.reverse
 
-    sneks_with_positions.each_with_index do |rating, index|
-      row = DailyRating.find_by(snek_id: rating[0].id, date: date)
+    sneks = Snek.select(:id, :name).map { |snek| {snek: snek, activity_score: SnekScore.new(snek).activity, efficiency_score: SnekScore.new(snek).efficiency, activity_position: 0, efficiency_position: 0  } }
+
+    # Calculate efficiency position
+    sneks.sort! { |a,b| a[:efficiency_score] <=> b[:efficiency_score] }
+    sneks.reverse!
+    sneks.each_with_index do |v, k|
+      sneks[k][:efficiency_position] = k + 1
+    end
+
+    # Calculate activity position
+    sneks.sort! { |a,b| a[:activity_score] <=> b[:activity_score] }
+    sneks.reverse!
+    sneks.each_with_index do |v, k|
+      sneks[k][:activity_position] = k + 1
+    end
+
+    sneks.each do |snek|
+      row = DailyRating.find_by(snek_id: snek[:snek].id, date: date)
       if row
-        row.update position: (index + 1), score: rating[1]
+        row.update activity_position: snek[:activity_position],
+                   activity_score: snek[:activity_score],
+                   efficiency_position: snek[:efficiency_position],
+                   efficiency_score: snek[:efficiency_score]
       else
-        DailyRating.create! snek_id: rating[0].id, date: date, position: (index + 1), score: rating[1]
+        DailyRating.create! snek_id: snek[:snek].id,
+                            date: date,
+                            activity_position: snek[:activity_position],
+                            activity_score: snek[:activity_score],
+                            efficiency_position: snek[:efficiency_position],
+                            efficiency_score: snek[:efficiency_score]
       end
     end
 

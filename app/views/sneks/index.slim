@@ -13,7 +13,8 @@
           thead
             tr
               th Snek name
-              th Score
+              th Activity
+              th Efficiency
               th Fights
               th Wins
               th Loses
@@ -22,7 +23,8 @@
             - @sneks.not_pro.each do |snek|
               tr
                 td = link_to snek.name, snek
-                td = SnekScore.new(snek).score
+                td = SnekScore.new(snek).activity
+                td = SnekScore.new(snek).efficiency
                 td = snek.snek_battles.count
                 td = snek.snek_battles.map { |sb| sb.battle.snek_battles.order(score: :desc).first.snek_id }.select { |snek_id| snek_id == snek.id }.count
                 td = snek.snek_battles.where(score: 0).count
@@ -46,7 +48,8 @@
             thead
               tr
                 th Snek name
-                th Score
+                th Activity
+                th Efficiency
                 th Fights
                 th Wins
                 th Loses
@@ -55,7 +58,8 @@
               - @sneks.pro.each do |snek|
                 tr
                   td = link_to snek.name, snek
-                  td = SnekScore.new(snek).score
+                  td = SnekScore.new(snek).activity
+                  td = SnekScore.new(snek).efficiency
                   td = snek.snek_battles.count
                   td = snek.snek_battles.map {|sb| sb.battle.snek_battles.order(score: :desc).first.snek_id}.select {|snek_id| snek_id == snek.id}.count
                   td = snek.snek_battles.where(score: 0).count

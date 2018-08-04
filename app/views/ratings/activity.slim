@@ -1,10 +1,10 @@
-- content_for :title, "Top efficient sneks"
+- content_for :title, "Top active sneks"
 
 .container
   .row
     .col
 
-      h1.mb-3 Top efficient sneks
+      h1.mb-3 Top active sneks
       table.table
         thead
           th #
@@ -12,7 +12,7 @@
           th
           th
           th Fights
-          th Efficiency
+          th Score
         tbody
           - @top_sneks.each_with_index do |snek, index|
             tr
