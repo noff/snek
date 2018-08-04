@@ -46,8 +46,7 @@ class BillingController < ApplicationController
           # Prolong subscription
           paid_subscription.update! paid_till: (paid_subscription.paid_till + 1.month)
           # Store SubscriptionPayment model
-          paid_subscription.subscription_payments.create! amount: event.data.object.amount,
-                                                         user_id: current_user.id
+          paid_subscription.subscription_payments.create! amount: event.data.object.amount, user_id: user.id
         end
 
       end
