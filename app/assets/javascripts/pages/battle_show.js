@@ -21,6 +21,12 @@ window.showBattle = function(arena_width) {
                 sneks.forEach(function(snek, snek_number){
                     snek.position.forEach(function (position, index) {
                         direction_code = _this.directionClass(index, snek);
+                        if(gon.rounds[_this.currentRound-1]
+                            && JSON.stringify(gon.rounds[_this.currentRound-1].sneks[snek_number].position) == JSON.stringify(snek.position)) {
+                            $('#c_' + position.x + '_' + position.y).addClass('blocked-snek');
+                        }else{
+                            $('#c_' + position.x + '_' + position.y).removeClass('blocked-snek');
+                        }
                         if(index == 0) {
                             cell_html = '<img src="' + gon.sneks[snek.snek_id].style.head + '" class="' + direction_code + '" title="' + gon.sneks[snek.snek_id].name + '">';
                             $('#c_' + position.x + '_' + position.y).html(cell_html);
