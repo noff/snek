@@ -22,21 +22,21 @@ window.showBattle = function(arena_width) {
                     snek.position.forEach(function (position, index) {
                         direction_code = _this.directionClass(index, snek);
                         if(index == 0) {
-                            cell_html = '<img src="' + gon.sneks[snek.snek_id].style.head + '" class="' + direction_code + '" title="' + gon.sneks[snek.snek_id].name + '">';
+                            cell_html = '<img src="' + gon.sneks[snek.snek_id].style.head + '" class="' + direction_code + '" title="' + gon.sneks[snek.snek_id].name + '" data-snek-id="' + snek.snek_id + '">';
                             $('#c_' + position.x + '_' + position.y).html(cell_html);
                         } else if (index != (snek.position.length - 1) ) {
                             if( snek.position[index-1].x != snek.position[index+1].x && snek.position[index-1].y != snek.position[index+1].y ) {
                                 cell_html = '<img src="' + gon.sneks[snek.snek_id].style.curve + '" class="' + direction_code + '">';
-                                cell_html += '<img src="' + gon.sneks[snek.snek_id].style.curve_pattern + '" class="' + direction_code + '">';
+                                cell_html += '<img src="' + gon.sneks[snek.snek_id].style.curve_pattern + '" class="' + direction_code + '" data-snek-id="' + snek.snek_id + '">';
                                 $('#c_' + position.x + '_' + position.y).html(cell_html);
                             } else {
                                 cell_html = '<img src="' + gon.sneks[snek.snek_id].style.body + '" class="' + direction_code + '">';
-                                cell_html += '<img src="' + gon.sneks[snek.snek_id].style.body_pattern + '" class="' + direction_code + '">';
+                                cell_html += '<img src="' + gon.sneks[snek.snek_id].style.body_pattern + '" class="' + direction_code + '" data-snek-id="' + snek.snek_id + '">';
                                 $('#c_' + position.x + '_' + position.y).html(cell_html);
                             }
                         } else {
                             cell_html = '<img src="' + gon.sneks[snek.snek_id].style.tail + '" class="' + direction_code + '">';
-                            cell_html += '<img src="' + gon.sneks[snek.snek_id].style.tail_pattern + '" class="' + direction_code + '">';
+                            cell_html += '<img src="' + gon.sneks[snek.snek_id].style.tail_pattern + '" class="' + direction_code + '" data-snek-id="' + snek.snek_id + '">';
                             $('#c_' + position.x + '_' + position.y).html(cell_html);
                         }
                     });
@@ -224,6 +224,14 @@ window.showBattle = function(arena_width) {
     // On window resize
     $(document).ready(resizeArena);
     $(window).resize(resizeArena);
+
+    // On hover snek outline it in the list of sneks
+    $('body').on('mouseenter', 'img[data-snek-id]', function () {
+        $('tr#snek-id-'+$(this).data('snek-id')).addClass('hover')
+    });
+    $('body').on('mouseleave', 'img[data-snek-id]', function () {
+        $('tr#snek-id-'+$(this).data('snek-id')).removeClass('hover')
+    });
 
     // Resize patterns cells
     function resizeArena() {
