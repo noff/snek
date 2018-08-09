@@ -26,7 +26,7 @@
                 td = SnekScore.new(snek).activity
                 td = number_with_precision SnekScore.new(snek).efficiency, precision: 2
                 td = snek.snek_battles.count
-                td = snek.snek_battles.map { |sb| sb.battle.snek_battles.select(:snek_id, :score).order(score: :desc).first.snek_id }.select { |snek_id| snek_id == snek.id }.count
+                td = snek.snek_battles.order(id: :desc).where('created_at >= ?', 2.weeks.ago).map { |sb| sb.battle.snek_battles.select(:snek_id, :score).order(score: :desc).first.snek_id }.select { |snek_id| snek_id == snek.id }.count
                 td = snek.snek_battles.where(score: 0).count
                 td
                   - if snek.snek_battles.exists?
@@ -61,7 +61,7 @@
                   td = SnekScore.new(snek).activity
                   td = number_with_precision SnekScore.new(snek).efficiency, precision: 2
                   td = snek.snek_battles.count
-                  td = snek.snek_battles.map {|sb| sb.battle.snek_battles.select(:snek_id, :score).order(score: :desc).first.snek_id}.select {|snek_id| snek_id == snek.id}.count
+                  td = snek.snek_battles.order(id: :desc).where('created_at >= ?', 2.weeks.ago).map {|sb| sb.battle.snek_battles.select(:snek_id, :score).order(score: :desc).first.snek_id}.select {|snek_id| snek_id == snek.id}.count
                   td = snek.snek_battles.where(score: 0).count
                   td
                     - if snek.snek_battles.exists?
