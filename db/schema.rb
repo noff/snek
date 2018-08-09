@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_04_195242) do
+ActiveRecord::Schema.define(version: 2018_08_09_070412) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -157,6 +157,7 @@ ActiveRecord::Schema.define(version: 2018_08_04_195242) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["battle_id"], name: "index_snek_battles_on_battle_id"
+    t.index ["snek_id", "score"], name: "index_snek_battles_on_snek_id_and_score"
     t.index ["snek_id"], name: "index_snek_battles_on_snek_id"
   end
 
