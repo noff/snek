@@ -45,6 +45,7 @@ class SneksController < ApplicationController
 
   def show
     @snek = current_user.sneks.find(params[:id])
+    @snek_battles = @snek.snek_battles.order(id: :desc).page(params[:page] || 0)
   end
 
   def rules

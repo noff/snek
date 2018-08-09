@@ -70,7 +70,7 @@
             th Opponents
             th Score
         tbody
-          - @snek.snek_battles.order(id: :desc).limit(50).each do |snek_battle|
+          - @snek_battles.each do |snek_battle|
             tr
               td
                 = link_to snek_battle.battle.id, snek_battle.battle
@@ -79,3 +79,5 @@
               td = snek_battle.created_at.to_formatted_s(:short)
               td = snek_battle.battle.snek_battles.map { |sb| sb.snek.short_name }.join(', ')
               td = snek_battle.score
+
+      = paginate @snek_battles, theme: 'twitter-bootstrap-4'
