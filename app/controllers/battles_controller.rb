@@ -1,6 +1,7 @@
 class BattlesController < ApplicationController
 
   protect_from_forgery
+  before_action :authenticate_user!, only: [:create]
 
   def index
     @battles = Battle.order(id: :desc).page(params[:page] || 0)
