@@ -14,7 +14,12 @@
           th Fights
           th Score
         tbody
+          - current_trier = 0
           - @top_sneks.each_with_index do |snek, index|
+            - if @tiers.include?(index)
+              tr
+                th colspan="6" class="text-center" TIER #{current_trier}
+                - current_trier += 1
             tr
               td
                 span = snek[:position]

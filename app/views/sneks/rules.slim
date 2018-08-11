@@ -1,36 +1,42 @@
 - content_for :title, 'Snek Programming'
 
-.container#app
-  .row
-    .col
-      h1 #{@snek.name} programming
-    .col.text-right.mb-5
-      = simple_form_for @snek, url: save_rules_snek_path(@snek), method: :put do |f|
-        = f.input :rules,  as: :hidden, input_html: {value: @snek.rules.to_json}
-        = link_to 'RTFM: How to program Snek', welcome_rules_path, class: 'btn btn-secondary', target: '_blank'
-        = link_to 'Cancel', @snek, class: 'btn btn-secondary ml-3'
-        = f.submit 'Save', class: 'btn btn-primary ml-3'
+div#app
 
-  .row
-    .col-md-8.mb-3
-      = render 'tools'
-    .col-md-4.mb-3
-      = render 'logic'
+  .container
+    .row
+      .col
+        h1 #{@snek.name} programming
+      .col.text-right.mb-5
+        = simple_form_for @snek, url: save_rules_snek_path(@snek), method: :put do |f|
+          = f.input :rules,  as: :hidden, input_html: {value: @snek.rules.to_json}
+          = link_to 'RTFM: How to program Snek', welcome_rules_path, class: 'btn btn-secondary', target: '_blank'
+          = link_to 'Cancel', @snek, class: 'btn btn-secondary ml-3'
+          = f.submit 'Save', class: 'btn btn-primary ml-3'
 
-  .row
-    - (0..8).each do |pattern_id|
-      .col-md-4
-        .r-rules-pattern-container.mb-3
-          div.r-rules-pattern-controls.d-flex.justify-content-between
-            a class='btn btn-secondary btn-sm mr-1 #{pattern_id == 0 ? 'invisible' : ''}' v-on:click="moveLeft(#{pattern_id})" Move left
-            a class='btn btn-secondary btn-sm ml-1 #{pattern_id == 8 ? 'invisible' : ''}' v-on:click="moveRight(#{pattern_id})" Move right
-            / a class='btn btn-secondary btn-sm mr-1' v-on:click="clearPattern(#{pattern_id})" Clear
-            / a class='btn btn-secondary btn-sm mr-1' v-on:click="deletePattern(#{pattern_id})" Delete
-          table.r-pattern-table
-            - (0..6).each do |row_id|
-              tr
-                - (0..6).each do |cell_id|
-                  td id="c_#{pattern_id}_#{row_id}_#{cell_id}"  v-bind:class="cellClass(#{pattern_id}, #{row_id}, #{cell_id})" v-on:click="setTool({pattern: #{pattern_id}, row: #{row_id}, cell: #{cell_id}})"
+    .row
+      .col-md-8.mb-3
+        = render 'tools'
+      .col-md-4.mb-3
+        = render 'logic'
+
+    .row
+      - (0..8).each do |pattern_id|
+        .col-md-4
+          .r-rules-pattern-container.mb-3
+            div.r-rules-pattern-controls.d-flex.justify-content-between
+              a class='btn btn-secondary btn-sm mr-1 #{pattern_id == 0 ? 'invisible' : ''}' v-on:click="moveLeft(#{pattern_id})" Move left
+              / a class='btn btn-secondary btn-sm' data-toggle="modal" data-target="#test-pattern" v-on:click="testPattern(#{pattern_id})" Test
+              a class='btn btn-secondary btn-sm ml-1 #{pattern_id == 8 ? 'invisible' : ''}' v-on:click="moveRight(#{pattern_id})" Move right
+              / a class='btn btn-secondary btn-sm mr-1' v-on:click="clearPattern(#{pattern_id})" Clear
+              / a class='btn btn-secondary btn-sm mr-1' v-on:click="deletePattern(#{pattern_id})" Delete
+            table.r-pattern-table
+              - (0..6).each do |row_id|
+                tr
+                  - (0..6).each do |cell_id|
+                    td id="c_#{pattern_id}_#{row_id}_#{cell_id}"  v-bind:class="cellClass(#{pattern_id}, #{row_id}, #{cell_id})" v-on:click="setTool({pattern: #{pattern_id}, row: #{row_id}, cell: #{cell_id}})"
+
+  = render 'test'
+
 
 
 javascript:

@@ -11,6 +11,7 @@ class RatingsController < ApplicationController
       end
       @top_sneks[index][:change] = -(@top_sneks[index][:position] - prev_day_position)
     end
+    @tiers = [0, 1, 3, 10, 25, 50]
   end
 
   def activity
@@ -24,6 +25,7 @@ class RatingsController < ApplicationController
       end
       @top_sneks[index][:change] = -(@top_sneks[index][:position] - prev_day_position)
     end
+    @tiers = [0, 1, 3, 10, 25, 50]
   end
 
   def national

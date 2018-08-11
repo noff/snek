@@ -137,6 +137,10 @@ window.rulesEditor = function() {
                         $cell.addClass( _this.cellClassByTools(cell[0], cell[1]) );
                     });
                 });
+            },
+
+            testPattern: function(id) {
+                console.log(123);
             }
 
         }

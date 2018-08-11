@@ -1,0 +1,17 @@
+
+div class="modal" tabindex="-1" role="dialog" id="test-pattern"
+  div class="modal-dialog modal-dialog-centered modal-lg" role="document"
+    div class="modal-content"
+      div class="modal-header"
+        h5 class="modal-title" Test pattern
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+      div class="modal-body"
+        .container-fluid
+          .row
+            .col-md-4
+              select#battle-selector
+                - current_user.saved_battles.joins(:battle).limit(30).order(id: :desc).each do |saved_battle|
+                  option = saved_battle.battle.name
+            .col-md-8
+              p area
