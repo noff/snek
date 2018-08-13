@@ -4,7 +4,7 @@
       <div class="modal-header">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-2">
+            <div class="col-md-3">
               <div><label for="">Select battle</label></div>
               <select id="battle-selector" v-on:change="selectSavedBattle">
                 <option value="">Select battle</option>
@@ -17,7 +17,7 @@
               <div><label for="">Select snake</label></div>
               <select id="snek-selector" v-on:change="selectSnek"></select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-5">
               <div><label for="">Select round</label> ({{ currentRound }})</div>
               <input type="range" min="0" max="100" class="slider" id="round-selector" v-model="currentRound" v-bind:class="{invisible: battle_id === null }">
             </div>
