@@ -20,6 +20,9 @@ Rails.application.routes.draw do
   resources :saved_battles, only: [:create, :destroy, :index]
 
   resources :sneks, except: [:destroy] do
+    collection do
+      post :test_pattern
+    end
     member do
       get :rules
       put :save_rules
@@ -30,6 +33,7 @@ Rails.application.routes.draw do
   resources :battles, only: [:create, :show, :index] do
     member do
       get :image, defaults: { format: 'png' }
+      get :data, defaults: { format: :json }
     end
   end
 

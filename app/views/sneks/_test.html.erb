@@ -1,0 +1,70 @@
+<div class="modal" tabindex="-1" role="dialog" id="test-pattern">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-2">
+              <div><label for="">Select battle</label></div>
+              <select id="battle-selector" v-on:change="selectSavedBattle">
+                <option value="">Select battle</option>
+                <% current_user.saved_battles.joins(:battle).limit(30).order(id: :desc).each do |saved_battle| %>
+                  <option value="<%= saved_battle.battle.id%>"><%= saved_battle.battle.name%></option>
+                <% end %>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <div><label for="">Select snake</label></div>
+              <select id="snek-selector" v-on:change="selectSnek"></select>
+            </div>
+            <div class="col-md-6">
+              <div><label for="">Select round</label> ({{ currentRound }})</div>
+              <input type="range" min="0" max="100" class="slider" id="round-selector" v-model="currentRound" v-bind:class="{invisible: battle_id === null }">
+            </div>
+            <div class="col-md-1">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-4">
+              <div id="test-pattern-container"></div>
+              <div v-bind:class="{ invisible: (selected_snek == null) }"><button class="btn btn-sm btn-primary my-3" v-on:click="runTest">Test pattern</button></div>
+              <div id="test-output" v-bind:class="{invisible: (final_direction == null)}">Calculated direction: {{final_direction}}</div>
+            </div>
+            <div class="col-md-8">
+              <div>
+                <table class="arena-container" id="test-arena"></table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+if (typeof(window.testPattern) === 'function') {
+  window.testPattern();
+}
+
+// On window resize
+$(document).ready(resizeArena);
+$(window).resize(resizeArena);
+
+// Resize patterns cells
+function resizeArena() {
+    var cells = $('#test-arena tr:first td').length || 1;
+    var cell_width = parseInt($('#test-arena').width() / cells);
+    $('#test-arena td').width(cell_width);
+    $('#test-arena td').height(cell_width);
+}
+</script>
+

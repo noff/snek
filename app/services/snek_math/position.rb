@@ -301,6 +301,7 @@ module SnekMath
     # @param matrix [SnekMath::Matrix]
     def draw_on(matrix)
       @position.each_with_index do |coords, i|
+        coords.symbolize_keys!
         if i.zero?
           matrix.set(coords[:x], coords[:y], "head-#{@snek.id}")
         elsif i == (position.length - 1)

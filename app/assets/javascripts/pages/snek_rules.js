@@ -137,12 +137,7 @@ window.rulesEditor = function() {
                         $cell.addClass( _this.cellClassByTools(cell[0], cell[1]) );
                     });
                 });
-            },
-
-            testPattern: function(id) {
-                console.log(123);
             }
-
         }
     });
 
@@ -152,8 +147,8 @@ window.rulesEditor = function() {
 
     // Resize patterns cells
     function resizePatterns() {
-        $('.r-pattern-table').height($('.r-pattern-table').width());
-        $('.r-pattern-table td').height($('.r-pattern-table td').width());
+        $('.r-pattern-table-resizable').height($('.r-pattern-table-resizable').width());
+        $('.r-pattern-table-resizable td').height($('.r-pattern-table-resizable td').width());
     }
 
 };

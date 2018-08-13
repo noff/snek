@@ -77,4 +77,29 @@ class SneksController < ApplicationController
     redirect_to @snek, notice: 'Autofight mode changed'
   end
 
+  def test_pattern
+    battle = Battle.find params[:battle_id]
+    battle_round = battle.battle_rounds.find_by(round_number: params[:round])
+    sneks = battle_round.sneks
+    snek = Snek.find params[:snek_id]
+    pattern = JSON.parse params[:pattern]
+    current_arena = battle.arena.get_matrix
+
+    # Store to Position model
+    snek_positions = sneks.map { |s|  SnekMath::Position.new( Snek.find(s['snek_id']), s['position']) }
+
+    # Draw sneks on position
+    snek_positions.each do |snek_position|
+      snek_position.draw_on(current_arena)
+    end
+
+    # Take only needed snek
+    snek_position = snek_positions.select { |sp| sp.snek.id == snek.id }.first
+
+    # Check move position
+    move_direction = snek_position.get_next_move(current_arena)
+
+    render json: {direction: move_direction}
+  end
+
 end

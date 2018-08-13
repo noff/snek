@@ -25,24 +25,30 @@ div#app
           .r-rules-pattern-container.mb-3
             div.r-rules-pattern-controls.d-flex.justify-content-between
               a class='btn btn-secondary btn-sm mr-1 #{pattern_id == 0 ? 'invisible' : ''}' v-on:click="moveLeft(#{pattern_id})" Move left
-              / a class='btn btn-secondary btn-sm' data-toggle="modal" data-target="#test-pattern" v-on:click="testPattern(#{pattern_id})" Test
+              - if current_user.saved_battles.exists?
+                a class='btn btn-secondary btn-sm' data-toggle="modal" data-target="#test-pattern" onclick="tester.testPattern(#{pattern_id})" Test
+              - else
+                a class='btn btn-secondary btn-sm' data-toggle="modal" data-target="#test-pattern" Test
               a class='btn btn-secondary btn-sm ml-1 #{pattern_id == 8 ? 'invisible' : ''}' v-on:click="moveRight(#{pattern_id})" Move right
               / a class='btn btn-secondary btn-sm mr-1' v-on:click="clearPattern(#{pattern_id})" Clear
               / a class='btn btn-secondary btn-sm mr-1' v-on:click="deletePattern(#{pattern_id})" Delete
-            table.r-pattern-table
+            table.r-pattern-table.r-pattern-table-resizable
               - (0..6).each do |row_id|
                 tr
                   - (0..6).each do |cell_id|
                     td id="c_#{pattern_id}_#{row_id}_#{cell_id}"  v-bind:class="cellClass(#{pattern_id}, #{row_id}, #{cell_id})" v-on:click="setTool({pattern: #{pattern_id}, row: #{row_id}, cell: #{cell_id}})"
 
+- if current_user.saved_battles.exists?
   = render 'test'
-
+- else
+= render 'test-empty'
 
 
 javascript:
     if (typeof(window.rulesEditor) === 'function') {
         window.rulesEditor();
     }
+
 
 
 - if Rails.env.production?

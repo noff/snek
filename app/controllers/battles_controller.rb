@@ -81,4 +81,14 @@ class BattlesController < ApplicationController
               filename: "battle-#{@battle.id}.png"
   end
 
+  def data
+    @battle = Battle.find params[:id]
+    render json: {
+            rounds: @battle.battle_rounds.order(:id).map { |round| {sneks: round.sneks, number: round.round_number} },
+            snek_names: Hash[@battle.battle_rounds.order(:id).first.sneks.map { |s| [ s['snek_id'], Snek.find(s['snek_id']).short_name] }],
+            sneks: Hash[@battle.snek_battles.map { |sb| [sb.snek.id.to_s, { id: sb.snek.id, name: sb.snek.short_name, style: sb.snek.style_asset_urls}] }],
+            arena: @battle.arena.area
+        }
+  end
+
 end
