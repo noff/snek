@@ -14,6 +14,7 @@ window.testPattern = function() {
             sneks: [],
             selected_snek: null,
             currentRound: 0,
+            totalRounds: null,
             final_direction: null
         },
 
@@ -44,6 +45,7 @@ window.testPattern = function() {
                             _this.arena = response.arena;
                             _this.snek_names = response.snek_names;
                             _this.sneks = response.sneks;
+                            _this.totalRounds = response.rounds.length;
                             _this.drawRound(0);
                         }
                     });
@@ -62,24 +64,35 @@ window.testPattern = function() {
 
             selectSnek: function() {
                 var snek = $('#snek-selector').val();
-                this.selected_snek = snek ? snek : null;
+                this.selected_snek = snek ? parseInt(snek) : null;
+                this.drawRound(this.currentRound)
             },
 
             drawRound: function(id) {
                 var round = this.rounds[id];
 
-                this.selected_snek = null;
                 this.final_direction = null;
 
                 // Draw sneks selector
                 var sneks = round.sneks;
-                var options = "<option value=''>Select snek</option>";
-                for(var i in sneks) {
-                    if(sneks.hasOwnProperty(i)) {
-                        options += "<option value='" + sneks[i].snek_id + "'>" + this.snek_names[sneks[i].snek_id] + "</option>";
+                var options = "<option>Select snek</option>";
+                var has_current = false
+                for (var i in sneks) {
+                    if (sneks.hasOwnProperty(i)) {
+                        let snekId = sneks[i].snek_id;
+                        options += "<option value='" + snekId + "'";
+                        if (this.selected_snek === snekId) {
+                            has_current = true;
+                            options += " selected"
+                        }
+                        options += ">" + this.snek_names[snekId] + "</option>";
+
                     }
                 }
                 $('#snek-selector').html(options);
+                if (!has_current) {
+                    this.selected_snek = null;
+                }
 
                 // Draw rounds selector
                 $('#round-selector').prop('max', this.rounds.length - 1);
@@ -107,22 +120,31 @@ window.testPattern = function() {
                 round.sneks.forEach(function(snek, snek_number){
                     snek.position.forEach(function (position, index) {
                         direction_code = _this.directionClass(index, snek);
+
+                        var class_skin = '" class="' + direction_code + '"';
+                        var class_body = '" class="' + direction_code ;
+                        if (_this.selected_snek === snek.snek_id) {
+                            class_body += ' selected-snek"'
+                        } else {
+                            class_body += '"'
+                        }
+
                         if(index === 0) {
-                            cell_html = '<img src="' + _this.sneks[snek.snek_id].style.head + '" class="' + direction_code + '" title="' + _this.sneks[snek.snek_id].name + '">';
+                            cell_html = '<img src="' + _this.sneks[snek.snek_id].style.head + class_body + ' title="' + _this.sneks[snek.snek_id].name + '">';
                             $('#c_' + position.x + '_' + position.y).html(cell_html);
                         } else if (index !== (snek.position.length - 1) ) {
                             if( snek.position[index-1].x !== snek.position[index+1].x && snek.position[index-1].y !== snek.position[index+1].y ) {
-                                cell_html = '<img src="' + _this.sneks[snek.snek_id].style.curve + '" class="' + direction_code + '">';
-                                cell_html += '<img src="' + _this.sneks[snek.snek_id].style.curve_pattern + '" class="' + direction_code + '">';
+                                cell_html = '<img src="' + _this.sneks[snek.snek_id].style.curve + class_body + '>';
+                                cell_html += '<img src="' + _this.sneks[snek.snek_id].style.curve_pattern + class_skin + '>';
                                 $('#c_' + position.x + '_' + position.y).html(cell_html);
                             } else {
-                                cell_html = '<img src="' + _this.sneks[snek.snek_id].style.body + '" class="' + direction_code + '">';
-                                cell_html += '<img src="' + _this.sneks[snek.snek_id].style.body_pattern + '" class="' + direction_code + '">';
+                                cell_html = '<img src="' + _this.sneks[snek.snek_id].style.body + class_body + '>';
+                                cell_html += '<img src="' + _this.sneks[snek.snek_id].style.body_pattern + class_skin + '>';
                                 $('#c_' + position.x + '_' + position.y).html(cell_html);
                             }
                         } else {
-                            cell_html = '<img src="' + _this.sneks[snek.snek_id].style.tail + '" class="' + direction_code + '">';
-                            cell_html += '<img src="' + _this.sneks[snek.snek_id].style.tail_pattern + '" class="' + direction_code + '">';
+                            cell_html = '<img src="' + _this.sneks[snek.snek_id].style.tail + class_body + '>';
+                            cell_html += '<img src="' + _this.sneks[snek.snek_id].style.tail_pattern + class_skin + '>';
                             $('#c_' + position.x + '_' + position.y).html(cell_html);
                         }
                     });
@@ -223,6 +245,25 @@ window.testPattern = function() {
                 return '';
             },
 
+            nextRound: function(){
+                if(this.currentRound < (this.totalRounds - 1) ) {
+                    this.currentRound++;
+                }
+            },
+
+            prevRound: function() {
+                if(this.currentRound > 0) {
+                    this.currentRound--;
+                }
+            },
+
+            gotoBeginning: function(){
+                this.currentRound = 0;
+            },
+
+            gotoEnd: function(){
+                this.currentRound = this.rounds.length - 1;
+            },
 
             runTest: function() {
 
