@@ -79,7 +79,7 @@ window.testPattern = function() {
                 var has_current = false
                 for (var i in sneks) {
                     if (sneks.hasOwnProperty(i)) {
-                        let snekId = sneks[i].snek_id;
+                        var snekId = sneks[i].snek_id;
                         options += "<option value='" + snekId + "'";
                         if (this.selected_snek === snekId) {
                             has_current = true;
