@@ -14,12 +14,22 @@
               </select>
             </div>
             <div class="col-md-3">
-              <div><label for="">Select snake</label></div>
+              <div><label for="snek-selector">Select snake</label></div>
               <select id="snek-selector" v-on:change="selectSnek"></select>
             </div>
             <div class="col-md-5">
-              <div><label for="">Select round</label> ({{ currentRound }})</div>
-              <input type="range" min="0" max="100" class="slider" id="round-selector" v-model="currentRound" v-bind:class="{invisible: battle_id === null }">
+              <div><label for="round-selector">Select round</label> ({{ currentRound }})</div>
+              <div class="btn-toolbar" role="toolbar">
+                <div class="btn-group mr-2" role="group">
+                  <button id="control-first" type="button" class="btn btn-outline-secondary" v-on:click="gotoBeginning" v-bind:disabled="battle_id === null">⏮</button>
+                  <button id="control-prev" type="button" class="btn btn-outline-secondary" v-on:click="prevRound" v-bind:disabled="battle_id === null">⏪</button>
+                  <button id="control-next" type="button" class="btn btn-outline-secondary" v-on:click="nextRound" v-bind:disabled="battle_id === null">⏩</button>
+                  <button id="control-last" type="button" class="btn btn-outline-secondary" v-on:click="gotoEnd" v-bind:disabled="battle_id === null">⏭</button>
+                </div>
+                <div class="input-group">
+                  <input type="range" min="0" max="100" class="slider form-control" id="round-selector" v-model="currentRound" v-bind:disabled="battle_id === null">
+                </div>
+              </div>
             </div>
             <div class="col-md-1">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
