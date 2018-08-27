@@ -15,7 +15,7 @@ module SnekMath
 
     # Get next possible move direction (N, E, S, W)
     # @param arena [SnekMath::Matrix]
-    # @return String
+    # @return Array
     def get_next_move(arena)
 
       Rails.logger.debug "get_next_move: Snek #{@snek.id}"
@@ -151,7 +151,7 @@ module SnekMath
             # If pattern matched, return it
             if optional_matches.empty? || optional_matches.values.uniq == [true]
               Rails.logger.info "get_next_move: Matched pattern ##{pattern_index} of snek #{@snek.id} to direction #{test_direction}"
-              return test_direction
+              return [test_direction, pattern_index]
             end
 
           end
@@ -161,7 +161,7 @@ module SnekMath
       end
 
       # No steps found, return random direction
-      possible_directions.sample
+      [possible_directions.sample, nil]
     end
 
 

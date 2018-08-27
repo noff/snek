@@ -6,6 +6,7 @@ window.testPattern = function() {
         el: '#test-pattern',
 
         data: {
+            pattern_id: null,
             battle_id: null,
             pattern: null,
             rounds: [],
@@ -15,15 +16,28 @@ window.testPattern = function() {
             selected_snek: null,
             currentRound: 0,
             totalRounds: null,
-            final_direction: null
+            test_result: null
         },
 
         methods: {
 
             // Opens test pattern dialog
             testPattern: function(id) {
+                this.pattern_id = id;
                 this.pattern = window.app.rules[id];
                 this.reset();
+            },
+
+            nextPattern: function(){
+                if(this.pattern_id < 9)  {
+                    this.pattern_id++;
+                }
+            },
+
+            prevPattern: function() {
+                if(this.pattern_id > 0) {
+                    this.pattern_id--;
+                }
             },
 
             // Loads battle info and renders arena
@@ -65,13 +79,10 @@ window.testPattern = function() {
             selectSnek: function() {
                 var snek = $('#snek-selector').val();
                 this.selected_snek = snek ? parseInt(snek) : null;
-                this.drawRound(this.currentRound)
             },
 
             drawRound: function(id) {
                 var round = this.rounds[id];
-
-                this.final_direction = null;
 
                 // Draw sneks selector
                 var sneks = round.sneks;
@@ -262,8 +273,15 @@ window.testPattern = function() {
                 this.currentRound = this.rounds.length - 1;
             },
 
-            runTest: function() {
+            findPattern: function() {
+                this.performTest(true)
+            },
 
+            checkPattern: function() {
+                this.performTest(false)
+            },
+
+            performTest: function(navigate) {
                 var _this = this;
 
                 var data = {
@@ -279,20 +297,49 @@ window.testPattern = function() {
                     type: 'post',
                     data: data,
                     success: function(response) {
-                        _this.final_direction = response.direction;
+                        _this.test_result = {direction: response.direction, pattern: response.pattern, select: navigate}
                     }
                 });
+            },
 
-            }
-
-
+            drawTestResult: function() {
+                var text;
+                if (this.test_result === null) {
+                    text = ""
+                } else  if (this.test_result.pattern === this.pattern_id) {
+                    text = "This pattern matched as " + this.test_result.direction;
+                } else if (this.test_result.pattern !== null) {
+                    text = "This pattern didn't match";
+                } else {
+                    text = "None of the patterns matched";
+                }
+                $('#test-output').html(text);
+            },
         },
 
         watch: {
+            test_result: function (newValue, _) {
+                if (newValue !== null && newValue.select && newValue.pattern !== null) {
+                    this.pattern_id = newValue.pattern;
+                }
+                this.drawTestResult()
+            },
+
+            selected_snek: function(newValue, oldValue) {
+                this.test_result = null;
+                this.drawRound(this.currentRound)
+            },
+
             currentRound: function(newValue, oldValue) {
                 if(this.battle_id !== null) {
                     this.drawRound(newValue);
                 }
+                this.test_result = null;
+            },
+
+            pattern_id: function(newId, _) {
+                this.pattern = window.app.rules[newId];
+                this.drawTestResult()
             },
 
             pattern: function(newPattern, _) {
@@ -322,9 +369,6 @@ window.testPattern = function() {
                 } else {
                     $('#test-pattern-container').empty();
                 }
-
-
-
             }
         }
     });
