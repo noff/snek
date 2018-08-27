@@ -76,17 +76,14 @@ window.testPattern = function() {
                 // Draw sneks selector
                 var sneks = round.sneks;
                 var options = "<option>Select snek</option>";
-                var has_current = false
+                var has_current = false;
                 for (var i in sneks) {
                     if (sneks.hasOwnProperty(i)) {
                         var snekId = sneks[i].snek_id;
-                        options += "<option value='" + snekId + "'";
                         if (this.selected_snek === snekId) {
                             has_current = true;
-                            options += " selected"
                         }
-                        options += ">" + this.snek_names[snekId] + "</option>";
-
+                        options += "<option value='" + snekId + "' " + (has_current ? 'selected' : '') + " >" + this.snek_names[snekId] + "</option>";
                     }
                 }
                 $('#snek-selector').html(options);
