@@ -22,3 +22,7 @@
 every 1.day, at: ['00:00'] do
   runner "DailyRatingCalculator.perform_today", mailto: 'kechinoff@gmail.com'
 end
+
+every 1.day, at: ['00:00'] do
+  runner "BillingTasks.make_outdated_sneks_inactive", mailto: 'kechinoff@gmail.com'
+end

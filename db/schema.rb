@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_09_070412) do
+ActiveRecord::Schema.define(version: 2018_08_13_132803) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -175,6 +175,7 @@ ActiveRecord::Schema.define(version: 2018_08_09_070412) do
     t.boolean "pro", default: false
     t.bigint "visit_id"
     t.string "country"
+    t.boolean "active", default: true
     t.index ["user_id"], name: "index_sneks_on_user_id"
     t.index ["visit_id"], name: "index_sneks_on_visit_id"
   end

@@ -22,6 +22,7 @@ class Snek < ApplicationRecord
   scope :for_autofight, -> { where(auto_fight: true) }
   scope :pro, -> { where(pro: true) }
   scope :not_pro, -> { where(pro: false) }
+  scope :active, -> { where(active: true) }
 
   def to_s
     name

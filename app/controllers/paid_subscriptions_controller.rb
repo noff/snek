@@ -33,7 +33,7 @@ class PaidSubscriptionsController < ApplicationController
                                             stripe_id: stripe_subscription.id
 
     # Create charge log
-    paid_subscription.subscription_payment.create! amount: product_price, user_id: current_user.id
+    paid_subscription.subscription_payments.create! amount: product_price, user_id: current_user.id
 
     # Track analytics
     flash[:just_paid_subscription] = true

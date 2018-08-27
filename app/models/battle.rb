@@ -59,7 +59,7 @@ class Battle < ApplicationRecord
 
     case mode
     when BattleMode::DEFAULT
-      sneks = Snek.for_autofight.where.not(id: initiator_snek_id).shuffle.take(3)
+      sneks = Snek.for_autofight.active.where.not(id: initiator_snek_id).shuffle.take(3)
       if sneks.count < 3
         sneks = sneks.take(1)
         update! mode: BattleMode::DUEL
