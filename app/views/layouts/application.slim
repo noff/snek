@@ -6,6 +6,7 @@ html
     = csp_meta_tag
     = Gon::Base.render_data
     link rel="icon" href="/favicon.ico"
+    link rel="manifest" href="/manifest.json"
     meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"
     - if content_for?(:og_image)
       meta property="og:image" content="#{yield(:og_image)}"
@@ -113,45 +114,48 @@ html
 
 
 
-- if flash[:just_signed_up]
-  - if Rails.env.production?
-    javascript:
-      r46('track', 'purchase', { products: [ {id: '1', price: 1, amount: 1}]});
-      mixpanel.track( "Signed Up");
-      fbq('track', 'CompleteRegistration');
-      gtag('event', 'Sign Up');
-      yaCounter49143403.reachGoal('Sign Up');
+    - if flash[:just_signed_up]
+      - if Rails.env.production?
+        javascript:
+          r46('track', 'purchase', { products: [ {id: '1', price: 1, amount: 1}]});
+          mixpanel.track( "Signed Up");
+          fbq('track', 'CompleteRegistration');
+          gtag('event', 'Sign Up');
+          yaCounter49143403.reachGoal('Sign Up');
 
 
-- if flash[:just_created_snek]
-  - if Rails.env.production?
-    javascript:
-      mixpanel.track( "Created Snek");
-      gtag('event', 'Created Snek');
-      fbq('track', 'InitiateCheckout');
-      yaCounter49143403.reachGoal('Created Snek');
+    - if flash[:just_created_snek]
+      - if Rails.env.production?
+        javascript:
+          mixpanel.track( "Created Snek");
+          gtag('event', 'Created Snek');
+          fbq('track', 'InitiateCheckout');
+          yaCounter49143403.reachGoal('Created Snek');
 
 
-- if flash[:just_launched_battle]
-  - if Rails.env.production?
-    javascript:
-      mixpanel.track( "Launched Battle");
-      gtag('event', 'Launched Battle');
-      fbq('track', 'ViewContent');
+    - if flash[:just_launched_battle]
+      - if Rails.env.production?
+        javascript:
+          mixpanel.track( "Launched Battle");
+          gtag('event', 'Launched Battle');
+          fbq('track', 'ViewContent');
 
-- if flash[:just_added_card]
-  - if Rails.env.production?
-    javascript:
-      mixpanel.track( "Added Bank Card");
-      gtag('event', 'Added Bank Card');
-      fbq('track', 'AddPaymentInfo');
-
-
-- if flash[:just_saved_rules]
-  - if Rails.env.production?
-    javascript:
-      mixpanel.track( "Rules Saved");
-      gtag('event', 'Rules Saved');
+    - if flash[:just_added_card]
+      - if Rails.env.production?
+        javascript:
+          mixpanel.track( "Added Bank Card");
+          gtag('event', 'Added Bank Card');
+          fbq('track', 'AddPaymentInfo');
 
 
+    - if flash[:just_saved_rules]
+      - if Rails.env.production?
+        javascript:
+          mixpanel.track( "Rules Saved");
+          gtag('event', 'Rules Saved');
 
+
+
+    - if Rails.env.production?
+      javascript:
+        !function(e,t,d,s,a,n,c){e[a]={},e[a].date=(new Date).getTime(),n=t.createElement(d),c=t.getElementsByTagName(d)[0],n.type="text/javascript",n.async=!0,n.src=s,c.parentNode.insertBefore(n,c)}(window,document,"script","https://snekapp.push.world/https.embed.js","pw"),pw.websiteId="c6968dcafc767d72699e5d017ca8fcb72d439cec3b0af37376c2f0ff9f68c2ee";
