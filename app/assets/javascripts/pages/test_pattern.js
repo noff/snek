@@ -76,8 +76,8 @@ window.testPattern = function() {
                 // Draw sneks selector
                 var sneks = round.sneks;
                 var options = "<option>Select snek</option>";
-                var has_current = false;
                 for (var i in sneks) {
+                    var has_current = false;
                     if (sneks.hasOwnProperty(i)) {
                         var snekId = sneks[i].snek_id;
                         if (this.selected_snek === snekId) {
