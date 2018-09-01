@@ -160,8 +160,9 @@ class Battle < ApplicationRecord
             raise Exception, 'Tries to move into body, head or self tail'
           end
 
-          # Tries to move into owns tail. It's ok, just pull the tail forward
-          if target_cell == "tail-#{snek_position.snek.id}"
+          # Tries to move into owns tail. It's ok if snek is longer than 2, so it doesn't "flip"
+          if target_cell == "tail-#{snek_position.snek.id}" && snek_position.position.length > 2
+            # just pull the tail forward
             snek_positions[snek_position_index].move(move_direction, false)
           end
 
