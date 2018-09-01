@@ -6,8 +6,8 @@
           <div class="row">
             <div class="col-md-3">
               <div><label for="">Select battle</label></div>
-              <select id="battle-selector" v-on:change="selectSavedBattle">
-                <option value="">Select battle</option>
+              <select id="battle-selector" v-on:change="on_battle_changed">
+                <option value="">&lt;None&gt;</option>
                 <% current_user.saved_battles.joins(:battle).limit(30).order(id: :desc).each do |saved_battle| %>
                   <option value="<%= saved_battle.battle.id%>"><%= saved_battle.battle.name%></option>
                 <% end %>
@@ -15,19 +15,21 @@
             </div>
             <div class="col-md-3">
               <div><label for="snek-selector">Select snake</label></div>
-              <select id="snek-selector" v-on:change="selectSnek"></select>
+              <select id="snek-selector" v-on:change="on_snek_changed">
+                <option value="">&lt;None&gt;</option>
+              </select>
             </div>
             <div class="col-md-5">
-              <div><label for="round-selector">Select round</label> ({{ currentRound }})</div>
+              <div><label for="round-selector">Round #</label>{{ round_id }}</div>
               <div class="btn-toolbar" role="toolbar">
                 <div class="btn-group mr-2" role="group">
-                  <button id="control-first" type="button" class="btn btn-outline-secondary" v-on:click="gotoBeginning" v-bind:disabled="battle_id === null">⏮</button>
-                  <button id="control-prev" type="button" class="btn btn-outline-secondary" v-on:click="prevRound" v-bind:disabled="battle_id === null">⏪</button>
-                  <button id="control-next" type="button" class="btn btn-outline-secondary" v-on:click="nextRound" v-bind:disabled="battle_id === null">⏩</button>
-                  <button id="control-last" type="button" class="btn btn-outline-secondary" v-on:click="gotoEnd" v-bind:disabled="battle_id === null">⏭</button>
+                  <button id="control-first" type="button" class="btn btn-outline-secondary" v-on:click="gotoBeginning" v-bind:disabled="round_id === null">⏮</button>
+                  <button id="control-prev" type="button" class="btn btn-outline-secondary" v-on:click="prevRound" v-bind:disabled="round_id === null">⏪</button>
+                  <button id="control-next" type="button" class="btn btn-outline-secondary" v-on:click="nextRound" v-bind:disabled="round_id === null">⏩</button>
+                  <button id="control-last" type="button" class="btn btn-outline-secondary" v-on:click="gotoEnd" v-bind:disabled="round_id === null">⏭</button>
                 </div>
                 <div class="input-group">
-                  <input type="range" min="0" max="100" class="slider form-control" id="round-selector" v-model="currentRound" v-bind:disabled="battle_id === null">
+                  <input type="range" min="0" max="100" class="slider form-control" id="round-selector" v-model="round_id" v-bind:disabled="round_id === null">
                 </div>
               </div>
             </div>
@@ -46,8 +48,8 @@
               <div id="test-pattern-container"></div>
               <div class="btn-group mt-2 mb-2 d-flex">
                 <button id="control-prev" type="button" class="btn btn-sm btn-outline-secondary" v-on:click="prevPattern">⏪</button>
-                <button class="btn btn-sm btn-primary w-100" v-on:click="checkPattern" v-bind:disabled="selected_snek === null" v-bind:class="{ 'btn-primary': (selected_snek !== null) }" >Test</button>
-                <button class="btn btn-sm btn-primary w-100" v-on:click="findPattern" v-bind:disabled="selected_snek === null" v-bind:class="{ 'btn-primary': (selected_snek !== null) }" >Find</button>
+                <button class="btn btn-sm btn-primary w-100" v-on:click="checkPattern" v-bind:disabled="snek_id === null" v-bind:class="{ 'btn-primary': (snek_id !== null) }" >Test</button>
+                <button class="btn btn-sm btn-primary w-100" v-on:click="findPattern" v-bind:disabled="snek_id === null" v-bind:class="{ 'btn-primary': (snek_id !== null) }" >Find</button>
                 <button id="control-next" type="button" class="btn btn-sm btn-outline-secondary" v-on:click="nextPattern">⏩</button>
               </div>
               <div id="test-output"></div>

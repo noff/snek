@@ -8,14 +8,15 @@ window.testPattern = function() {
         data: {
             pattern_id: null,
             battle_id: null,
+            round_id: null,
+            snek_id: null,
+
             pattern: null,
-            rounds: [],
+            round: null,
             arena: null,
-            snek_names: [],
+            rounds: [],
             sneks: [],
-            selected_snek: null,
-            currentRound: 0,
-            totalRounds: null,
+            snek_names: [],
             test_result: null
         },
 
@@ -25,81 +26,92 @@ window.testPattern = function() {
             testPattern: function(id) {
                 this.pattern_id = id;
                 this.pattern = window.app.rules[id];
-                this.reset();
-            },
-
-            nextPattern: function(){
-                if(this.pattern_id < 9)  {
-                    this.pattern_id++;
-                }
-            },
-
-            prevPattern: function() {
-                if(this.pattern_id > 0) {
-                    this.pattern_id--;
-                }
+                this.drawPattern() // pattern instance might be the same, but contents changed
             },
 
             // Loads battle info and renders arena
-            selectSavedBattle: function() {
+            on_battle_changed: function() {
+                this.battle_id = $('#battle-selector').val() || null;
+            },
 
-                this.reset();
+            on_snek_changed: function() {
+                var snek = $('#snek-selector').val();
+                this.snek_id = snek ? parseInt(snek) : null;
+            },
 
-                var battle_id = $('#battle-selector').val() || null;
-                this.battle_id = battle_id;
-                var _this = this;
-
-                if(battle_id) {
-                    $.ajax({
-                        dataType: "json",
-                        url: '/battles/' + battle_id + '/data',
-                        data: {},
-                        success: function(response) {
-                            _this.rounds = response.rounds;
-                            _this.arena = response.arena;
-                            _this.snek_names = response.snek_names;
-                            _this.sneks = response.sneks;
-                            _this.totalRounds = response.rounds.length;
-                            _this.drawRound(0);
-                        }
-                    });
+            updateSnekSelector: function() {
+                var snek_selector = $('#snek-selector');
+                var options = "<option>&lt;None&gt;</option>";
+                if (this.round == null) {
+                    snek_selector.html(options);
+                    return;
                 }
 
-            },
-
-            reset: function() {
-                this.selected_snek = null;
-                this.battle_id = null;
-                this.currentRound = 0;
-                $('#snek-selector').html('');
-                this.currentRound = 0;
-                $('#test-arena').empty();
-            },
-
-            selectSnek: function() {
-                var snek = $('#snek-selector').val();
-                this.selected_snek = snek ? parseInt(snek) : null;
-            },
-
-            drawRound: function(id) {
-                var round = this.rounds[id];
-
-                // Draw sneks selector
-                var sneks = round.sneks;
-                var options = "<option>Select snek</option>";
+                var sneks = this.round.sneks;
+                var has_current = false;
                 for (var i in sneks) {
-                    var has_current = false;
                     if (sneks.hasOwnProperty(i)) {
                         var snekId = sneks[i].snek_id;
-                        if (this.selected_snek === snekId) {
+                        if (this.snek_id === snekId) {
                             has_current = true;
                         }
                         options += "<option value='" + snekId + "' " + (has_current ? 'selected' : '') + " >" + this.snek_names[snekId] + "</option>";
                     }
                 }
-                $('#snek-selector').html(options);
+                snek_selector.html(options);
                 if (!has_current) {
-                    this.selected_snek = null;
+                    this.snek_id = null;
+                }
+            },
+
+            drawPattern: function() {
+                var pattern = this.pattern
+                if (pattern) {
+                    var html = '<table class="r-pattern-table">';
+                    pattern.forEach(function (row, y) {
+                        html += "<tr>";
+                        row.forEach(function (cell, x) {
+                            var classes = 'r-pattern-cell r-pattern-cell__' + pattern[y][x][0];
+                            switch (pattern[y][x][1]) {
+                                case 'or':
+                                    classes += ' r-pattern-cell__or';
+                                    break;
+                                case 'not':
+                                    classes += ' r-pattern-cell__not';
+                                    break;
+                            }
+                            html += "<td class='" + classes + "'></td>";
+                        });
+                        html += "</tr>";
+                    });
+                    html += '</table>';
+                    $('#test-pattern-container').html(html);
+                    $('#test-pattern-container .r-pattern-table').height(223);
+                    $('#test-pattern-container .r-pattern-table').width(223);
+                    $('#test-pattern-container .r-pattern-table td').height($('#test-pattern-container .r-pattern-table td').width());
+                } else {
+                    $('#test-pattern-container').empty();
+                }
+            },
+
+            drawTestResult: function() {
+                var text;
+                if (this.test_result === null) {
+                    text = ""
+                } else  if (this.test_result.pattern === this.pattern_id) {
+                    text = "This pattern matched as " + this.test_result.direction;
+                } else if (this.test_result.pattern !== null) {
+                    text = "This pattern didn't match";
+                } else {
+                    text = "None of the patterns matched";
+                }
+                $('#test-output').html(text);
+            },
+
+            drawRound: function() {
+                if (this.round_id === null) {
+                    $('#test-arena').empty();
+                    return;
                 }
 
                 // Draw rounds selector
@@ -110,7 +122,7 @@ window.testPattern = function() {
                 this.arena.forEach(function(row, y){
                     html += '<tr>';
                     row.forEach(function(cell, x) {
-                        if(cell == 'wall') {
+                        if(cell === 'wall') {
                             html += '<td class="wall"></td>';
                         } else {
                             html += '<td class="empty" id="c_' +  x + '_' + y + '"></td>';
@@ -125,35 +137,36 @@ window.testPattern = function() {
                 var _this = this;
                 var direction_code = '';
                 var cell_html = '';
-                round.sneks.forEach(function(snek, snek_number){
+                this.round.sneks.forEach(function(snek, snek_number){
                     snek.position.forEach(function (position, index) {
                         direction_code = _this.directionClass(index, snek);
 
                         var class_skin = '" class="' + direction_code + '"';
                         var class_body = '" class="' + direction_code ;
-                        if (_this.selected_snek === snek.snek_id) {
+                        if (_this.snek_id === snek.snek_id) {
                             class_body += ' selected-snek"'
                         } else {
                             class_body += '"'
                         }
 
+                        var cell = $('#c_' + position.x + '_' + position.y);
                         if(index === 0) {
                             cell_html = '<img src="' + _this.sneks[snek.snek_id].style.head + class_body + ' title="' + _this.sneks[snek.snek_id].name + '">';
-                            $('#c_' + position.x + '_' + position.y).html(cell_html);
+                            cell.html(cell_html);
                         } else if (index !== (snek.position.length - 1) ) {
                             if( snek.position[index-1].x !== snek.position[index+1].x && snek.position[index-1].y !== snek.position[index+1].y ) {
                                 cell_html = '<img src="' + _this.sneks[snek.snek_id].style.curve + class_body + '>';
                                 cell_html += '<img src="' + _this.sneks[snek.snek_id].style.curve_pattern + class_skin + '>';
-                                $('#c_' + position.x + '_' + position.y).html(cell_html);
+                                cell.html(cell_html);
                             } else {
                                 cell_html = '<img src="' + _this.sneks[snek.snek_id].style.body + class_body + '>';
                                 cell_html += '<img src="' + _this.sneks[snek.snek_id].style.body_pattern + class_skin + '>';
-                                $('#c_' + position.x + '_' + position.y).html(cell_html);
+                                cell.html(cell_html);
                             }
                         } else {
                             cell_html = '<img src="' + _this.sneks[snek.snek_id].style.tail + class_body + '>';
                             cell_html += '<img src="' + _this.sneks[snek.snek_id].style.tail_pattern + class_skin + '>';
-                            $('#c_' + position.x + '_' + position.y).html(cell_html);
+                            cell.html(cell_html);
                         }
                     });
                 });
@@ -253,24 +266,36 @@ window.testPattern = function() {
                 return '';
             },
 
+            nextPattern: function(){
+                if(this.pattern_id < 9)  {
+                    this.pattern_id++;
+                }
+            },
+
+            prevPattern: function() {
+                if(this.pattern_id > 0) {
+                    this.pattern_id--;
+                }
+            },
+
             nextRound: function(){
-                if(this.currentRound < (this.totalRounds - 1) ) {
-                    this.currentRound++;
+                if(this.round_id < (this.rounds.length - 1) ) {
+                    this.round_id++;
                 }
             },
 
             prevRound: function() {
-                if(this.currentRound > 0) {
-                    this.currentRound--;
+                if(this.round_id > 0) {
+                    this.round_id--;
                 }
             },
 
             gotoBeginning: function(){
-                this.currentRound = 0;
+                this.round_id = 0;
             },
 
             gotoEnd: function(){
-                this.currentRound = this.rounds.length - 1;
+                this.round_id = this.rounds.length - 1;
             },
 
             findPattern: function() {
@@ -286,8 +311,8 @@ window.testPattern = function() {
 
                 var data = {
                     battle_id: this.battle_id,
-                    round: this.currentRound,
-                    snek_id: this.selected_snek,
+                    round: this.round_id,
+                    snek_id: this.snek_id,
                     pattern: JSON.stringify(this.pattern)
                 };
 
@@ -301,40 +326,29 @@ window.testPattern = function() {
                     }
                 });
             },
-
-            drawTestResult: function() {
-                var text;
-                if (this.test_result === null) {
-                    text = ""
-                } else  if (this.test_result.pattern === this.pattern_id) {
-                    text = "This pattern matched as " + this.test_result.direction;
-                } else if (this.test_result.pattern !== null) {
-                    text = "This pattern didn't match";
-                } else {
-                    text = "None of the patterns matched";
-                }
-                $('#test-output').html(text);
-            },
         },
 
         watch: {
-            test_result: function (newValue, _) {
-                if (newValue !== null && newValue.select && newValue.pattern !== null) {
-                    this.pattern_id = newValue.pattern;
-                }
-                this.drawTestResult()
-            },
-
-            selected_snek: function(newValue, oldValue) {
+            battle_id: function (newId, _) {
                 this.test_result = null;
-                this.drawRound(this.currentRound)
-            },
-
-            currentRound: function(newValue, oldValue) {
-                if(this.battle_id !== null) {
-                    this.drawRound(newValue);
+                if (newId === null) {
+                    this.round_id = null;
+                    return;
                 }
-                this.test_result = null;
+
+                var _this = this;
+                $.ajax({
+                    dataType: "json",
+                    url: '/battles/' + this.battle_id + '/data',
+                    data: {},
+                    success: function (response) {
+                        _this.rounds = response.rounds;
+                        _this.arena = response.arena;
+                        _this.snek_names = response.snek_names;
+                        _this.sneks = response.sneks;
+                        _this.round_id = 0;
+                    }
+                });
             },
 
             pattern_id: function(newId, _) {
@@ -342,33 +356,36 @@ window.testPattern = function() {
                 this.drawTestResult()
             },
 
-            pattern: function(newPattern, _) {
-                if(newPattern) {
-                    var html = '<table class="r-pattern-table">';
-                    newPattern.forEach(function(row, y){
-                        html += "<tr>";
-                        row.forEach(function(cell, x){
-                            var classes = 'r-pattern-cell r-pattern-cell__' + newPattern[y][x][0];
-                            switch(newPattern[y][x][1]) {
-                                case 'or':
-                                    classes += ' r-pattern-cell__or';
-                                    break;
-                                case 'not':
-                                    classes += ' r-pattern-cell__not';
-                                    break;
-                            }
-                            html += "<td class='" + classes + "'></td>";
-                        });
-                        html += "</tr>";
-                    });
-                    html += '</table>';
-                    $('#test-pattern-container').html(html);
-                    $('#test-pattern-container .r-pattern-table').height(223);
-                    $('#test-pattern-container .r-pattern-table').width(223);
-                    $('#test-pattern-container .r-pattern-table td').height($('#test-pattern-container .r-pattern-table td').width());
-                } else {
-                    $('#test-pattern-container').empty();
+            round_id: function(newId, _) {
+                if (this.round_id === null) {
+                    this.round = null;
+                    return;
                 }
+
+                this.round = this.rounds[this.round_id]
+            },
+
+            snek_id: function(newValue, oldValue) {
+                this.updateSnekSelector();
+                this.drawRound();
+                this.test_result = null;
+            },
+
+            round: function(newValue, oldValue) {
+                this.updateSnekSelector();
+                this.drawRound();
+                this.test_result = null;
+            },
+
+            test_result: function (newValue, _) {
+                if (newValue !== null && newValue.select && newValue.pattern !== null) {
+                    this.pattern_id = newValue.pattern;
+                }
+                this.drawTestResult()
+            },
+
+            pattern: function(newPattern, _) {
+                this.drawPattern()
             }
         }
     });
