@@ -97,9 +97,9 @@ class SneksController < ApplicationController
     snek_position = snek_positions.select { |sp| sp.snek.id == snek.id }.first
 
     # Check move position
-    move_direction = snek_position.get_next_move(current_arena)
+    (move_direction, pattern_index) = snek_position.get_next_move(current_arena)
 
-    render json: {direction: move_direction}
+    render json: {direction: move_direction, pattern: pattern_index}
   end
 
 end

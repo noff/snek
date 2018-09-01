@@ -44,8 +44,13 @@
           <div class="row">
             <div class="col-md-4">
               <div id="test-pattern-container"></div>
-              <div v-bind:class="{ invisible: (selected_snek == null) }"><button class="btn btn-sm btn-primary my-3" v-on:click="runTest">Test pattern</button></div>
-              <div id="test-output" v-bind:class="{invisible: (final_direction == null)}">Calculated direction: {{final_direction}}</div>
+              <div class="btn-group mt-2 mb-2 d-flex">
+                <button id="control-prev" type="button" class="btn btn-sm btn-outline-secondary" v-on:click="prevPattern">⏪</button>
+                <button class="btn btn-sm btn-primary w-100" v-on:click="checkPattern" v-bind:disabled="selected_snek === null" v-bind:class="{ 'btn-primary': (selected_snek !== null) }" >Test</button>
+                <button class="btn btn-sm btn-primary w-100" v-on:click="findPattern" v-bind:disabled="selected_snek === null" v-bind:class="{ 'btn-primary': (selected_snek !== null) }" >Find</button>
+                <button id="control-next" type="button" class="btn btn-sm btn-outline-secondary" v-on:click="nextPattern">⏩</button>
+              </div>
+              <div id="test-output"></div>
             </div>
             <div class="col-md-8">
               <div>

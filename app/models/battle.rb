@@ -119,7 +119,7 @@ class Battle < ApplicationRecord
         # Get possible direction for the snek
         # Try to catch https://rollbar.com/noff/snek/items/30/
         begin
-          move_direction = snek_position.get_next_move(current_arena)
+          (move_direction, pattern_index) = snek_position.get_next_move(current_arena)
         rescue NoMethodError => e
           Rollbar.error e,
                         snek_positions: snek_positions,
