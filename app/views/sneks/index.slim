@@ -6,81 +6,31 @@
 
       h1 SnekBoard
 
-      h2.mt-5 Noob zone
-
-      - if @sneks.not_pro.exists?
-        table.table
-          thead
+      table.table
+        thead
+          tr
+            th Snek name
+            th Activity
+            th Efficiency
+            th Fights
+            th Wins
+            th Loses
+            th Last fight
+        tbody
+          - @sneks.each do |snek|
             tr
-              th Snek name
-              th Activity
-              th Efficiency
-              th Fights
-              th Wins
-              th Loses
-              th Last fight
-          tbody
-            - @sneks.not_pro.each do |snek|
-              tr
-                td = link_to snek.name, snek
-                td = SnekScore.new(snek).activity
-                td = number_with_precision SnekScore.new(snek).efficiency, precision: 2
-                td = snek.snek_battles.count
-                td = snek.snek_battles.order(id: :desc).where('created_at >= ?', 2.weeks.ago).map { |sb| sb.battle.snek_battles.select(:snek_id, :score).order(score: :desc).first.snek_id }.select { |snek_id| snek_id == snek.id }.count
-                td = snek.snek_battles.where(score: 0).count
-                td
-                  - if snek.snek_battles.exists?
-                    = snek.snek_battles.order(id: :desc).first.created_at.to_formatted_s(:short)
-                  - else
-                    span N/A
-      - else
-        div = link_to 'Create snek', new_snek_path, class: 'btn btn-primary'
+              td = link_to snek.name, snek
+              td = SnekScore.new(snek).activity
+              td = number_with_precision SnekScore.new(snek).efficiency, precision: 2
+              td = snek.snek_battles.count
+              td = snek.snek_battles.order(id: :desc).where('created_at >= ?', 2.weeks.ago).map { |sb| sb.battle.snek_battles.select(:snek_id, :score).order(score: :desc).first.snek_id }.select { |snek_id| snek_id == snek.id }.count
+              td = snek.snek_battles.where(score: 0).count
+              td
+                - if snek.snek_battles.exists?
+                  = snek.snek_battles.order(id: :desc).first.created_at.to_formatted_s(:short)
+                - else
+                  span N/A
 
-
-
-      - if @sneks.exists?
-
-        h2.mt-5 Pro zone
-        p Professional sneks can be customized for specific battle types. You can program PRO snek using programming language or neural network. Only PRO sneks can fight with PRO sneks.
-
-        - if @sneks.pro.exists?
-          table.table
-            thead
-              tr
-                th Snek name
-                th Activity
-                th Efficiency
-                th Fights
-                th Wins
-                th Loses
-                th Last fight
-            tbody
-              - @sneks.pro.each do |snek|
-                tr
-                  td = link_to snek.name, snek
-                  td = SnekScore.new(snek).activity
-                  td = number_with_precision SnekScore.new(snek).efficiency, precision: 2
-                  td = snek.snek_battles.count
-                  td = snek.snek_battles.order(id: :desc).where('created_at >= ?', 2.weeks.ago).map {|sb| sb.battle.snek_battles.select(:snek_id, :score).order(score: :desc).first.snek_id}.select {|snek_id| snek_id == snek.id}.count
-                  td = snek.snek_battles.where(score: 0).count
-                  td
-                    - if snek.snek_battles.exists?
-                      = snek.snek_battles.order(id: :desc).first.created_at.to_formatted_s(:short)
-                    - else
-                      span N/A
-
-        - if current_user.paid_subscriptions.count > (current_user.sneks.count - 1)
-          p You have free PRO sneks slots.
-          p = link_to 'Create your new PRO Snek', new_snek_path, class: 'btn btn-primary'
-
-
-        - if current_user.stripe_id.present?
-
-          p You can get more PRO sneks:
-          p = link_to 'Get additional PRO snek: $3/mo', paid_subscriptions_path(product: 'pro_snek'), method: :post, class: 'btn btn-primary'
-
-        - else
-          p Add bank card using Stripe. It will charge you for $0.01.
-          = form_tag billing_addcard_path, method: :put do |f|
-            script src="https://checkout.stripe.com/checkout.js" class="stripe-button" data-key="#{Rails.application.credentials.stripe[:public]}" data-amount="1" data-email="#{current_user.email}" data-name="SNEK" data-description="Add card" data-image="https://stripe.com/img/documentation/checkout/marketplace.png" data-locale="auto"
+      - if current_user.sneks.count < 5
+        p = link_to 'Create Snek', new_snek_path, class: 'btn btn-primary'
 

@@ -11,24 +11,8 @@ class SneksController < ApplicationController
   end
 
   def create
-
-    if current_user.sneks.exists? && current_user.paid_subscriptions.count == 0
-      redirect_to sneks_path, notice: 'You are not eligible to create more than one snek'
-      return
-    end
-
-    if current_user.paid_subscriptions.count <= (current_user.sneks.count - 1)
-      redirect_to sneks_path, notice: 'You are not eligible to get more sneks. Please, buy new PRO slot'
-      return
-    end
-
-    # Is snek PRO?
-    # Also check if user didn't create free snek
-    is_pro = current_user.paid_subscriptions.count > (current_user.sneks.count - 1) && current_user.paid_subscriptions.count > 0
-
     @snek = current_user.sneks.new
     @snek.name = params[:snek][:name].strip
-    @snek.pro = is_pro
     if @snek.save
       flash[:just_created_snek] = true
       ahoy.track 'New Snek Created'
