@@ -113,6 +113,12 @@ html
     = yield
 
 
+    footer.py-5
+      .container
+        .row
+          .col.text-center Made by #{link_to 'Michael Kechinov', 'https://mkechinov.com', target: '_blank'}
+
+
 
     - if flash[:just_signed_up]
       - if Rails.env.production?
