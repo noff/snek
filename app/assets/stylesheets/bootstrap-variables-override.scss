@@ -1,0 +1,42 @@
+$gray-700: #5A5C6C;
+
+$green:   #9ECD5D;
+
+$primary:       $green;
+
+$grays: map-merge((
+        "100": $gray-100,
+        "200": $gray-200,
+        "300": $gray-300,
+        "400": $gray-400,
+        "500": $gray-500,
+        "600": $gray-600,
+        "700": $gray-700,
+        "800": $gray-800,
+        "900": $gray-900
+), $grays);
+
+$body-bg:                   #20222F;
+$body-color:                $white;
+
+$navbar-dark-color:                 rgba($white, 1.0);
+$navbar-dark-hover-color:           rgba($white, 1.0);
+
+$card-border-color:                 rgba($black, .725);
+
+$card-bg:                           $gray-700;
+
+$modal-content-bg:                  #5A5D6E;
+$modal-content-border-color:        #2C2D38;
+
+$alert-margin-bottom:               0;
+$alert-border-radius:               0;
+
+$font-size-base:              1rem; // Assumes the browser default, typically `16px`
+$font-size-lg:                ($font-size-base * 1.25);
+$font-size-sm:                ($font-size-base * .875);
+
+$link-color:                theme-color("primary");
+$link-decoration:           none;
+$link-hover-color:          darken($link-color, 15%);
+$link-hover-decoration:     underline;
