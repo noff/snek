@@ -7,7 +7,7 @@ gem 'activeadmin'
 gem 'aasm'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
-gem 'bootstrap', '~> 4.1.0'
+gem 'bootstrap', '~> 4.1.3'
 gem 'cancan'
 gem 'devise'
 gem 'draper'
