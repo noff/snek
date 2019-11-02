@@ -131,6 +131,10 @@ GEM
       archive-zip (~> 0.10)
       nokogiri (~> 1.8)
     chronic (0.10.2)
+    coffee-script (2.4.1)
+      coffee-script-source
+      execjs
+    coffee-script-source (1.9.1.1)
     concurrent-ruby (1.1.5)
     connection_pool (2.2.2)
     crass (1.0.5)
@@ -399,6 +403,7 @@ DEPENDENCIES
   capistrano3-unicorn
   capybara (>= 2.15, < 4.0)
   chromedriver-helper
+  coffee-script (~> 2.4, >= 2.4.1)
   devise
   draper
   factory_bot_rails

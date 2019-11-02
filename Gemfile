@@ -3,6 +3,8 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.3.1'
 
+gem 'coffee-script', '~> 2.4', '>= 2.4.1'
+
 gem 'activeadmin'
 gem 'aasm'
 # Reduces boot times through caching; required in config/boot.rb
